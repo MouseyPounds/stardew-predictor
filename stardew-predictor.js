@@ -2,8 +2,7 @@
  * https://mouseypounds.github.io/stardew-checkup/
  */
 
-/*jslint indent: 4, maxerr: 50, passfail: false, browser: true, regexp: true, plusplus: true */
-/*global $, FileReader */
+/*jshint browser: true, jquery: true, esnext: true */
 
 (function ($) {
     $.QueryString = (function (a) {
@@ -63,9 +62,9 @@ window.onload = function () {
 
 		// Farmer & farm names are read as html() because they come from user input and might contain characters
 		// which must be escaped. This will happen with child names later too.
-		output += '<span class="result">' + $(xmlDoc).find('player > name').html() + ' of '
-			+ $(xmlDoc).find('player > farmName').html() + ' Farm ('
-			+ farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
+		output += '<span class="result">' + $(xmlDoc).find('player > name').html() + ' of ' +
+			$(xmlDoc).find('player > farmName').html() + ' Farm (' +
+			farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
 		// Date originally used XXForSaveGame elements, but those were not always present on saves downloaded from upload.farm
 		output += '<span class="result">Day ' + $(xmlDoc).find('dayOfMonth').text() + ' of ' +
 			capitalize($(xmlDoc).find('currentSeason').text()) + ', Year ' + $(xmlDoc).find('year').text() + '</span><br />\n';
@@ -242,13 +241,13 @@ window.onload = function () {
 							rng = new CSRandom(daysPlayed + mineLevel + gameId / 2);
 							// There are 2 or 3 checks related to darker than normal lighting.
 							// We don't care much about their results, but have to mimic them.
-							if (rng.NextDouble() < .3 && mineLevel > 2) {
-								rng.NextDouble(); // checked vs < .3 again
+							if (rng.NextDouble() < 0.3 && mineLevel > 2) {
+								rng.NextDouble(); // checked vs < 0.3 again
 							}
-							rng.NextDouble(); // checked vs < .15
-							if (rng.NextDouble() < .035) { 
+							rng.NextDouble(); // checked vs < 0.15
+							if (rng.NextDouble() < 0.035) { 
 								extra = "";
-								if (mineLevel % 5 == 0) {
+								if (mineLevel % 5 === 0) {
 									extra = "*";
 								}
 								rainbowLights.push(mineLevel + extra); 

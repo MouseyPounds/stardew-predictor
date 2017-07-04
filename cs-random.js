@@ -5,13 +5,12 @@
  * published at http://referencesource.microsoft.com/#mscorlib/system/random.cs
  */
 
-/*jslint indent: 4, maxerr: 50, passfail: false, browser: true, regexp: true, plusplus: true */
+/*jshint browser: true, jquery: true, esnext: true */
 
 const INT_MIN = -2147483648,
 		INT_MAX = 2147483647,
 		MBIG = INT_MAX,
-		MSEED = 161803398,
-		$MZ = 0;
+		MSEED = 161803398;
 
 class CSRandom {
 	constructor(Seed = Date.getTime()) {
@@ -78,7 +77,6 @@ class CSRandom {
 	GetSampleForLargeRange() {
 		// This might require special large integer handling
 		var result = this.InternalSample(),
-			negative = 0,
 			d;
 			
 		if (this.InternalSample() %2 === 0) {
