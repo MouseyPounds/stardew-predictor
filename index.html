@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stardew Predictor</title>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" type="text/css" href="./stardew-predictor.css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
+<script src="./cs-random.js"></script>
+<script src="./stardew-predictor.js"></script>
+
+</head>
+<body>
+<div id="TOC">
+<h1>Navigation</h1>
+<div id="TOC-details">
+</div>
+</div>
+
+<div id="header" class="panel">
+<h1>Stardew Predictor</h1>
+<h2 id="sec_about">About</h2>
+<p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about the game either from the Game ID or by reading the save file.</p>
+<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>.</p>
+</div>
+
+<div id="input-container" class="panel">
+<h2 id="sec_save_file">Save File</h2>
+<p>Select a save file to check: <input type="file" id="file_select" /></p>
+<p>Please use the full save file named with your farmer's name and a 9-digit ID number (e.g. <span class="path">Fred_14893307</span>); do not use the <span class="path">SaveGameInfo</span> file as it does not contain all the necessary information.
+<p>Default save file locations are:
+<ul><li>Windows: <span class="path">%AppData%\StardewValley\Saves\</span></li>
+<li>Mac OSX &amp; Linux: <span class="path">~/.config/StardewValley/Saves/</span></li>
+</ul>
+</div>
+
+<div id="progress-container" class="panel">
+<h2 id="sec_working">Working...</h2>
+<progress id="progress" value="0" max="100"></progress>
+</div>
+
+<div id="output-container" class="panel">
+<h2 id="sec_results">Results</h2>
+<output id="out"> </output>
+</div>
+
+<div id="changelog" class="panel">
+<noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
+<h2 id="sec_changelog">Changelog</h2>
+<ul>
+<li>4 July 2017 - v1.0 - Initial Release</li>
+</ul>
+</div>
+
+<div id="footer" class="panel">
+Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> || 
+<a href="http://store.steampowered.com/app/413150/Stardew_Valley/">Steam Page</a> ||
+<a href="https://www.gog.com/game/stardew_valley">GOG Page</a> ||
+<a href="http://www.stardewvalleywiki.com/">Wiki</a> || 
+<a href="http://community.playstarbound.com/index.php?forums/stardew-valley.72/">Forums</a> ||
+<a href="https://www.reddit.com/r/StardewValley">Subreddit</a>
+<br />
+Stardew Predictor written by MouseyPounds. 
+Stardew Valley developed by <a href="http://twitter.com/concernedape">ConcernedApe</a> and published by 
+<a href="http://blog.chucklefish.org/about/">Chucklefish Games</a>.
+</div>
+</body>
+</html>
