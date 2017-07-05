@@ -211,10 +211,9 @@ window.onload = function () {
 			},
 	*/
 
-	function doTest(xmlDoc) {
+	function doTest(gameId) {
 		var season = ['Spring', 'Summer', 'Fall', 'Winter'],
 			farmer = '',
-			gameId = 143594438,
 			year,
 			mon,
 			wk,
@@ -226,9 +225,6 @@ window.onload = function () {
 			mineLevel,
 			extra,
 			output = '<h3>Potential Mushroom Levels</h3>';
-		if ($.QueryString.hasOwnProperty("id")) {
-			gameId = parseInt($.QueryString.id);
-		}
 		output += "<p>Using Game ID " + gameId + "</p><ul>";
 		for (year = 1; year < 3; year++) {
 			for (mon = 0; mon < 4; mon++) {
@@ -285,6 +281,24 @@ window.onload = function () {
 		document.getElementById('TOC-details').innerHTML = list;
 	}
 
+	function updateOutput(xmlDoc) {
+		var output = "",
+			gameId = 0;
+		//output += parseSummary(xmlDoc);
+		if (typeof xmlDoc !== 'undefined') {
+			gameId = Number($(xmlDoc).find('uniqueIDForThisGame').text());		
+		} else if ($.QueryString.hasOwnProperty("id")) {
+			gameId = parseInt($.QueryString.id);
+		} else {
+			gameId = 123456789;
+		}
+		output += doTest(gameId);
+		document.getElementById('out').innerHTML = output;
+		$(document.getElementById('output-container')).show();
+		createTOC();
+		$(document.getElementById('TOC')).show();
+	}
+	
 	function handleFileSelect(evt) {
 		var file = evt.target.files[0],
 			reader = new FileReader(),
@@ -304,22 +318,13 @@ window.onload = function () {
 			}
 		};
 		reader.onload = function (e) {
-			var output = "",
-				xmlDoc = $.parseXML(e.target.result);
-
-			//output += parseSummary(xmlDoc);
-			output += doTest(xmlDoc);
-
-			// End of checks
+			var xmlDoc = $.parseXML(e.target.result);
 			prog.value = 100;
-			document.getElementById('out').innerHTML = output;
-			$(document.getElementById('output-container')).show();
+			updateOutput(xmlDoc);
 			$(document.getElementById('progress-container')).hide();
-			createTOC();
-			$(document.getElementById('TOC')).show();
 		};
 		reader.readAsText(file);
 	}
 	document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
-
+	updateOutput();
 };
