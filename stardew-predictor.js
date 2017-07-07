@@ -226,7 +226,7 @@ window.onload = function () {
 			extra,
 			output = '<h3>Potential Mushroom Levels</h3>';
 		output += "<p>Using Game ID " + gameId + "</p><ul>";
-		for (year = 1; year < 3; year++) {
+		for (year = 1; year < 5; year++) {
 			for (mon = 0; mon < 4; mon++) {
 				for (wk = 0; wk < 4; wk++) {
 					for (d = 1; d < 8; d++) {

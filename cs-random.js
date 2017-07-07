@@ -15,6 +15,7 @@ const INT_MIN = -2147483648,
 class CSRandom {
 	constructor(Seed = Date.getTime()) {
 		var ii, mj, mk, i, k, subtraction;
+		Seed = parseInt(Seed); // Force an integer since there is no type checking
 		
 		this.inext = 0;
 		this.inextp = 0;
