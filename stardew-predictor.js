@@ -212,8 +212,33 @@ window.onload = function () {
 	*/
 
 	function doTest(gameId) {
+		// Mushroom level is determined by StardewValley.Locations.MineShaft.chooseLevelType()
+		// Infestation is determined by StardewValley.Locations.MineShaft.loadLevel()
+		// Infestation uses same seed, full code below:
+		/*
+		Random random = new Random((int)(Game1.stats.DaysPlayed + (uint)level + (uint)((int)Game1.uniqueIDForThisGame / 2)));
+	if ((!Game1.player.hasBuff(23) || this.getMineArea(-1) == 121) && 
+	random.NextDouble() < 0.05 && num % 5 != 0 && num % 40 > 5 && num % 40 < 30 && num % 40 != 19)
+	{
+		if (random.NextDouble() < 0.5)
+		{
+			this.isMonsterArea = true;
+		}
+		else
+		{
+			this.isSlimeArea = true;
+		}
+*/
 		var season = ['Spring', 'Summer', 'Fall', 'Winter'],
+			// NPC list from Data\NPCDispositions
+			npcs = ['Abigail', 'Caroline', 'Clint', 'Demetrius', 'Willy', 'Elliott', 'Emily',
+					'Evelyn', 'George', 'Gus', 'Haley', 'Harvey', 'Jas', 'Jodi', 'Alex',
+					'Kent', 'Leah', 'Lewis', 'Linus', 'Marlon', 'Marnie', 'Maru', 'Pam',
+					'Penny', 'Pierre', 'Robin', 'Sam', 'Sebastian', 'Shane', 'Vincent',
+					'Wizard', 'Dwarf', 'Sandy', 'Krobus'],
 			farmer = '',
+			secretSantaGiveTo = '',
+			secretSantaGetFrom = '',
 			year,
 			mon,
 			wk,
@@ -222,10 +247,31 @@ window.onload = function () {
 			daysPlayed,
 			rng,
 			rainbowLights,
+			infestedMonster,
+			infestedSlime,
 			mineLevel,
 			extra,
-			output = '<h3>Potential Mushroom Levels</h3>';
-		output += "<p>Using Game ID " + gameId + "</p><ul>";
+			output = '';
+		
+		// Secret Santa
+		// StardewValley.Event.setUpPlayerControlSequence() and StardewValley.Utility.getRandomTownNPC()
+		output += "<h3>Feast of the Winter Star</h3><p>Using Game ID " + gameId + "</p><ul>";
+		for (year = 1; year < 5; year++) {
+			rng = new CSRandom(gameId / 2 - year);
+			secretSantaGiveTo = npcs[rng.Next(npcs.length)];
+			secretSantaGetFrom = '';
+			while (secretSantaGiveTo === 'Wizard' || secretSantaGiveTo === 'Krobus' || secretSantaGiveTo === 'Sandy' || secretSantaGiveTo === 'Dwarf' || secretSantaGiveTo === 'Marlon' ) {
+						secretSantaGiveTo = npcs[rng.Next(npcs.length)];
+			}
+			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo) {
+				secretSantaGetFrom = npcs[rng.Next(npcs.length)];
+			}
+			output += "<li>Year " + year + ": Giving to " + secretSantaGiveTo + " and getting from " + secretSantaGetFrom + "</li>";
+		}
+		output += "</ul>";
+		
+		// Mine stuff
+		output += "<h3>Potential Mushroom Levels</h3><p>Using Game ID " + gameId + "</p><ul>";
 		for (year = 1; year < 5; year++) {
 			for (mon = 0; mon < 4; mon++) {
 				for (wk = 0; wk < 4; wk++) {
@@ -233,29 +279,53 @@ window.onload = function () {
 						day = wk * 7 + d;
 						daysPlayed = (year - 1) * 112 + mon * 28 + day;
 						rainbowLights = [];
-						for (mineLevel = 81; mineLevel < 120; mineLevel++) {
+						infestedMonster = [];
+						infestedSlime = [];
+						for (mineLevel = 1; mineLevel < 120; mineLevel++) {
+							extra = "";
+							if (mineLevel % 5 === 0) {
+								extra = "*";
+							} else if (!(mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19)) {
+								extra = "^";
+							}
 							rng = new CSRandom(daysPlayed + mineLevel + gameId / 2);
+							// Monster infestation seems to override mushroom spawns so that is checked first
+							if (rng.NextDouble() < 0.05) {
+								if (rng.NextDouble() < 0.5) {
+									infestedMonster.push(mineLevel + extra);
+								} else {
+									infestedSlime.push(mineLevel + extra);
+								}
+								continue; // skips Mushroom check
+							}
 							// There are 2 or 3 checks related to darker than normal lighting.
 							// We don't care much about their results, but have to mimic them.
+							rng = new CSRandom(daysPlayed + mineLevel + gameId / 2);
 							if (rng.NextDouble() < 0.3 && mineLevel > 2) {
 								rng.NextDouble(); // checked vs < 0.3 again
 							}
 							rng.NextDouble(); // checked vs < 0.15
-							if (rng.NextDouble() < 0.035) { 
-								extra = "";
-								if (mineLevel % 5 === 0) {
-									extra = "*";
-								}
+							if (rng.NextDouble() < 0.035 && mineLevel > 80) { 
 								rainbowLights.push(mineLevel + extra); 
 							}
 						}
-						output += "<li>Year " + year + ", " + season[mon] + " " + day + " (" + daysPlayed + "): ";
-						if (rainbowLights.length > 0) {
-							output += rainbowLights.join(', ');
+						output += "<li>Year " + year + ", " + season[mon] + " " + day + " (" + daysPlayed + ")<ul>";
+						if (infestedMonster.length > 0) {
+							output += "<li>Monsters: " + infestedMonster.join(', ') + "</li>";
 						} else {
-							output += "None";
+							output += "<li>No Monster Levels</li>";
 						}
-						output += "</li>";	
+						if (infestedSlime.length > 0) {
+							output += "<li>Slimes: " + infestedSlime.join(', ') + "</li>";
+						} else {
+							output += "<li>No Slime Levels</li>";
+						}
+						if (rainbowLights.length > 0) {
+							output += "<li>Mushrooms: " +rainbowLights.join(', ') + "</li>";
+						} else {
+							output += "<li>No Mushroom Levels</li>";
+						}
+						output += "</ul></li>";	
 					}
 				}
 			}
