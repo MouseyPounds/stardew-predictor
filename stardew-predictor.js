@@ -271,7 +271,8 @@ window.onload = function () {
 		output += "</ul>";
 		
 		// Mine stuff
-		output += "<h3>Potential Mushroom Levels</h3><p>Using Game ID " + gameId + "</p><ul>";
+		output += "<h3>Potential Mushroom Levels</h3><p>Using Game ID " + gameId + "</p>";
+		output += "<span class='note'>Note: Levels marked with '*' are elevator levels and will have mushroom/infestation status overridden. Levels marked with '^' will only have infestation status overridden.</span><ul>";
 		for (year = 1; year < 5; year++) {
 			for (mon = 0; mon < 4; mon++) {
 				for (wk = 0; wk < 4; wk++) {
