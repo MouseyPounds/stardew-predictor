@@ -1,5 +1,5 @@
-/* stardew-checkup.css
- * https://mouseypounds.github.io/stardew-checkup/
+/* stardew-predictor.css
+ * https://mouseypounds.github.io/stardew-predictor/
  */
 
 html {
@@ -20,6 +20,9 @@ a:hover { color: #d08000; }
 a:active { color: #ffa000; }
 h3 {
 	margin: 20px 0 4px;
+}
+.tab-panel > h3 {
+	margin: 8px 0 4px;
 }
 .panel {
 	background-color: #ffe0b0;
@@ -134,4 +137,117 @@ h3 {
 }
 #TOC li a:hover {
 	background-color: #ffe0b0;
+}
+#tabset-div {
+	padding: 15px;
+}
+.tabset > input[type="radio"] {
+	position: absolute;
+	left: -200vw;
+}
+.tabset .tab-panel {
+	display: none;
+}
+.tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
+.tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
+.tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
+.tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
+.tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
+.tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6) {
+    display: block;
+}
+.tabset > label {
+	position: relative;
+	display: inline-block;
+	padding: 15px;
+	border: 1px solid #906030;
+	border-bottom: 0;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 18px;
+	background-color: #ffe0b0;
+	border-radius: 8px 8px 0 0;
+	color: #906030;
+}
+.tabset > label:hover,
+.tabset > input:focus + label {
+	background-color: #eecc99;
+	border-color: #603000;
+	color: #603000;
+}
+.tabset > input:checked + label {
+	border-color: #603000;
+	border-bottom: 1px solid #eecc99;
+	margin-bottom: -1px;
+	color: #603000;
+	background-color: #eecc99;
+}
+.tab-panel {
+	padding: 10px 25px;
+	border: 1px solid #603000;
+	border-radius: 0 8px 8px 8px;
+	background-color: #eecc99;
+}
+table.output, table.calendar {
+	border: 2px solid black;
+	background-color: white;
+	border-collapse: collapse;
+}
+th, td {
+	border: 1px solid black;
+	text-align: center;
+}
+th {
+	color: white;
+	background-color: #333;
+}
+td {
+	color: black;
+}
+table.output th, table.output td {
+	padding: 3px 8px;
+}
+.calendar td {
+	text-align: left;
+	padding: 0;
+	width: 8.5em;
+}
+tr.past > td, td.past {
+	background-color: #ccc;
+	color: #333;
+}
+tr.current > td, td.current {
+	background-color: #ffe0b0;
+}
+.date {
+	display: inline-block;
+	border-style: solid;
+	border-color: black;
+	border-width: 0 1px 1px 0; 
+	text-align: right;
+	padding: 0 3px 0 0;
+	width: 1.25em;
+}
+.cell {
+	display: inline-block;
+	padding: 3px;
+}
+td img {
+	vertical-align: -1px;
+	width: 13px;
+}
+td.legend {
+	border: 2px solid black;
+	text-align: center;
+}
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
+#mines-buttons {
+	max-width: 58em;
+}
+#winterstar-buttons {
+	max-width: 22em;
 }

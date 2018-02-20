@@ -23,7 +23,8 @@
 <h1>Stardew Predictor</h1>
 <p><span class="error">Currently in alpha testing. Expect it to be ugly and not to work very well.</span></p>
 <h2 id="sec_about">About</h2>
-<p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about the game either from the Game ID or by reading the save file.</p>
+<p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about the game after reading the save file. Currently, the information predicted includes special mine levels
+(mushroom floor & infestations), items sold by the traveling merchant, results from cracking geodes, and the gift exchange of the Feast of the Winter Star.</p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>.</p>
 </div>
 
@@ -44,14 +45,55 @@
 
 <div id="output-container" class="panel">
 <h2 id="sec_results">Results</h2>
-<output id="out"> </output>
+<output id="out-summary"> </output>
+<div id="tabset-div" class="tabset">
+<input type="radio" name="tabset" id="tab-mines" checked>
+<label for="tab-mines">Mine Floors</label>
+<input type="radio" name="tabset" id="tab-cart" >
+<label for="tab-cart">Merchant Cart</label>
+<input type="radio" name="tabset" id="tab-geodes" >
+<label for="tab-geodes">Geodes</label>
+<input type="radio" name="tabset" id="tab-winterstar">
+<label for="tab-winterstar">Winter Star</label>
+<div class="tab-panels">
+<section id="sec-mines" class="tab-panel">
+<h3>Special Mine Floors</h3>
+<div id="mines-buttons" class="buttons">
+<button id="mines-prev-year" type="button">&lt;&lt; Previous Year</button>
+<button id="mines-prev-month" type="button">&lt; Previous Month</button>
+<button id="mines-reset" type="button">Reset</button>
+<button id="mines-next-month" type="button">Next Month &gt;</button>
+<button id="mines-next-year" type="button">Next Year &gt;&gt;</button>
+</div>
+<output id="out-mines"> </output>
+</section>
+<section id="sec-cart" class="tab-panel">
+<h3>Traveling Merchant Cart</h3>
+<output id="out-cart"> </output>
+</section>
+<section id="sec-geodes" class="tab-panel">
+<h3>Geode Processing</h3>
+<output id="out-geodes"> </output>
+</section>
+<section id="sec-winterstar" class="tab-panel">
+<h3>Feast of the Winter Star Gift Assignments</h3>
+<div id="winterstar-buttons" class="buttons">
+<button id="winterstar-prev" type="button">&lt; Previous 10 Years</button>
+<button id="winterstar-reset" type="button">Reset</button>
+<button id="winterstar-next" type="button">Next 10 Years &gt;</button>
+</div>
+<output id="out-winterstar"> </output>
+</section>
+</div>
+</div>
 </div>
 
 <div id="changelog" class="panel">
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
-<li>4 July 2017 - v0.5 - Alpha Testing</li>
+<li>20 Feb  2018 - v1.0 - Initial Release</li>
+<li> 4 July 2017 - v0.5 - Alpha Testing</li>
 </ul>
 </div>
 
@@ -66,6 +108,8 @@ Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> ||
 Stardew Predictor written by MouseyPounds. 
 Stardew Valley developed by <a href="http://twitter.com/concernedape">ConcernedApe</a> and published by 
 <a href="http://blog.chucklefish.org/about/">Chucklefish Games</a>.
+<br />
+Some images are cropped from in-game screenshots and their copyright is held by ConcernedApe.
 </div>
 </body>
 </html>
