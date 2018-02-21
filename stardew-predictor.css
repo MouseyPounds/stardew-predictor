@@ -240,6 +240,15 @@ td.legend {
 	border: 2px solid black;
 	text-align: center;
 }
+th.item {
+	width: 10em;
+}
+th.qty {
+	width: 1.5em;
+}
+th.price {
+	width: 4em;
+}
 .buttons {
 	display: flex;
 	justify-content: space-between;
@@ -250,4 +259,7 @@ td.legend {
 }
 #winterstar-buttons {
 	max-width: 22em;
+}
+#cart-buttons {
+	max-width: 42em;
 }
