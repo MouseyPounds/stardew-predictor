@@ -241,10 +241,10 @@ td.legend {
 	text-align: center;
 }
 th.item {
-	width: 10em;
+	width: 12em;
 }
 th.qty {
-	width: 1.5em;
+	width: 2.5em;
 }
 th.price {
 	width: 4em;
@@ -261,5 +261,5 @@ th.price {
 	max-width: 22em;
 }
 #cart-buttons {
-	max-width: 42em;
+	max-width: 45em;
 }

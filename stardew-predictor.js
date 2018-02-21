@@ -1630,7 +1630,7 @@ window.onload = function () {
 			rngFri,
 			rngSun;
 		if (typeof(offset) === 'undefined') {
-			offset = 7 * Math.floor(save.daysPlayed/7);
+			offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
 		}
 		if (offset < 7) {
 			$(document.getElementById('cart-prev-week')).prop("disabled", true);
