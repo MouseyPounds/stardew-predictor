@@ -26,7 +26,7 @@ h3 {
 }
 .panel {
 	background-color: #ffe0b0;
-	padding: 8px 10% 8px 12px;
+	padding: 8px 5% 8px 12px;
 	margin: 5px;
 	border: 5px solid #804000;
 	border-radius: 15px;
@@ -236,17 +236,20 @@ td img {
 	vertical-align: -1px;
 	width: 13px;
 }
+th img {
+	vertical-align: -2px;
+}
 td.legend {
 	border: 2px solid black;
 	text-align: center;
 }
 th.item {
-	width: 12em;
+	width: 10em;
 }
 th.qty {
 	width: 2.5em;
 }
-th.price {
+th.price, th.index {
 	width: 4em;
 }
 .buttons {
@@ -262,4 +265,7 @@ th.price {
 }
 #cart-buttons {
 	max-width: 45em;
+}
+#geode-buttons {
+	max-width: 60em;
 }

@@ -22,10 +22,18 @@
 
 window.onload = function () {
 	"use strict";
+
+	// Check for required File API support.
+	if (!(window.File && window.FileReader)) {
+		document.getElementById('out-summary').innerHTML = '<span class="error">Fatal Error: Could not load the File & FileReader APIs</span>';
+		return;
+	}
+
 	// "Global" var to cache save info.
 	var save = {};
 	// Although this stuff isn't really part of the save file, it's a good place to put it so that
 	// all the tab functions have access. Some of this could be condensed via some looping, I'm sure.
+	// Most of this comes from Data\ObjectInformation.xnb, some from Data\FurnitureInformation.xnb
 	save.seasonNames = ['Spring', 'Summer', 'Fall', 'Winter'];
 	save.cartItems = {
 		789: 'Wild Horseradish',
@@ -1293,13 +1301,71 @@ window.onload = function () {
 		1609: "J. Cola Light",
 		1612: "'Kitemaster '95'"
 	};
+	save.geodeContents = {
+		535: [538, 542, 548, 549, 552, 555, 556, 557, 558, 566, 568, 569, 571, 574, 576, 121],
+		536: [541, 544, 545, 546, 550, 551, 559, 560, 561, 564, 567, 572, 573, 577, 123],
+		537: [539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 122],
+		749: [538, 542, 548, 549, 552, 555, 556, 557, 558, 566, 568, 569, 571, 574, 576, 541, 544, 545, 546, 550, 551, 559,
+			560, 561, 564, 567, 572, 573, 577, 539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 121, 122, 123]
+	};
+	save.minerals = {
+		74: 'Prismatic Shard',
+		82: 'Fire Quartz',
+		84: 'Frozen Tear',
+		86: 'Earth Crystal',
+		121: 'Dwarvish Helm',
+		122: 'Dwarf Gadget',
+		123: 'Ancient Drum',
+		330: 'Clay',
+		378: 'Copper Ore',
+		380: 'Iron Ore',
+		382: 'Coal',
+		384: 'Gold Ore',
+		386: 'Iridium Ore',
+		390: 'Stone',
+		538: 'Alamite',
+		539: 'Bixite',
+		540: 'Baryite',
+		541: 'Aerinite',
+		542: 'Calcite',
+		543: 'Dolomite',
+		544: 'Esperite',
+		545: 'Fluorapatite',
+		546: 'Geminite',
+		547: 'Helvite',
+		548: 'Jamborite',
+		549: 'Jagoite',
+		550: 'Kyanite',
+		551: 'Lunarite',
+		552: 'Malachite',
+		553: 'Neptunite',
+		554: 'Lemon Stone',
+		555: 'Nekoite',
+		556: 'Orpiment',
+		557: 'Petrified Slime',
+		558: 'Thunder Egg',
+		559: 'Pyrite',
+		560: 'Ocean Stone',
+		561: 'Ghost Crystal',
+		562: 'Tigerseye',
+		563: 'Jasper',
+		564: 'Opal',
+		565: 'Fire Opal',
+		566: 'Celestine',
+		567: 'Marble',
+		568: 'Sandstone',
+		569: 'Granite',
+		570: 'Basalt',
+		571: 'Limestone',
+		572: 'Soapstone',
+		573: 'Hematite',
+		574: 'Mudstone',
+		575: 'Obsidian',
+		576: 'Slate',
+		577: 'Fairy Stone',
+		578: 'Star Shards'
+	};
 	
-	// Check for required File API support.
-	if (!(window.File && window.FileReader)) {
-		document.getElementById('out-summary').innerHTML = '<span class="error">Fatal Error: Could not load the File & FileReader APIs</span>';
-		return;
-	}
-
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
 
@@ -1360,150 +1426,23 @@ window.onload = function () {
 			}
 			output += '</span><br />\n';
 			save.geodesCracked = Number($(xmlDoc).find('stats > geodesCracked').text());
+			output += '<span class="result">' + save.geodesCracked + ' geodes opened</span><br />\n';
+			save.deepestMineLevel = Number($(xmlDoc).find('player > deepestMineLevel').text());
+			output += '<span class="result">Has reached level ' + Math.min(120, save.deepestMineLevel) + ' of the mine</span><br />\n';
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
 			save.year = 1;
 			save.geodesCracked = 0;
+			save.deepestMineLevel = 0;
 			output += '<span class="result">App run using supplied gameID ' + save.gameID +
-				'. No other save information available.</span><br />\n';
+				'. No save information available so minimal progress assumed.</span><br />\n';
 		} else {
 			output = '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
 
 		return output;
 	}
-
-	/* might need this structure
-			recipes = {
-				16: "Wild Horseradish",
-				18: "Daffodil",
-				20: "Leek",
-				22: "Dandelion",
-				24: "Parsnip",
-				78: "Cave Carrot",
-				88: "Coconut",
-				90: "Cactus Fruit",
-				92: "Sap",
-				174: "Large Egg (White)",
-				176: "Egg (White)",
-				180: "Egg (Brown)",
-				182: "Large Egg (Brown)",
-				184: "Milk",
-				186: "Large Milk",
-				188: "Green Bean",
-				190: "Cauliflower",
-				192: "Potato",
-				248: "Garlic",
-				250: "Kale",
-				252: "Rhubarb",
-				254: "Melon",
-				256: "Tomato",
-				257: "Morel",
-				258: "Blueberry",
-				259: "Fiddlehead Fern",
-				260: "Hot Pepper",
-				262: "Wheat",
-				264: "Radish",
-				266: "Red Cabbage",
-				268: "Starfruit",
-				270: "Corn",
-				272: "Eggplant",
-				274: "Artichoke",
-				276: "Pumpkin",
-				278: "Bok Choy",
-				280: "Yam",
-				281: "Chanterelle",
-				282: "Cranberries",
-				283: "Holly",
-				284: "Beet",
-				296: "Salmonberry",
-				300: "Amaranth",
-				303: "Pale Ale",
-				304: "Hops",
-				305: "Void Egg",
-				306: "Mayonnaise",
-				307: "Duck Mayonnaise",
-				308: "Void Mayonnaise",
-				330: "Clay",
-				334: "Copper Bar",
-				335: "Iron Bar",
-				336: "Gold Bar",
-				337: "Iridium Bar",
-				338: "Refined Quartz",
-				340: "Honey",
-				342: "Pickles",
-				344: "Jelly",
-				346: "Beer",
-				348: "Wine",
-				350: "Juice",
-				372: "Clam",
-				376: "Poppy",
-				378: "Copper Ore",
-				380: "Iron Ore",
-				382: "Coal",
-				384: "Gold Ore",
-				386: "Iridium Ore",
-				388: "Wood",
-				390: "Stone",
-				392: "Nautilus Shell",
-				393: "Coral",
-				394: "Rainbow Shell",
-				396: "Spice Berry",
-				397: "Sea Urchin",
-				398: "Grape",
-				399: "Spring Onion",
-				400: "Strawberry",
-				402: "Sweet Pea",
-				404: "Common Mushroom",
-				406: "Wild Plum",
-				408: "Hazelnut",
-				410: "Blackberry",
-				412: "Winter Root",
-				414: "Crystal Fruit",
-				416: "Snow Yam",
-				417: "Sweet Gem Berry",
-				418: "Crocus",
-				420: "Red Mushroom",
-				421: "Sunflower",
-				422: "Purple Mushroom",
-				424: "Cheese",
-				426: "Goat Cheese",
-				428: "Cloth",
-				430: "Truffle",
-				432: "Truffle Oil",
-				433: "Coffee Bean",
-				436: "Goat Milk",
-				438: "Large Goat Milk",
-				440: "Wool",
-				442: "Duck Egg",
-				444: "Duck Feather",
-				446: "Rabbit's Foot",
-				454: "Ancient Fruit",
-				459: "Mead",
-				591: "Tulip",
-				593: "Summer Spangle",
-				595: "Fairy Rose",
-				597: "Blue Jazz",
-				613: "Apple",
-				634: "Apricot",
-				635: "Orange",
-				636: "Peach",
-				637: "Pomegranate",
-				638: "Cherry",
-				684: "Bug Meat",
-				709: "Hardwood",
-				724: "Maple Syrup",
-				725: "Oak Resin",
-				726: "Pine Tar",
-				766: "Slime",
-				767: "Bat Wing",
-				768: "Solar Essence",
-				769: "Void Essence",
-				771: "Fiber",
-				787: "Battery Pack"
-			},
-	*/
 
 	function buttonHandler(button) {
 		var tab = button.id.split('-')[0];
@@ -1648,6 +1587,7 @@ window.onload = function () {
 			'</th>' + '<th colspan="3">Sunday ' + monthName + ' ' + (dayOfMonth + 7) + ' Year ' + year + '</th></tr>\n';
 		output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
 			'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+		// Odd doubling of RNG because of outputting both Friday & Sunday of the same week in the same table.
 		rngFri = new CSRandom(save.gameID + offset + 5);
 		rngSun = new CSRandom(save.gameID + offset + 7);
 		for (slot = 1; slot <= 10; slot++) {
@@ -1735,8 +1675,155 @@ window.onload = function () {
 		return output;
 	}
 	
-	function predictGeodes() {
-		var output = 'Coming "Soon"';
+	function predictGeodes(offset) {
+		// logic from StardewValley.Utility.getTreasureFromGeode()
+		var output = '',
+			numCracked,
+			g,
+			r1,
+			r2,
+			r3,
+			r4,
+			qty,
+			q1,
+			q2,
+			q3,
+			q4,
+			c,
+			next,
+			rng;
+		if (typeof(offset) === 'undefined') {
+			offset = 20 * Math.floor(save.geodesCracked / 20);
+		}
+		if (offset < 20) {
+			$(document.getElementById('geode-prev')).prop("disabled", true);
+		} else {
+			$(document.getElementById('geode-prev')).val(offset - 20);
+			$(document.getElementById('geode-prev')).prop("disabled", false);
+		}
+		$(document.getElementById('geode-reset')).val('reset');
+		$(document.getElementById('geode-next')).val(offset + 20);
+		output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
+			'<th colspan="2"><a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a> Geode</th>' + 
+			'<th colspan="2"><a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a> Frozen Geode</th>' +
+ 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a> Magma Geode</th>' +
+ 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a> Omni Geode</th></tr>\n';
+		output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
+			'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
+		// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
+		// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
+		for (g = 1; g <= 20; g++) {
+			numCracked = offset + g;
+			r1 = 'Stone';
+			r2 = 'Stone';
+			r3 = 'Stone';
+			r4 = 'Stone';
+			q1 = 1;
+			q2 = 1;
+			q3 = 1;
+			q4 = 1;
+			rng = new CSRandom(numCracked + save.gameID / 2);
+			if (rng.NextDouble() < 0.5) {
+				qty = rng.Next(3)*2 + 1;
+				if (rng.NextDouble() < 0.1) { qty = 10; }
+				if (rng.NextDouble() < 0.01) { qty = 20; }
+				if (rng.NextDouble() < 0.5) {
+					c = rng.Next(4);
+					if (c < 2) {
+						r1 = save.minerals[390];
+						q1 = qty;
+						r2 = r1;
+						q2 = qty;
+						r3 = r1;
+						q3 = qty;
+						r4 = r1;
+						q4 = qty;
+					} else if (c === 2) {
+						r1 = save.minerals[330];
+						q1 = 1;
+						r2 = r1;
+						r3 = r1;
+						r4 = r1;
+					} else {
+						r1 = save.minerals[86];
+						q1 = 1;
+						r2 = save.minerals[84];
+						r3 = save.minerals[82];
+						r4 = save.minerals[82];
+					}
+				} else {
+					next = rng.NextDouble();
+					// plain geode (535)
+					c = Math.floor(next*3);
+					if (c === 0) {
+						r1 = save.minerals[378];
+						q1 = qty;
+					} else if (c === 1) {
+						r1 = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
+						q1 = qty;
+					} else {
+						r1 = save.minerals[382];
+						q1 = qty;
+					}
+					// frozen geode (536)
+					c = Math.floor(next*4);
+					if (c === 0) {
+						r2 = save.minerals[378];
+						q2 = qty;
+					} else if (c === 1) {
+						r2 = save.minerals[380];
+						q2 = qty;
+					} else if (c === 2) {
+						r2 = save.minerals[382];
+						q2 = qty;
+					} else {
+						r2 = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
+						q2 = qty;
+					}
+					// magma & omni geodes
+					c = Math.floor(next*5);
+					if (c === 0) {
+						r3 = save.minerals[378];
+						r4 = r3;
+						q3 = qty;
+						q4 = q3;
+					} else if (c === 1) {
+						r3 = save.minerals[380];
+						r4 = r3;
+						q3 = qty;
+						q4 = q3;
+					} else if (c === 2) {
+						r3 = save.minerals[382];
+						r4 = r3;
+						q3 = qty;
+						q4 = q3;
+					} else if (c === 3) {
+						r3 = save.minerals[384];
+						r4 = r3;
+						q3 = qty;
+						q4 = q3;
+					} else {
+						r3 = save.minerals[386];
+						r4 = r3;
+						q3 = Math.floor(qty/2 + 1);
+						q4 = q3;
+					}
+				}
+			} else {
+				next = rng.NextDouble();
+				r1 = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
+				r2 = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
+				r3 = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
+				if (rng.NextDouble() < 0.008 && numCracked > 15) {
+					r4 = save.minerals[74];
+				} else {
+					r4 = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
+				}
+			}
+			output += '<tr><td>' + numCracked + '</td><td>' + wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) + '</td><td>' + q2 +
+				'</td><td>' + wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
+		}
+		output += '</tbody></thead>';
 		return output;
 	}
 	
@@ -1796,12 +1883,11 @@ window.onload = function () {
 	
 	function updateTab(tabID, extra) {
 		var output = '';
-		
 		if (tabID === 'mines') {
 			output = predictMines(extra);
 		} else if (tabID === 'cart') {
 			output = predictCart(extra);
-		} else if (tabID === 'geodes') {
+		} else if (tabID === 'geode') {
 			output = predictGeodes(extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(extra);

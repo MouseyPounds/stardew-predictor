@@ -50,8 +50,8 @@
 <label for="tab-mines">Mine Floors</label>
 <input type="radio" name="tabset" id="tab-cart" >
 <label for="tab-cart">Merchant Cart</label>
-<input type="radio" name="tabset" id="tab-geodes" >
-<label for="tab-geodes">Geodes</label>
+<input type="radio" name="tabset" id="tab-geode" >
+<label for="tab-geode">Geodes</label>
 <input type="radio" name="tabset" id="tab-winterstar">
 <label for="tab-winterstar">Winter Star</label>
 <div class="tab-panels">
@@ -75,9 +75,14 @@
 </div>
 <output id="out-cart"> </output>
 </section>
-<section id="sec-geodes" class="tab-panel">
+<section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
-<output id="out-geodes"> </output>
+<div id="geode-buttons" class="buttons">
+<button id="geode-prev" type="button">&lt; Previous 20</button>
+<button id="geode-reset" type="button">Reset</button>
+<button id="geode-next" type="button">Next 20 &gt;</button>
+</div>
+<output id="out-geode"> </output>
 </section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
