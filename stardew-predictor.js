@@ -1691,6 +1691,7 @@ window.onload = function () {
 			q4,
 			c,
 			next,
+			tclass,
 			rng;
 		if (typeof(offset) === 'undefined') {
 			offset = 20 * Math.floor(save.geodesCracked / 20);
@@ -1820,8 +1821,15 @@ window.onload = function () {
 					r4 = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
 				}
 			}
-			output += '<tr><td>' + numCracked + '</td><td>' + wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) + '</td><td>' + q2 +
-				'</td><td>' + wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
+			if (numCracked === save.geodesCracked + 1) {
+				tclass = "current";
+			} else if (numCracked <= save.geodesCracked) {
+				tclass = "past";
+			} else {
+				tclass = "future";
+			}
+			output += '<tr class="' + tclass + '"><td>' + numCracked + '</td><td>' + wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) +
+				'</td><td>' + q2 + '</td><td>' + wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
 		}
 		output += '</tbody></thead>';
 		return output;
