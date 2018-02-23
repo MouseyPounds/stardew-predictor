@@ -57,13 +57,14 @@
 <div class="tab-panels">
 <section id="sec-mines" class="tab-panel">
 <h3>Special Mine Floors</h3>
-<fieldset id="mines-buttons" class="buttons">
+<!-- divs inside of fieldsets because of Chrome bugs with flex display -->
+<fieldset id="mines-buttons"><div class="buttons">
 <button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
 <button id="mines-prev-month" type="button" class="browse">&lt; Previous Month</button>
 <button id="mines-reset" type="button" class="browse">Reset Calendar</button>
 <button id="mines-next-month" type="button" class="browse">Next Month &gt;</button>
 <button id="mines-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</fieldset>
+</div></fieldset>
 <output id="out-mines"> </output>
 </section>
 <section id="sec-cart" class="tab-panel">
@@ -80,29 +81,29 @@ Search Range: <select id="cart-search-range">
 </select><br />
 <input type="checkbox" id="cart-search-all"> Start search from Spring 1, Year 1 instead of current day
 </fieldset>
-<fieldset id="cart-buttons" class="buttons">
+<fieldset id="cart-buttons"><div class="buttons">
 <button id="cart-prev-week" type="button" class="browse">&lt; Previous Week</button>
 <button id="cart-reset" type="button" class="browse">Reset Browsing</button>
 <button id="cart-next-week" type="button" class="browse">Next Week &gt;</button>
-</fieldset>
+</div></fieldset>
 <output id="out-cart"> </output>
 </section>
 <section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
-<fieldset id="geode-buttons" class="buttons">
+<fieldset id="geode-buttons"><div class="buttons">
 <button id="geode-prev" type="button" class="browse">&lt; Previous 20</button>
 <button id="geode-reset" type="button" class="browse">Reset Browsing</button>
 <button id="geode-next" type="button" class="browse">Next 20 &gt;</button>
-</fieldset>
+</div></fieldset>
 <output id="out-geode"> </output>
 </section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
-<fieldset id="winterstar-buttons" class="buttons">
+<fieldset id="winterstar-buttons"><div class="buttons">
 <button id="winterstar-prev" type="button" class="browse">&lt; Previous 10 Years</button>
 <button id="winterstar-reset" type="button" class="browse">Reset</button>
 <button id="winterstar-next" type="button" class="browse">Next 10 Years &gt;</button>
-</fieldset>
+</div></fieldset>
 <output id="out-winterstar"> </output>
 </section>
 </div>

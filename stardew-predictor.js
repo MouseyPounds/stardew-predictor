@@ -1745,11 +1745,11 @@ window.onload = function () {
 				item = save.cartItems[rngFri.Next(2,790)];
 				price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
 				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 				item = save.cartItems[rngSun.Next(2,790)];
 				price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
 				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			}
 			// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
 			// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture() structure
@@ -1760,23 +1760,23 @@ window.onload = function () {
 			}
 			item = save.cartFurniture[slot];
 			price = rngFri.Next(1,11)*250;
-			output += "<tr><td>Furniture</td><td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td>';
+			output += "<tr><td>Furniture</td><td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td>';
 			slot = -1;
 			while (!save.cartFurniture.hasOwnProperty(slot)) {
 				slot = rngSun.Next(0,1613);
 			}
 			item = save.cartFurniture[slot];
 			price = rngSun.Next(1,11)*250;
-			output += "<td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td></tr>';
+			output += "<td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td></tr>';
 			// Next comes seasonal specials
 			output += "<td>Seasonal Special</td>";
 			if (month % 4 < 2) {
 				item = 'Rare Seed';
 				price = 1000;
 				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			} else {
 				if (rngFri.NextDouble() < 0.4) {
 					item = wikify('Rarecrow (Snowman)');
@@ -1787,7 +1787,7 @@ window.onload = function () {
 					qty = '(N/A)';
 					price = '(N/A)';
 				}
-				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td>";
+				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 				if (rngSun.NextDouble() < 0.4) {
 					item = wikify('Rarecrow (Snowman)');
 					qty = 1;
@@ -1797,7 +1797,7 @@ window.onload = function () {
 					qty = '(N/A)';
 					price = '(N/A)';
 				}
-				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td></tr>";
+				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			}
 			// Coffee Bean
 			output += "<td>Other Special</td>";
@@ -1810,7 +1810,7 @@ window.onload = function () {
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
-			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td>";
+			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 			if (rngSun.NextDouble() < 0.25) {
 				item = wikify('Coffee Bean');
 				qty = 1;
@@ -1820,7 +1820,7 @@ window.onload = function () {
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
-			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td></tr>";
+			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			output += '</tbody></table>\n';
 		}
 		return output;
@@ -1979,8 +1979,9 @@ window.onload = function () {
 			} else {
 				tclass = "future";
 			}
-			output += '<tr class="' + tclass + '"><td>' + numCracked + '</td><td>' + wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) +
-				'</td><td>' + q2 + '</td><td>' + wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
+			output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td><td>' + 
+				wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) + '</td><td>' + q2 + '</td><td>' + 
+				wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
 		}
 		output += '</tbody></thead>';
 		return output;
@@ -2020,18 +2021,15 @@ window.onload = function () {
 			// position which is not easily predictable.
 			rng = new CSRandom(save.gameID / 2 - year);
 			secretSantaGiveTo = npcs[rng.Next(npcs.length)];
-			console.log("Winter Star Year " + year + ". Initial To:" + secretSantaGiveTo);
 			secretSantaGetFrom = '';
 			// In addition to 5 hardcoded exclusions, NPCs are not eligible if they haven't been met yet; technically we should probably be
 			// searching the save to make sure the target has been met, but for now we simply exclude year 1 Kent and assume the rest are fine.
 			while (excluded.hasOwnProperty(secretSantaGiveTo) || (year === 1 && secretSantaGiveTo === 'Kent')) {
 				secretSantaGiveTo = npcs[rng.Next(npcs.length)];
-				console.log("New To:" + secretSantaGiveTo);
 			}
 			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo || excluded.hasOwnProperty(secretSantaGetFrom) || 
 				(year === 1 && secretSantaGetFrom === 'Kent') ) {
 				secretSantaGetFrom = npcs[rng.Next(npcs.length)];
-				console.log("New From:" + secretSantaGetFrom);
 			}
 			if (year < save.year) {
 				tclass = "past";
