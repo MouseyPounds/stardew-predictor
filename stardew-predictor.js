@@ -1447,13 +1447,20 @@ window.onload = function () {
 	function buttonHandler(button) {
 		var tab = button.id.split('-')[0];
 		if (typeof(button.value) === 'undefined' || button.value === 'reset') {
-			updateTab(tab);
+			updateTab(tab, false);
 		} else {
-			updateTab(tab, Number(button.value));
+			updateTab(tab, false, Number(button.value));
 		}
 	}
+
+	function searchHandler(element) {
+		var tab = element.id.split('-')[0],
+			text_id = tab + '-search-text';
+			
+		updateTab(tab, true, document.getElementById(text_id).value);
+	}
 	
-	function predictMines(offset) {
+	function predictMines(isSearch, offset) {
 		// Mushroom level is determined by StardewValley.Locations.MineShaft.chooseLevelType()
 		// Infestation is determined by StardewValley.Locations.MineShaft.loadLevel()
 		var output = "",
@@ -1473,20 +1480,20 @@ window.onload = function () {
 			offset = 28 * Math.floor(save.daysPlayed/28);
 		}
 		if (offset < 112) {
-			$(document.getElementById('mines-prev-year')).prop("disabled", true);
+			$('#mines-prev-year').prop("disabled", true);
 		} else {
-			$(document.getElementById('mines-prev-year')).val(offset - 112);
-			$(document.getElementById('mines-prev-year')).prop("disabled", false);
+			$('#mines-prev-year').val(offset - 112);
+			$('#mines-prev-year').prop("disabled", false);
 		}
 		if (offset < 28) {
-			$(document.getElementById('mines-prev-month')).prop("disabled", true);
+			$('#mines-prev-month').prop("disabled", true);
 		} else {
-			$(document.getElementById('mines-prev-month')).val(offset - 28);
-			$(document.getElementById('mines-prev-month')).prop("disabled", false);
+			$('#mines-prev-month').val(offset - 28);
+			$('#mines-prev-month').prop("disabled", false);
 		}
-		$(document.getElementById('mines-reset')).val('reset');
-		$(document.getElementById('mines-next-month')).val(offset + 28);
-		$(document.getElementById('mines-next-year')).val(offset + 112);
+		$('#mines-reset').val('reset');
+		$('#mines-next-month').val(offset + 28);
+		$('#mines-next-year').val(offset + 112);
 		month = Math.floor(offset / 28);
 		monthName = save.seasonNames[month % 4];
 		year = 1 + Math.floor(offset / 112);
@@ -1555,7 +1562,7 @@ window.onload = function () {
 		return output;
 	}
 	
-	function predictCart(offset) {
+	function predictCart(isSearch, offset) {
 		// logic from StardewValley.Utility.getTravelingMerchantStock()
 		var output = '',
 			month,
@@ -1566,116 +1573,260 @@ window.onload = function () {
 			item,
 			qty,
 			price,
+			searchTerm,
+			searchStart,
+			searchEnd,
+			count,
 			rngFri,
 			rngSun;
-		if (typeof(offset) === 'undefined') {
-			offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
-		}
-		if (offset < 7) {
-			$(document.getElementById('cart-prev-week')).prop("disabled", true);
+		// Hitting search without an actual search term will fall through to the default browse function; we might want 
+		// to add some sort of error message or other feedback.
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#cart-prev-week').prop("disabled", true);
+			$('#cart-next-week').prop("disabled", true);
+			$('#cart-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = ($('#cart-search-all').prop('checked')) ? 0 : 7 * Math.floor((save.daysPlayed - 1) / 7);
+			searchEnd = 112 * $('#cart-search-range').val();
+			output += '<table class="output"><thead><tr><th colspan="4">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#cart-search-all').prop('checked')) ? 'first ' : 'next ') + $('#cart-search-range').val() + ' year(s)</th></tr>\n';
+			output += '<tr><th class="day">Day</th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			count = 0;
+			// Note: the double RNG setup was implemented because of the way the browsing table displays its results; when searching
+			// we would instead always want the friday results before the sunday results, so we really don't need separate rng instances
+			// even though we will still use them for clarity. Much of the logic here is duplicated from the browsing section, but
+			// comments related to it have been removed.
+			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
+				// It might make more sense to only bother with the date stuff when matches are found.
+				month = Math.floor(offset / 28);
+				monthName = save.seasonNames[month % 4];
+				year = 1 + Math.floor(offset / 112);
+				dayOfMonth = offset % 28 + 5;
+				rngFri = new CSRandom(save.gameID + offset + 5);
+				for (slot = 1; slot <= 10; slot++) {
+					item = save.cartItems[rngFri.Next(2,790)];
+					price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
+					qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+					if (searchTerm.test(item)) {
+						count++;
+						output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+					}
+				}				
+				slot = -1;
+				while (!save.cartFurniture.hasOwnProperty(slot)) {
+					slot = rngFri.Next(0,1613);
+				}
+				item = save.cartFurniture[slot];
+				price = rngFri.Next(1,11)*250;
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+				if (month % 4 < 2) {
+					item = 'Rare Seed';
+					price = 1000;
+					qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				} else {
+					if (rngFri.NextDouble() < 0.4) {
+						item = 'Rarecrow (Snowman)';
+						qty = 1;
+						price = '4000g';
+					} else {
+						item = '';
+					}
+				}
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+				if (rngFri.NextDouble() < 0.25) {
+					item = 'Coffee Bean';
+					qty = 1;
+					price = '2500g';
+				} else {
+					item = '';
+				}
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+				dayOfMonth += 2;
+				rngSun = new CSRandom(save.gameID + offset + 7);
+				for (slot = 1; slot <= 10; slot++) {
+					item = save.cartItems[rngSun.Next(2,790)];
+					price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
+					qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+					if (searchTerm.test(item)) {
+						count++;
+						output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+					}
+				}
+				slot = -1;
+				while (!save.cartFurniture.hasOwnProperty(slot)) {
+					slot = rngSun.Next(0,1613);
+				}
+				item = save.cartFurniture[slot];
+				price = rngSun.Next(1,11)*250;
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ' Year ' + year + '</td><td>' + 
+						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+				if (month % 4 < 2) {
+					item = 'Rare Seed';
+					price = 1000;
+					qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+				} else {
+					if (rngSun.NextDouble() < 0.4) {
+						item = 'Rarecrow (Snowman)';
+						qty = 1;
+						price = '4000g';
+					} else {
+						item = '';
+					}
+				}
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+				if (rngSun.NextDouble() < 0.25) {
+					item = 'Coffee Bean';
+					qty = 1;
+					price = '2500g';
+				} else {
+					item = '';
+				}
+				if (searchTerm.test(item)) {
+					count++;
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				}
+			}
+			output += '<tr><td colspan="4">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
 		} else {
-			$(document.getElementById('cart-prev-week')).val(offset - 7);
-			$(document.getElementById('cart-prev-week')).prop("disabled", false);
-		}
-		$(document.getElementById('cart-reset')).val('reset');
-		$(document.getElementById('cart-next-week')).val(offset + 7);
-		month = Math.floor(offset / 28);
-		monthName = save.seasonNames[month % 4];
-		year = 1 + Math.floor(offset / 112);
-		dayOfMonth = offset % 28;
-		output += '<table class="output"><thead><tr><th> </th><th colspan="3">Friday ' + monthName + ' ' + (dayOfMonth + 5) + ' Year ' + year +
-			'</th>' + '<th colspan="3">Sunday ' + monthName + ' ' + (dayOfMonth + 7) + ' Year ' + year + '</th></tr>\n';
-		output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
-			'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
-		// Odd doubling of RNG because of outputting both Friday & Sunday of the same week in the same table.
-		rngFri = new CSRandom(save.gameID + offset + 5);
-		rngSun = new CSRandom(save.gameID + offset + 7);
-		for (slot = 1; slot <= 10; slot++) {
-			output += "<tr><td>Basic Item " + slot + "</td>";
-			item = save.cartItems[rngFri.Next(2,790)];
-			price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
-			qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-			output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-			item = save.cartItems[rngSun.Next(2,790)];
-			price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
-			qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-			output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
-		}
-		// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
-		// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture() structure
-		// only contains items which are valid for sale.
-		slot = -1;
-		while (!save.cartFurniture.hasOwnProperty(slot)) {
-			slot = rngFri.Next(0,1613);
-		}
-		item = save.cartFurniture[slot];
-		price = rngFri.Next(1,11)*250;
-		output += "<tr><td>Furniture</td><td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td>';
-		slot = -1;
-		while (!save.cartFurniture.hasOwnProperty(slot)) {
-			slot = rngSun.Next(0,1613);
-		}
-		item = save.cartFurniture[slot];
-		price = rngSun.Next(1,11)*250;
-		output += "<td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td></tr>';
-		// Next comes seasonal specials
-		output += "<td>Seasonal Special</td>";
-		if (month % 4 < 2) {
-			item = 'Rare Seed';
-			price = 1000;
-			qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-			output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-			qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-			output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
-		} else {
-			if (rngFri.NextDouble() < 0.4) {
-				item = wikify('Rarecrow (Snowman)');
+			if (typeof(offset) === 'undefined' || offset === '') {
+				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
+			}
+			if (offset < 7) {
+				$('#cart-prev-week').prop("disabled", true);
+			} else {
+				$('#cart-prev-week').val(offset - 7);
+				$('#cart-prev-week').prop("disabled", false);
+			}
+			$('#cart-reset').val('reset');
+			$('#cart-reset').html("Reset Browsing");
+			$('#cart-next-week').val(offset + 7);
+			$('#cart-next-week').prop("disabled", false);
+			// Reset search fields too
+			$('#cart-search-text').val('');
+			$('#cart-search-range').val(2);
+			$('#cart-search-all').prop('checked', false);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			dayOfMonth = offset % 28;
+			output += '<table class="output"><thead><tr><th> </th><th colspan="3">Friday ' + monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +
+				'</th>' + '<th colspan="3">Sunday ' + monthName + ' ' + (dayOfMonth + 7) + ', Year ' + year + '</th></tr>\n';
+			output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
+				'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			// Odd doubling of RNG because of outputting both Friday & Sunday of the same week in the same table.
+			rngFri = new CSRandom(save.gameID + offset + 5);
+			rngSun = new CSRandom(save.gameID + offset + 7);
+			for (slot = 1; slot <= 10; slot++) {
+				output += "<tr><td>Basic Item " + slot + "</td>";
+				item = save.cartItems[rngFri.Next(2,790)];
+				price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
+				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				item = save.cartItems[rngSun.Next(2,790)];
+				price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
+				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
+			}
+			// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
+			// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture() structure
+			// only contains items which are valid for sale.
+			slot = -1;
+			while (!save.cartFurniture.hasOwnProperty(slot)) {
+				slot = rngFri.Next(0,1613);
+			}
+			item = save.cartFurniture[slot];
+			price = rngFri.Next(1,11)*250;
+			output += "<tr><td>Furniture</td><td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td>';
+			slot = -1;
+			while (!save.cartFurniture.hasOwnProperty(slot)) {
+				slot = rngSun.Next(0,1613);
+			}
+			item = save.cartFurniture[slot];
+			price = rngSun.Next(1,11)*250;
+			output += "<td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + price + 'g</td></tr>';
+			// Next comes seasonal specials
+			output += "<td>Seasonal Special</td>";
+			if (month % 4 < 2) {
+				item = 'Rare Seed';
+				price = 1000;
+				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td></tr>";
+			} else {
+				if (rngFri.NextDouble() < 0.4) {
+					item = wikify('Rarecrow (Snowman)');
+					qty = 1;
+					price = '4000g';
+				} else {
+					item = '(None)';
+					qty = '(N/A)';
+					price = '(N/A)';
+				}
+				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td>";
+				if (rngSun.NextDouble() < 0.4) {
+					item = wikify('Rarecrow (Snowman)');
+					qty = 1;
+					price = '4000g';
+				} else {
+					item = '(None)';
+					qty = '(N/A)';
+					price = '(N/A)';
+				}
+				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td></tr>";
+			}
+			// Coffee Bean
+			output += "<td>Other Special</td>";
+			if (rngFri.NextDouble() < 0.25) {
+				item = wikify('Coffee Bean');
 				qty = 1;
-				price = '4000g';
+				price = '2500g';
 			} else {
 				item = '(None)';
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
 			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td>";
-			if (rngSun.NextDouble() < 0.4) {
-				item = wikify('Rarecrow (Snowman)');
+			if (rngSun.NextDouble() < 0.25) {
+				item = wikify('Coffee Bean');
 				qty = 1;
-				price = '4000g';
+				price = '2500g';
 			} else {
 				item = '(None)';
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
 			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td></tr>";
+			output += '</tbody></table>\n';
 		}
-		// Coffee Bean
-		output += "<td>Other Special</td>";
-		if (rngFri.NextDouble() < 0.25) {
-			item = wikify('Coffee Bean');
-			qty = 1;
-			price = '2500g';
-		} else {
-			item = '(None)';
-			qty = '(N/A)';
-			price = '(N/A)';
-		}
-		output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td>";
-		if (rngSun.NextDouble() < 0.25) {
-			item = wikify('Coffee Bean');
-			qty = 1;
-			price = '2500g';
-		} else {
-			item = '(None)';
-			qty = '(N/A)';
-			price = '(N/A)';
-		}
-		output += "<td>" + item + "</td><td>" + qty + "</td><td>" + price + "</td></tr>";
-		output += '</tbody></table>\n';
 		return output;
 	}
 	
-	function predictGeodes(offset) {
+	function predictGeodes(isSearch, offset) {
 		// logic from StardewValley.Utility.getTreasureFromGeode()
 		var output = '',
 			numCracked,
@@ -1697,13 +1848,13 @@ window.onload = function () {
 			offset = 20 * Math.floor(save.geodesCracked / 20);
 		}
 		if (offset < 20) {
-			$(document.getElementById('geode-prev')).prop("disabled", true);
+			$('#geode-prev').prop("disabled", true);
 		} else {
-			$(document.getElementById('geode-prev')).val(offset - 20);
-			$(document.getElementById('geode-prev')).prop("disabled", false);
+			$('#geode-prev').val(offset - 20);
+			$('#geode-prev').prop("disabled", false);
 		}
-		$(document.getElementById('geode-reset')).val('reset');
-		$(document.getElementById('geode-next')).val(offset + 20);
+		$('#geode-reset').val('reset');
+		$('#geode-next').val(offset + 20);
 		output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a> Geode</th>' + 
 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a> Frozen Geode</th>' +
@@ -1835,7 +1986,7 @@ window.onload = function () {
 		return output;
 	}
 	
-	function predictWinterStar(offset) {
+	function predictWinterStar(isSearch, offset) {
 		var output = "",
 			// NPC list from Data\NPCDispositions
 			npcs = ['Abigail', 'Caroline', 'Clint', 'Demetrius', 'Willy', 'Elliott', 'Emily',
@@ -1852,13 +2003,13 @@ window.onload = function () {
 			offset = 10 * Math.floor(save.year / 10);
 		}
 		if (offset < 10) {
-			$(document.getElementById('winterstar-prev')).prop("disabled", true);
+			$('#winterstar-prev').prop("disabled", true);
 		} else {
-			$(document.getElementById('winterstar-prev')).val(offset - 10);
-			$(document.getElementById('winterstar-prev')).prop("disabled", false);
+			$('#winterstar-prev').val(offset - 10);
+			$('#winterstar-prev').prop("disabled", false);
 		}
-		$(document.getElementById('winterstar-reset')).val('reset');
-		$(document.getElementById('winterstar-next')).val(offset + 10);
+		$('#winterstar-reset').val('reset');
+		$('#winterstar-next').val(offset + 10);
 
 		output += '<table class="output"><thead><tr><th>Year</th><th>Farmer gives gift to</th><th>Farmer receives gift from</th></tr>\n<tbody>';
 		for (year = offset + 1; year <= offset + 10; year++) {
@@ -1889,16 +2040,16 @@ window.onload = function () {
 		return output;
 	}
 	
-	function updateTab(tabID, extra) {
+	function updateTab(tabID, isSearch, extra) {
 		var output = '';
 		if (tabID === 'mines') {
-			output = predictMines(extra);
+			output = predictMines(isSearch, extra);
 		} else if (tabID === 'cart') {
-			output = predictCart(extra);
+			output = predictCart(isSearch, extra);
 		} else if (tabID === 'geode') {
-			output = predictGeodes(extra);
+			output = predictGeodes(isSearch, extra);
 		} else if (tabID === 'winterstar') {
-			output = predictWinterStar(extra);
+			output = predictWinterStar(isSearch, extra);
 		} else {
 			console.log("Unknown tabID: " + tabID);
 		}
@@ -1907,10 +2058,16 @@ window.onload = function () {
 
 	function updateOutput(xmlDoc) {
 		document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
-		$("button").click(function () { buttonHandler(this); });
+		$("button[class='browse']").click(function () { buttonHandler(this); });
+		$("button[class='search']").click(function () { searchHandler(this); });
+		$("input[class='search']").keyup(function(e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+				searchHandler(this);
+		} });
 		$("button").prop('disabled',false);
-		$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1]); });
-		$(document.getElementById('output-container')).show();
+		$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1], false); });
+		$('#output-container').show();
 		return;
 	}
 	
@@ -1920,10 +2077,10 @@ window.onload = function () {
 			prog = document.getElementById('progress');
 
 		prog.value = 0;
-		$(document.getElementById('output-container')).hide();
-		$(document.getElementById('progress-container')).show();
+		$('#output-container').hide();
+		$('#progress-container').show();
 		// Keep changelong visable to help with tab switches messing up the scroll position.
-		//$(document.getElementById('changelog')).hide();
+		//$('#changelog').hide();
 		reader.onloadstart = function (e) {
 			prog.value = 20;
 		};
@@ -1937,7 +2094,7 @@ window.onload = function () {
 			var xmlDoc = $.parseXML(e.target.result);
 			prog.value = 100;
 			updateOutput(xmlDoc);
-			$(document.getElementById('progress-container')).hide();
+			$('#progress-container').hide();
 		};
 		reader.readAsText(file);
 	}

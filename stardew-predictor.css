@@ -243,6 +243,9 @@ td.legend {
 	border: 2px solid black;
 	text-align: center;
 }
+th.day {
+	width: 12em;
+}
 th.item {
 	width: 10em;
 }
@@ -252,18 +255,21 @@ th.qty {
 th.price, th.index {
 	width: 4em;
 }
+fieldset {
+	padding: .5em;
+	margin: .5em;
+}
 .buttons {
 	display: flex;
 	justify-content: space-between;
-	padding: 1em;
 }
 #mines-buttons {
-	max-width: 58em;
+	max-width: 57em;
 }
 #winterstar-buttons {
 	max-width: 22em;
 }
-#cart-buttons {
+#cart-buttons, #cart-search {
 	max-width: 45em;
 }
 #geode-buttons {

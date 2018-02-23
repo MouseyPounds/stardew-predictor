@@ -57,40 +57,52 @@
 <div class="tab-panels">
 <section id="sec-mines" class="tab-panel">
 <h3>Special Mine Floors</h3>
-<div id="mines-buttons" class="buttons">
-<button id="mines-prev-year" type="button">&lt;&lt; Previous Year</button>
-<button id="mines-prev-month" type="button">&lt; Previous Month</button>
-<button id="mines-reset" type="button">Reset</button>
-<button id="mines-next-month" type="button">Next Month &gt;</button>
-<button id="mines-next-year" type="button">Next Year &gt;&gt;</button>
-</div>
+<fieldset id="mines-buttons" class="buttons">
+<button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="mines-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="mines-reset" type="button" class="browse">Reset Calendar</button>
+<button id="mines-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="mines-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</fieldset>
 <output id="out-mines"> </output>
 </section>
 <section id="sec-cart" class="tab-panel">
 <h3>Traveling Merchant Cart</h3>
-<div id="cart-buttons" class="buttons">
-<button id="cart-prev-week" type="button">&lt; Previous Week</button>
-<button id="cart-reset" type="button">Reset</button>
-<button id="cart-next-week" type="button">Next Week &gt;</button>
-</div>
+<fieldset id="cart-search">
+<input type="text" id="cart-search-text" class="search">
+<button id="cart-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="cart-search-range">
+<option value="1">1 year</option>
+<option value="2" selected>2 years</option>
+<option value="3">3 years</option>
+<option value="5">5 years</option>
+<option value="10">10 years</option>
+</select><br />
+<input type="checkbox" id="cart-search-all"> Start search from Spring 1, Year 1 instead of current day
+</fieldset>
+<fieldset id="cart-buttons" class="buttons">
+<button id="cart-prev-week" type="button" class="browse">&lt; Previous Week</button>
+<button id="cart-reset" type="button" class="browse">Reset Browsing</button>
+<button id="cart-next-week" type="button" class="browse">Next Week &gt;</button>
+</fieldset>
 <output id="out-cart"> </output>
 </section>
 <section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
-<div id="geode-buttons" class="buttons">
-<button id="geode-prev" type="button">&lt; Previous 20</button>
-<button id="geode-reset" type="button">Reset</button>
-<button id="geode-next" type="button">Next 20 &gt;</button>
-</div>
+<fieldset id="geode-buttons" class="buttons">
+<button id="geode-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="geode-reset" type="button" class="browse">Reset Browsing</button>
+<button id="geode-next" type="button" class="browse">Next 20 &gt;</button>
+</fieldset>
 <output id="out-geode"> </output>
 </section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
-<div id="winterstar-buttons" class="buttons">
-<button id="winterstar-prev" type="button">&lt; Previous 10 Years</button>
-<button id="winterstar-reset" type="button">Reset</button>
-<button id="winterstar-next" type="button">Next 10 Years &gt;</button>
-</div>
+<fieldset id="winterstar-buttons" class="buttons">
+<button id="winterstar-prev" type="button" class="browse">&lt; Previous 10 Years</button>
+<button id="winterstar-reset" type="button" class="browse">Reset</button>
+<button id="winterstar-next" type="button" class="browse">Next 10 Years &gt;</button>
+</fieldset>
 <output id="out-winterstar"> </output>
 </section>
 </div>
@@ -101,8 +113,9 @@
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
-<li>20 Feb  2018 - v0.9 - Beta Testing</li>
-<li> 4 July 2017 - v0.5 - Alpha Testing</li>
+<li>22 Feb  2018 - v0.91 - Searching for Cart</li>
+<li>20 Feb  2018 - v0.9  - Beta Testing</li>
+<li> 4 July 2017 - v0.5  - Alpha Testing</li>
 </ul>
 </div>
 
