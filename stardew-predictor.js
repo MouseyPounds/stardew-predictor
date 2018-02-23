@@ -1994,6 +1994,7 @@ window.onload = function () {
 					'Kent', 'Leah', 'Lewis', 'Linus', 'Marlon', 'Marnie', 'Maru', 'Pam',
 					'Penny', 'Pierre', 'Robin', 'Sam', 'Sebastian', 'Shane', 'Vincent',
 					'Wizard', 'Dwarf', 'Sandy', 'Krobus'],
+			excluded = {'Wizard': 1, 'Krobus': 1, 'Sandy': 1, 'Dwarf': 1, 'Marlon': 1},
 			secretSantaGiveTo = '',
 			secretSantaGetFrom = '',
 			year,
@@ -2019,12 +2020,18 @@ window.onload = function () {
 			// position which is not easily predictable.
 			rng = new CSRandom(save.gameID / 2 - year);
 			secretSantaGiveTo = npcs[rng.Next(npcs.length)];
+			console.log("Winter Star Year " + year + ". Initial To:" + secretSantaGiveTo);
 			secretSantaGetFrom = '';
-			while (secretSantaGiveTo === 'Wizard' || secretSantaGiveTo === 'Krobus' || secretSantaGiveTo === 'Sandy' || secretSantaGiveTo === 'Dwarf' || secretSantaGiveTo === 'Marlon' ) {
+			// In addition to 5 hardcoded exclusions, NPCs are not eligible if they haven't been met yet; technically we should probably be
+			// searching the save to make sure the target has been met, but for now we simply exclude year 1 Kent and assume the rest are fine.
+			while (excluded.hasOwnProperty(secretSantaGiveTo) || (year === 1 && secretSantaGiveTo === 'Kent')) {
 				secretSantaGiveTo = npcs[rng.Next(npcs.length)];
+				console.log("New To:" + secretSantaGiveTo);
 			}
-			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo) {
+			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo || excluded.hasOwnProperty(secretSantaGetFrom) || 
+				(year === 1 && secretSantaGetFrom === 'Kent') ) {
 				secretSantaGetFrom = npcs[rng.Next(npcs.length)];
+				console.log("New From:" + secretSantaGetFrom);
 			}
 			if (year < save.year) {
 				tclass = "past";
