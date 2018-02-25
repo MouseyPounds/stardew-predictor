@@ -1325,7 +1325,7 @@ window.onload = function () {
 		390: 'Stone',
 		538: 'Alamite',
 		539: 'Bixite',
-		540: 'Baryite',
+		540: 'Baryte',
 		541: 'Aerinite',
 		542: 'Calcite',
 		543: 'Dolomite',
@@ -2061,8 +2061,7 @@ window.onload = function () {
 		document.getElementById('out-' + tabID).innerHTML = output;
 	}
 
-	function updateOutput(xmlDoc) {
-		document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
+	function initializeHandlers() {
 		$("button[class='browse']").click(function () { buttonHandler(this); });
 		$("button[class='search']").click(function () { searchHandler(this); });
 		$("input[class='search']").keyup(function(e) {
@@ -2071,6 +2070,10 @@ window.onload = function () {
 				searchHandler(this);
 		} });
 		$("button").prop('disabled',false);
+	}
+	
+	function updateOutput(xmlDoc) {
+		document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
 		$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1], false); });
 		$('#output-container').show();
 		return;
@@ -2103,7 +2106,9 @@ window.onload = function () {
 		};
 		reader.readAsText(file);
 	}
+	
 	document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
+	initializeHandlers();
 	// Run output immediately if an ID was given in the URL
 	if ($.QueryString.hasOwnProperty("id")) {
 		updateOutput();
