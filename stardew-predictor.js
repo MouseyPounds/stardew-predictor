@@ -1399,6 +1399,16 @@ window.onload = function () {
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
 		// important information (or reasonable defaults) into the save structure and all other functions will use that.
+		// Initialize donatedItems with stuff that actually can't be donated.
+		save.donatedItems = {
+			'Coal': 1,
+			'Clay': 1,
+			'Stone': 1,
+			'Copper Ore': 1,
+			'Iron Ore': 1,
+			'Gold Ore': 1,
+			'Iridium Ore': 1,
+		};
 		if (typeof xmlDoc !== 'undefined') {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
@@ -1429,6 +1439,19 @@ window.onload = function () {
 			output += '<span class="result">' + save.geodesCracked + ' geodes opened</span><br />\n';
 			save.deepestMineLevel = Number($(xmlDoc).find('player > deepestMineLevel').text());
 			output += '<span class="result">Has reached level ' + Math.min(120, save.deepestMineLevel) + ' of the mine</span><br />\n';
+			// Currently, the only reason we care about museum donations is because of geode contents. save.minerals actually
+			// contains only a subset of the minerals (and a few artifacts) and we will only store the donation status of
+			// stuff that is in that array (i.e. potential geode results).
+			$(xmlDoc).find('locations > GameLocation').each(function () {
+				if ($(this).attr('xsi:type') === 'LibraryMuseum') {
+					$(this).find('museumPieces > item').each(function () {
+						var id = $(this).find('value > int').text();
+						if (save.minerals.hasOwnProperty(id)) {
+							save.donatedItems[save.minerals[id]] = 1;
+						}
+					});
+				}
+			});
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
@@ -1733,8 +1756,9 @@ window.onload = function () {
 			monthName = save.seasonNames[month % 4];
 			year = 1 + Math.floor(offset / 112);
 			dayOfMonth = offset % 28;
-			output += '<table class="output"><thead><tr><th> </th><th colspan="3">Friday ' + monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +
-				'</th>' + '<th colspan="3">Sunday ' + monthName + ' ' + (dayOfMonth + 7) + ', Year ' + year + '</th></tr>\n';
+			output += '<table class="output"><thead><tr><th> </th><th colspan="3" class="multi">Friday ' +
+				monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +	'</th>' + '<th colspan="3" class="multi">Sunday ' + 
+				monthName + ' ' + (dayOfMonth + 7) + ', Year ' + year + '</th></tr>\n';
 			output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
 				'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
 			// Odd doubling of RNG because of outputting both Friday & Sunday of the same week in the same table.
@@ -1745,11 +1769,11 @@ window.onload = function () {
 				item = save.cartItems[rngFri.Next(2,790)];
 				price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
 				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 				item = save.cartItems[rngSun.Next(2,790)];
 				price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
 				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
+				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			}
 			// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
 			// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture() structure
@@ -1760,23 +1784,23 @@ window.onload = function () {
 			}
 			item = save.cartFurniture[slot];
 			price = rngFri.Next(1,11)*250;
-			output += "<tr><td>Furniture</td><td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td>';
+			output += '<tr><td>Furniture</td><td class="item">' + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td>';
 			slot = -1;
 			while (!save.cartFurniture.hasOwnProperty(slot)) {
 				slot = rngSun.Next(0,1613);
 			}
 			item = save.cartFurniture[slot];
 			price = rngSun.Next(1,11)*250;
-			output += "<td>" + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td></tr>';
+			output += '<td class="item">' + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td></tr>';
 			// Next comes seasonal specials
 			output += "<td>Seasonal Special</td>";
 			if (month % 4 < 2) {
 				item = 'Rare Seed';
 				price = 1000;
 				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-				output += "<td>" + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
+				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			} else {
 				if (rngFri.NextDouble() < 0.4) {
 					item = wikify('Rarecrow (Snowman)');
@@ -1797,7 +1821,7 @@ window.onload = function () {
 					qty = '(N/A)';
 					price = '(N/A)';
 				}
-				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
+				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			}
 			// Coffee Bean
 			output += "<td>Other Special</td>";
@@ -1810,7 +1834,7 @@ window.onload = function () {
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
-			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
+			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 			if (rngSun.NextDouble() < 0.25) {
 				item = wikify('Coffee Bean');
 				qty = 1;
@@ -1820,7 +1844,7 @@ window.onload = function () {
 				qty = '(N/A)';
 				price = '(N/A)';
 			}
-			output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
+			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			output += '</tbody></table>\n';
 		}
 		return output;
@@ -1830,16 +1854,11 @@ window.onload = function () {
 		// logic from StardewValley.Utility.getTreasureFromGeode()
 		var output = '',
 			numCracked,
-			g,
-			r1,
-			r2,
-			r3,
-			r4,
+			item,
+			itemQty,
+			itemIcon,
 			qty,
-			q1,
-			q2,
-			q3,
-			q4,
+			g,
 			c,
 			next,
 			tclass,
@@ -1856,24 +1875,18 @@ window.onload = function () {
 		$('#geode-reset').val('reset');
 		$('#geode-next').val(offset + 20);
 		output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
-			'<th colspan="2"><a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a> Geode</th>' + 
-			'<th colspan="2"><a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a> Frozen Geode</th>' +
- 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a> Magma Geode</th>' +
- 			'<th colspan="2"><a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a> Omni Geode</th></tr>\n';
+			'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' + 
+			'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
+ 			'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
+ 			'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n';
 		output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
 			'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
 		// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
 		// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
 		for (g = 1; g <= 20; g++) {
 			numCracked = offset + g;
-			r1 = 'Stone';
-			r2 = 'Stone';
-			r3 = 'Stone';
-			r4 = 'Stone';
-			q1 = 1;
-			q2 = 1;
-			q3 = 1;
-			q4 = 1;
+			item = ['Stone', 'Stone', 'Stone', 'Stone'];
+			itemQty = [1, 1, 1, 1];
 			rng = new CSRandom(numCracked + save.gameID / 2);
 			if (rng.NextDouble() < 0.5) {
 				qty = rng.Next(3)*2 + 1;
@@ -1882,94 +1895,94 @@ window.onload = function () {
 				if (rng.NextDouble() < 0.5) {
 					c = rng.Next(4);
 					if (c < 2) {
-						r1 = save.minerals[390];
-						q1 = qty;
-						r2 = r1;
-						q2 = qty;
-						r3 = r1;
-						q3 = qty;
-						r4 = r1;
-						q4 = qty;
+						item[0] = save.minerals[390];
+						itemQty[0] = qty;
+						item[1] = item[0];
+						itemQty[1] = qty;
+						item[2] = item[0];
+						itemQty[2] = qty;
+						item[3] = item[0];
+						itemQty[3] = qty;
 					} else if (c === 2) {
-						r1 = save.minerals[330];
-						q1 = 1;
-						r2 = r1;
-						r3 = r1;
-						r4 = r1;
+						item[0] = save.minerals[330];
+						itemQty[0] = 1;
+						item[1] = item[0];
+						item[2] = item[0];
+						item[3] = item[0];
 					} else {
-						r1 = save.minerals[86];
-						q1 = 1;
-						r2 = save.minerals[84];
-						r3 = save.minerals[82];
-						r4 = save.minerals[82];
+						item[0] = save.minerals[86];
+						itemQty[0] = 1;
+						item[1] = save.minerals[84];
+						item[2] = save.minerals[82];
+						item[3] = save.minerals[82];
 					}
 				} else {
 					next = rng.NextDouble();
 					// plain geode (535)
 					c = Math.floor(next*3);
 					if (c === 0) {
-						r1 = save.minerals[378];
-						q1 = qty;
+						item[0] = save.minerals[378];
+						itemQty[0] = qty;
 					} else if (c === 1) {
-						r1 = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
-						q1 = qty;
+						item[0] = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
+						itemQty[0] = qty;
 					} else {
-						r1 = save.minerals[382];
-						q1 = qty;
+						item[0] = save.minerals[382];
+						itemQty[0] = qty;
 					}
 					// frozen geode (536)
 					c = Math.floor(next*4);
 					if (c === 0) {
-						r2 = save.minerals[378];
-						q2 = qty;
+						item[1] = save.minerals[378];
+						itemQty[1] = qty;
 					} else if (c === 1) {
-						r2 = save.minerals[380];
-						q2 = qty;
+						item[1] = save.minerals[380];
+						itemQty[1] = qty;
 					} else if (c === 2) {
-						r2 = save.minerals[382];
-						q2 = qty;
+						item[1] = save.minerals[382];
+						itemQty[1] = qty;
 					} else {
-						r2 = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
-						q2 = qty;
+						item[1] = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
+						itemQty[1] = qty;
 					}
 					// magma & omni geodes
 					c = Math.floor(next*5);
 					if (c === 0) {
-						r3 = save.minerals[378];
-						r4 = r3;
-						q3 = qty;
-						q4 = q3;
+						item[2] = save.minerals[378];
+						item[3] = item[2];
+						itemQty[2] = qty;
+						itemQty[3] = itemQty[2];
 					} else if (c === 1) {
-						r3 = save.minerals[380];
-						r4 = r3;
-						q3 = qty;
-						q4 = q3;
+						item[2] = save.minerals[380];
+						item[3] = item[2];
+						itemQty[2] = qty;
+						itemQty[3] = itemQty[2];
 					} else if (c === 2) {
-						r3 = save.minerals[382];
-						r4 = r3;
-						q3 = qty;
-						q4 = q3;
+						item[2] = save.minerals[382];
+						item[3] = item[2];
+						itemQty[2] = qty;
+						itemQty[3] = itemQty[2];
 					} else if (c === 3) {
-						r3 = save.minerals[384];
-						r4 = r3;
-						q3 = qty;
-						q4 = q3;
+						item[2] = save.minerals[384];
+						item[3] = item[2];
+						itemQty[2] = qty;
+						itemQty[3] = itemQty[2];
 					} else {
-						r3 = save.minerals[386];
-						r4 = r3;
-						q3 = Math.floor(qty/2 + 1);
-						q4 = q3;
+						item[2] = save.minerals[386];
+						item[3] = item[2];
+						itemQty[2] = Math.floor(qty/2 + 1);
+						itemQty[3] = itemQty[2];
 					}
 				}
 			} else {
 				next = rng.NextDouble();
-				r1 = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
-				r2 = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
-				r3 = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
+				item[0] = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
+				item[1] = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
+				item[2] = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
 				if (rng.NextDouble() < 0.008 && numCracked > 15) {
-					r4 = save.minerals[74];
+					item[3] = save.minerals[74];
 				} else {
-					r4 = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
+					item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
 				}
 			}
 			if (numCracked === save.geodesCracked + 1) {
@@ -1979,10 +1992,18 @@ window.onload = function () {
 			} else {
 				tclass = "future";
 			}
-			output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td><td>' + 
-				wikify(r1) + '</td><td>' + q1 + '</td><td>' + wikify(r2) + '</td><td>' + q2 + '</td><td>' + 
-				wikify(r3) + '</td><td>' +  q3 + '</td><td>' + wikify(r4) + '</td><td>' + q4 + '</td></tr>';
+			output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td>';
+			for (c = 0; c < 4; c++) {
+				itemIcon = '';
+				if (!save.donatedItems.hasOwnProperty(item[c])) {
+					itemIcon = ' <img src="Gunther.png" alt="Need to Donate">';
+				}
+				output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
+			}
+			output += '</tr>';
 		}
+		output += '<tr><td colspan="9" class="legend">Note: <img src="Gunther.png" alt="Need to Donate"> denotes items ' +
+			'which need to be donated to the ' + wikify('Museum') + '</td></tr>';
 		output += '</tbody></thead>';
 		return output;
 	}

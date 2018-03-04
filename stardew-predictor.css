@@ -249,6 +249,9 @@ th.day {
 th.item {
 	width: 10em;
 }
+th.multi, th.item, td.item {
+	border-left-width: 2px;
+}
 th.qty {
 	width: 2.5em;
 }
