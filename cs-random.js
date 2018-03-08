@@ -5,7 +5,7 @@
  * published at http://referencesource.microsoft.com/#mscorlib/system/random.cs
  */
 
-/*jshint browser: true, jquery: true, esnext: false */
+/*jshint browser: true, jquery: true */
 
 // These would be constants in ES2015
 var INT_MIN = -2147483648,
@@ -22,11 +22,11 @@ function CSRandom(Seed) {
 		Seed = Date.getTime();
 	}
 	Seed = parseInt(Seed); // Force an integer since there is no type checking
-		
+
 	this.inext = 0;
 	this.inextp = 0;
-	this.SeedArray = [];	
-			
+	this.SeedArray = [];
+
 	subtraction = (Seed === INT_MIN) ? INT_MAX : Math.abs(Seed);
 	mj = MSEED - subtraction;
 	this.SeedArray[55] = mj;
@@ -53,17 +53,17 @@ function CSRandom(Seed) {
 	Seed = 1;
 }
 
-CSRandom.prototype.Sample = function() {	
+CSRandom.prototype.Sample = function() {
 	"use strict";
 	return parseFloat(this.InternalSample() * (1.0 / MBIG));
 };
-	
+
 CSRandom.prototype.InternalSample = function() {
 	"use strict";
 	var retVal,
 		locINext = this.inext,
 		locINextp = this.inextp;
-	
+
 	if (++locINext >= 56) {
 		locINext = 1;
 	}
@@ -82,13 +82,13 @@ CSRandom.prototype.InternalSample = function() {
 	this.inextp = locINextp;
 	return parseInt(retVal);
 };
-	
+
 CSRandom.prototype.GetSampleForLargeRange = function() {
 	"use strict";
 	// This might require special large integer handling
 	var result = this.InternalSample(),
 		d;
-		
+
 	if (this.InternalSample() %2 === 0) {
 		result = -result;
 	}
@@ -97,7 +97,7 @@ CSRandom.prototype.GetSampleForLargeRange = function() {
 	d /= 2 * INT_MAX - 1;
 	return d;
 };
-	
+
 CSRandom.prototype.Next = function(a, b) {
 	"use strict";
 	// Next() gives range of [0..INT_MAX)
@@ -131,10 +131,10 @@ CSRandom.prototype.Next = function(a, b) {
 		return this.InternalSample();
 	}
 };
-		
+
 CSRandom.prototype.NextDouble = function() {
 	"use strict";
 	return this.Sample();
 };
-	
+
 // not implementing NextBytes since Stardew Valley doesn't use it

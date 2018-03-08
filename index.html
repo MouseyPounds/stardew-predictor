@@ -90,6 +90,17 @@ Search Range: <select id="cart-search-range">
 </section>
 <section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
+<fieldset id="geode-search">
+<input type="text" id="geode-search-text" class="search">
+<button id="geode-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="geode-search-range">
+<option value="100">100 geodes</option>
+<option value="200" selected>200 geodes</option>
+<option value="500">500 geodes</option>
+<option value="1000">1000 geodes</option>
+</select><br />
+<input type="checkbox" id="geode-search-all"> Start search from first geode instead of current geode
+</fieldset>
 <fieldset id="geode-buttons"><div class="buttons">
 <button id="geode-prev" type="button" class="browse">&lt; Previous 20</button>
 <button id="geode-reset" type="button" class="browse">Reset Browsing</button>
@@ -114,6 +125,7 @@ Search Range: <select id="cart-search-range">
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li> 7 Mar  2018 - v1.0  - Full release, searching for geodes added</li>
 <li> 4 Mar  2018 - v0.94 - Rewrite of RNG class to avoid ES2015-specific features for Pale Moon compatibility</li>
 <li> 3 Mar  2018 - v0.93 - Indicator for geode contents which need donation</li>
 <li>25 Feb  2018 - v0.92 - Fixing Baryte spelling and double-button processing bug</li>

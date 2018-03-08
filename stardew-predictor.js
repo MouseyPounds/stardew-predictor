@@ -2,7 +2,7 @@
  * https://mouseypounds.github.io/stardew-predictor/
  */
 
-/*jshint browser: true, jquery: true, esnext: true */
+/*jshint browser: true, jquery: true */
 
 (function ($) {
     $.QueryString = (function (a) {
@@ -1365,7 +1365,7 @@ window.onload = function () {
 		577: 'Fairy Stone',
 		578: 'Star Shards'
 	};
-	
+
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
 
@@ -1479,10 +1479,10 @@ window.onload = function () {
 	function searchHandler(element) {
 		var tab = element.id.split('-')[0],
 			text_id = tab + '-search-text';
-			
+
 		updateTab(tab, true, document.getElementById(text_id).value);
 	}
-	
+
 	function predictMines(isSearch, offset) {
 		// Mushroom level is determined by StardewValley.Locations.MineShaft.chooseLevelType()
 		// Infestation is determined by StardewValley.Locations.MineShaft.loadLevel()
@@ -1536,7 +1536,7 @@ window.onload = function () {
 					}
 					// Monster infestation seems to override mushroom spawns so that is checked first
 					rng = new CSRandom(day + mineLevel + save.gameID / 2);
-					if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {			
+					if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
 						if (rng.NextDouble() < 0.05) {
 							if (rng.NextDouble() < 0.5) {
 								infestedMonster.push(mineLevel);
@@ -1553,8 +1553,8 @@ window.onload = function () {
 						rng.NextDouble(); // checked vs < 0.3 again
 					}
 						rng.NextDouble(); // checked vs < 0.15
-					if (rng.NextDouble() < 0.035 && mineLevel > 80) { 
-						rainbowLights.push(mineLevel); 
+					if (rng.NextDouble() < 0.035 && mineLevel > 80) {
+						rainbowLights.push(mineLevel);
 					}
 				}
 				if (day < save.daysPlayed) {
@@ -1573,10 +1573,10 @@ window.onload = function () {
 				if (infestedSlime.length === 0) {
 					infestedSlime.push("None");
 				}
-				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' + 
-					'<span class="cell"><img src="IconM.png" alt="Mushroom"> ' + rainbowLights.join(', ') + 
+				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+					'<span class="cell"><img src="IconM.png" alt="Mushroom"> ' + rainbowLights.join(', ') +
 					'<br /><img src="IconI.png" alt="Sword"> ' + infestedMonster.join(', ') +
-					'<br /><img src="IconS.png" alt="Slime"> ' + infestedSlime.join(', ') + '</span></td>';			
+					'<br /><img src="IconS.png" alt="Slime"> ' + infestedSlime.join(', ') + '</span></td>';
 			}
 			output += "</tr>\n";
 		}
@@ -1584,7 +1584,7 @@ window.onload = function () {
 		output += "</tbody></table>\n";
 		return output;
 	}
-	
+
 	function predictCart(isSearch, offset) {
 		// logic from StardewValley.Utility.getTravelingMerchantStock()
 		var output = '',
@@ -1602,7 +1602,7 @@ window.onload = function () {
 			count,
 			rngFri,
 			rngSun;
-		// Hitting search without an actual search term will fall through to the default browse function; we might want 
+		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#cart-prev-week').prop("disabled", true);
@@ -1634,10 +1634,10 @@ window.onload = function () {
 					qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
 					if (searchTerm.test(item)) {
 						count++;
-						output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 					}
-				}				
+				}
 				slot = -1;
 				while (!save.cartFurniture.hasOwnProperty(slot)) {
 					slot = rngFri.Next(0,1613);
@@ -1646,7 +1646,7 @@ window.onload = function () {
 				price = rngFri.Next(1,11)*250;
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 				if (month % 4 < 2) {
@@ -1664,7 +1664,7 @@ window.onload = function () {
 				}
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 				if (rngFri.NextDouble() < 0.25) {
@@ -1676,7 +1676,7 @@ window.onload = function () {
 				}
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 				dayOfMonth += 2;
@@ -1687,7 +1687,7 @@ window.onload = function () {
 					qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
 					if (searchTerm.test(item)) {
 						count++;
-						output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+						output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 					}
 				}
@@ -1699,7 +1699,7 @@ window.onload = function () {
 				price = rngSun.Next(1,11)*250;
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ' Year ' + year + '</td><td>' + 
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ' Year ' + year + '</td><td>' +
 						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 				if (month % 4 < 2) {
@@ -1717,7 +1717,7 @@ window.onload = function () {
 				}
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 				if (rngSun.NextDouble() < 0.25) {
@@ -1729,11 +1729,11 @@ window.onload = function () {
 				}
 				if (searchTerm.test(item)) {
 					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' + 
+					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 			}
-			output += '<tr><td colspan="4">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
+			output += '<tr><td colspan="4" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
 		} else {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
@@ -1757,7 +1757,7 @@ window.onload = function () {
 			year = 1 + Math.floor(offset / 112);
 			dayOfMonth = offset % 28;
 			output += '<table class="output"><thead><tr><th> </th><th colspan="3" class="multi">Friday ' +
-				monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +	'</th>' + '<th colspan="3" class="multi">Sunday ' + 
+				monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +	'</th>' + '<th colspan="3" class="multi">Sunday ' +
 				monthName + ' ' + (dayOfMonth + 7) + ', Year ' + year + '</th></tr>\n';
 			output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
 				'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
@@ -1849,7 +1849,7 @@ window.onload = function () {
 		}
 		return output;
 	}
-	
+
 	function predictGeodes(isSearch, offset) {
 		// logic from StardewValley.Utility.getTreasureFromGeode()
 		var output = '',
@@ -1862,152 +1862,322 @@ window.onload = function () {
 			c,
 			next,
 			tclass,
+			searchTerm,
+			searchStart,
+			searchEnd,
+			searchResults,
+			count,
+			pageSize = 20,
 			rng;
-		if (typeof(offset) === 'undefined') {
-			offset = 20 * Math.floor(save.geodesCracked / 20);
-		}
-		if (offset < 20) {
+
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#geode-prev').prop("disabled", true);
-		} else {
-			$('#geode-prev').val(offset - 20);
-			$('#geode-prev').prop("disabled", false);
-		}
-		$('#geode-reset').val('reset');
-		$('#geode-next').val(offset + 20);
-		output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
-			'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' + 
-			'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
- 			'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
- 			'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n';
-		output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
-			'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
-		// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
-		// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
-		for (g = 1; g <= 20; g++) {
-			numCracked = offset + g;
-			item = ['Stone', 'Stone', 'Stone', 'Stone'];
-			itemQty = [1, 1, 1, 1];
-			rng = new CSRandom(numCracked + save.gameID / 2);
-			if (rng.NextDouble() < 0.5) {
-				qty = rng.Next(3)*2 + 1;
-				if (rng.NextDouble() < 0.1) { qty = 10; }
-				if (rng.NextDouble() < 0.01) { qty = 20; }
+			$('#geode-next').prop("disabled", true);
+			$('#geode-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked;
+			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
+			output += '<table class="output"><thead><tr><th colspan="5">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
+			output += '<tr><th class="item">Item</th>' +
+				'<th class="geode-result">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' +
+				'<th class="geode-result">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
+				'<th class="geode-result">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
+				'<th class="geode-result">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n<tbody>';
+			count = 0;
+			searchResults = {};
+			console.log('searching from ' + searchStart + ' to ' + searchEnd);
+			for (numCracked = searchStart; numCracked < searchEnd; numCracked++) {
+				// Nearly an exact copy of the browsing code within the for loop. We don't use the qty stuff right now,
+				// but I'd rather leave it in place in case that gets added to the search results later.
+				item = ['Stone', 'Stone', 'Stone', 'Stone'];
+				itemQty = [1, 1, 1, 1];
+				rng = new CSRandom(numCracked + save.gameID / 2);
 				if (rng.NextDouble() < 0.5) {
-					c = rng.Next(4);
-					if (c < 2) {
-						item[0] = save.minerals[390];
-						itemQty[0] = qty;
-						item[1] = item[0];
-						itemQty[1] = qty;
-						item[2] = item[0];
-						itemQty[2] = qty;
-						item[3] = item[0];
-						itemQty[3] = qty;
-					} else if (c === 2) {
-						item[0] = save.minerals[330];
-						itemQty[0] = 1;
-						item[1] = item[0];
-						item[2] = item[0];
-						item[3] = item[0];
+					qty = rng.Next(3)*2 + 1;
+					if (rng.NextDouble() < 0.1) { qty = 10; }
+					if (rng.NextDouble() < 0.01) { qty = 20; }
+					if (rng.NextDouble() < 0.5) {
+						c = rng.Next(4);
+						if (c < 2) {
+							item[0] = save.minerals[390];
+							itemQty[0] = qty;
+							item[1] = item[0];
+							itemQty[1] = qty;
+							item[2] = item[0];
+							itemQty[2] = qty;
+							item[3] = item[0];
+							itemQty[3] = qty;
+						} else if (c === 2) {
+							item[0] = save.minerals[330];
+							itemQty[0] = 1;
+							item[1] = item[0];
+							item[2] = item[0];
+							item[3] = item[0];
+						} else {
+							item[0] = save.minerals[86];
+							itemQty[0] = 1;
+							item[1] = save.minerals[84];
+							item[2] = save.minerals[82];
+							item[3] = save.minerals[82];
+						}
 					} else {
-						item[0] = save.minerals[86];
-						itemQty[0] = 1;
-						item[1] = save.minerals[84];
-						item[2] = save.minerals[82];
-						item[3] = save.minerals[82];
+						next = rng.NextDouble();
+						// plain geode (535)
+						c = Math.floor(next*3);
+						if (c === 0) {
+							item[0] = save.minerals[378];
+							itemQty[0] = qty;
+						} else if (c === 1) {
+							item[0] = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
+							itemQty[0] = qty;
+						} else {
+							item[0] = save.minerals[382];
+							itemQty[0] = qty;
+						}
+						// frozen geode (536)
+						c = Math.floor(next*4);
+						if (c === 0) {
+							item[1] = save.minerals[378];
+							itemQty[1] = qty;
+						} else if (c === 1) {
+							item[1] = save.minerals[380];
+							itemQty[1] = qty;
+						} else if (c === 2) {
+							item[1] = save.minerals[382];
+							itemQty[1] = qty;
+						} else {
+							item[1] = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
+							itemQty[1] = qty;
+						}
+						// magma & omni geodes
+						c = Math.floor(next*5);
+						if (c === 0) {
+							item[2] = save.minerals[378];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 1) {
+							item[2] = save.minerals[380];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 2) {
+							item[2] = save.minerals[382];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 3) {
+							item[2] = save.minerals[384];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else {
+							item[2] = save.minerals[386];
+							item[3] = item[2];
+							itemQty[2] = Math.floor(qty/2 + 1);
+							itemQty[3] = itemQty[2];
+						}
 					}
 				} else {
 					next = rng.NextDouble();
-					// plain geode (535)
-					c = Math.floor(next*3);
-					if (c === 0) {
-						item[0] = save.minerals[378];
-						itemQty[0] = qty;
-					} else if (c === 1) {
-						item[0] = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
-						itemQty[0] = qty;
+					item[0] = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
+					item[1] = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
+					item[2] = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
+					if (rng.NextDouble() < 0.008 && numCracked > 15) {
+						item[3] = save.minerals[74];
 					} else {
-						item[0] = save.minerals[382];
-						itemQty[0] = qty;
-					}
-					// frozen geode (536)
-					c = Math.floor(next*4);
-					if (c === 0) {
-						item[1] = save.minerals[378];
-						itemQty[1] = qty;
-					} else if (c === 1) {
-						item[1] = save.minerals[380];
-						itemQty[1] = qty;
-					} else if (c === 2) {
-						item[1] = save.minerals[382];
-						itemQty[1] = qty;
-					} else {
-						item[1] = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
-						itemQty[1] = qty;
-					}
-					// magma & omni geodes
-					c = Math.floor(next*5);
-					if (c === 0) {
-						item[2] = save.minerals[378];
-						item[3] = item[2];
-						itemQty[2] = qty;
-						itemQty[3] = itemQty[2];
-					} else if (c === 1) {
-						item[2] = save.minerals[380];
-						item[3] = item[2];
-						itemQty[2] = qty;
-						itemQty[3] = itemQty[2];
-					} else if (c === 2) {
-						item[2] = save.minerals[382];
-						item[3] = item[2];
-						itemQty[2] = qty;
-						itemQty[3] = itemQty[2];
-					} else if (c === 3) {
-						item[2] = save.minerals[384];
-						item[3] = item[2];
-						itemQty[2] = qty;
-						itemQty[3] = itemQty[2];
-					} else {
-						item[2] = save.minerals[386];
-						item[3] = item[2];
-						itemQty[2] = Math.floor(qty/2 + 1);
-						itemQty[3] = itemQty[2];
+						item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
 					}
 				}
-			} else {
-				next = rng.NextDouble();
-				item[0] = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
-				item[1] = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
-				item[2] = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
-				if (rng.NextDouble() < 0.008 && numCracked > 15) {
-					item[3] = save.minerals[74];
-				} else {
-					item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
+				for (c = 0; c < 4; c++) {
+					if (searchTerm.test(item[c])) {
+						if (!searchResults.hasOwnProperty(item[c])) {
+							searchResults[item[c]] = [ [], [], [], [] ];
+						}
+						searchResults[item[c]][c].push(numCracked);
+						count++;
+					}
 				}
 			}
-			if (numCracked === save.geodesCracked + 1) {
-				tclass = "current";
-			} else if (numCracked <= save.geodesCracked) {
-				tclass = "past";
-			} else {
-				tclass = "future";
-			}
-			output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td>';
-			for (c = 0; c < 4; c++) {
+			Object.keys(searchResults).sort().forEach( function(key, index) {
 				itemIcon = '';
-				if (!save.donatedItems.hasOwnProperty(item[c])) {
-					itemIcon = ' <img src="Gunther.png" alt="Need to Donate">';
+				//count++;
+				if (!save.donatedItems.hasOwnProperty(key)) {
+					itemIcon = ' <span tooltip="Need to Donate"><img src="Gunther.png" alt="Need to Donate"></span>';
 				}
-				output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
+				output += '<tr><td class="item">' + wikify(key) + itemIcon + '</td>';
+				for (c = 0; c < 4; c++) {
+					if (searchResults[key][c].length > 0) {
+						// Limit to first 5 results actually showin in table with ellipsis & tooltip for others
+						output += '<td>' + searchResults[key][c].slice(0,5);
+						if (searchResults[key][c].length > 5) {
+							output += '<span tooltip="All results: ' + searchResults[key][c] + '">,...</span>';
+						}
+						output += '</td>';
+					} else {
+						output += '<td>None</td>';
+					}
+				}
+				output += '</tr>';
+			});
+			output += '<tr><td colspan="5" class="count">Found ' + count + ' matching instance(s) of ' +
+				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
+		} else {
+			if (typeof(offset) === 'undefined') {
+				offset = pageSize * Math.floor(save.geodesCracked / pageSize);
 			}
-			output += '</tr>';
+			if (offset < pageSize) {
+				$('#geode-prev').prop("disabled", true);
+			} else {
+				$('#geode-prev').val(offset - pageSize);
+				$('#geode-prev').prop("disabled", false);
+			}
+			$('#geode-reset').val('reset');
+			$('#geode-reset').html("Reset Browsing");
+			$('#geode-next').val(offset + pageSize);
+			$('#geode-next').prop("disabled", false);
+			// Reset search fields too
+			$('#geode-search-text').val('');
+			$('#geode-search-range').val(200);
+			$('#geode-search-all').prop('checked', false);
+			output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
+				'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' +
+				'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
+				'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
+				'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n';
+			output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
+				'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
+			// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
+			// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
+			for (g = 1; g <= pageSize; g++) {
+				numCracked = offset + g;
+				item = ['Stone', 'Stone', 'Stone', 'Stone'];
+				itemQty = [1, 1, 1, 1];
+				rng = new CSRandom(numCracked + save.gameID / 2);
+				if (rng.NextDouble() < 0.5) {
+					qty = rng.Next(3)*2 + 1;
+					if (rng.NextDouble() < 0.1) { qty = 10; }
+					if (rng.NextDouble() < 0.01) { qty = 20; }
+					if (rng.NextDouble() < 0.5) {
+						c = rng.Next(4);
+						if (c < 2) {
+							item[0] = save.minerals[390];
+							itemQty[0] = qty;
+							item[1] = item[0];
+							itemQty[1] = qty;
+							item[2] = item[0];
+							itemQty[2] = qty;
+							item[3] = item[0];
+							itemQty[3] = qty;
+						} else if (c === 2) {
+							item[0] = save.minerals[330];
+							itemQty[0] = 1;
+							item[1] = item[0];
+							item[2] = item[0];
+							item[3] = item[0];
+						} else {
+							item[0] = save.minerals[86];
+							itemQty[0] = 1;
+							item[1] = save.minerals[84];
+							item[2] = save.minerals[82];
+							item[3] = save.minerals[82];
+						}
+					} else {
+						next = rng.NextDouble();
+						// plain geode (535)
+						c = Math.floor(next*3);
+						if (c === 0) {
+							item[0] = save.minerals[378];
+							itemQty[0] = qty;
+						} else if (c === 1) {
+							item[0] = save.minerals[(save.deepestMineLevel > 25) ? 380 : 378];
+							itemQty[0] = qty;
+						} else {
+							item[0] = save.minerals[382];
+							itemQty[0] = qty;
+						}
+						// frozen geode (536)
+						c = Math.floor(next*4);
+						if (c === 0) {
+							item[1] = save.minerals[378];
+							itemQty[1] = qty;
+						} else if (c === 1) {
+							item[1] = save.minerals[380];
+							itemQty[1] = qty;
+						} else if (c === 2) {
+							item[1] = save.minerals[382];
+							itemQty[1] = qty;
+						} else {
+							item[1] = save.minerals[(save.deepestMineLevel > 75) ? 384 : 380];
+							itemQty[1] = qty;
+						}
+						// magma & omni geodes
+						c = Math.floor(next*5);
+						if (c === 0) {
+							item[2] = save.minerals[378];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 1) {
+							item[2] = save.minerals[380];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 2) {
+							item[2] = save.minerals[382];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else if (c === 3) {
+							item[2] = save.minerals[384];
+							item[3] = item[2];
+							itemQty[2] = qty;
+							itemQty[3] = itemQty[2];
+						} else {
+							item[2] = save.minerals[386];
+							item[3] = item[2];
+							itemQty[2] = Math.floor(qty/2 + 1);
+							itemQty[3] = itemQty[2];
+						}
+					}
+				} else {
+					next = rng.NextDouble();
+					item[0] = save.minerals[save.geodeContents[535][Math.floor(next*save.geodeContents[535].length)]];
+					item[1] = save.minerals[save.geodeContents[536][Math.floor(next*save.geodeContents[536].length)]];
+					item[2] = save.minerals[save.geodeContents[537][Math.floor(next*save.geodeContents[537].length)]];
+					if (rng.NextDouble() < 0.008 && numCracked > 15) {
+						item[3] = save.minerals[74];
+					} else {
+						item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
+					}
+				}
+				if (numCracked === save.geodesCracked + 1) {
+					tclass = "current";
+				} else if (numCracked <= save.geodesCracked) {
+					tclass = "past";
+				} else {
+					tclass = "future";
+				}
+				output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td>';
+				for (c = 0; c < 4; c++) {
+					itemIcon = '';
+					if (!save.donatedItems.hasOwnProperty(item[c])) {
+						itemIcon = ' <span tooltip="Need to Donate"><img src="Gunther.png" alt="Need to Donate"></span>';
+					}
+					output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
+				}
+				output += '</tr>';
+			}
 		}
 		output += '<tr><td colspan="9" class="legend">Note: <img src="Gunther.png" alt="Need to Donate"> denotes items ' +
 			'which need to be donated to the ' + wikify('Museum') + '</td></tr>';
-		output += '</tbody></thead>';
+		output += '</tbody></table>';
 		return output;
 	}
-	
+
 	function predictWinterStar(isSearch, offset) {
 		var output = "",
 			// NPC list from Data\NPCDispositions
@@ -2048,7 +2218,7 @@ window.onload = function () {
 			while (excluded.hasOwnProperty(secretSantaGiveTo) || (year === 1 && secretSantaGiveTo === 'Kent')) {
 				secretSantaGiveTo = npcs[rng.Next(npcs.length)];
 			}
-			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo || excluded.hasOwnProperty(secretSantaGetFrom) || 
+			while (secretSantaGetFrom === '' || secretSantaGetFrom === secretSantaGiveTo || excluded.hasOwnProperty(secretSantaGetFrom) ||
 				(year === 1 && secretSantaGetFrom === 'Kent') ) {
 				secretSantaGetFrom = npcs[rng.Next(npcs.length)];
 			}
@@ -2065,7 +2235,7 @@ window.onload = function () {
 		output += "</tbody></table>\n";
 		return output;
 	}
-	
+
 	function updateTab(tabID, isSearch, extra) {
 		var output = '';
 		if (tabID === 'mines') {
@@ -2092,14 +2262,14 @@ window.onload = function () {
 		} });
 		$("button").prop('disabled',false);
 	}
-	
+
 	function updateOutput(xmlDoc) {
 		document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
 		$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1], false); });
 		$('#output-container').show();
 		return;
 	}
-	
+
 	function handleFileSelect(evt) {
 		var file = evt.target.files[0],
 			reader = new FileReader(),
@@ -2127,7 +2297,7 @@ window.onload = function () {
 		};
 		reader.readAsText(file);
 	}
-	
+
 	document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
 	initializeHandlers();
 	// Run output immediately if an ID was given in the URL

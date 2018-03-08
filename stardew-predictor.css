@@ -212,7 +212,7 @@ table.output th, table.output td {
 	padding: 0;
 	width: 8.5em;
 }
-tr.past > td, td.past {
+tr.past > td, td.past, td.count {
 	background-color: #ccc;
 	color: #333;
 }
@@ -258,6 +258,9 @@ th.qty {
 th.price, th.index {
 	width: 4em;
 }
+th.geode-result {
+	width: 12.25em;
+}
 fieldset {
 	padding: .5em;
 	margin: .5em;
@@ -275,6 +278,27 @@ fieldset {
 #cart-buttons, #cart-search {
 	max-width: 45em;
 }
-#geode-buttons {
-	max-width: 60em;
+#geode-buttons, #geode-search {
+	max-width: 62em;
+}
+/* tooltip implementation based on code from Andrea Ligios
+   https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
+   http://jsfiddle.net/AndreaLigios/jtLbpy62/
+ */
+[tooltip]:before {            
+	position: absolute;
+	content: attr(tooltip);
+	opacity: 0;
+	box-shadow: 2px 2px 1px #603000;
+	padding: .5em;
+	color: #603000;
+}
+[tooltip]:hover:before {        
+	opacity: .9;
+	background: #ffe0b0;
+	margin-top: -1.5em;
+	margin-left: .5em;
+}
+[tooltip]:not([tooltip-persistent]):before {
+	pointer-events: none;
 }
