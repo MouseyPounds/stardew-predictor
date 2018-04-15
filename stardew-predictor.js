@@ -2178,6 +2178,100 @@ window.onload = function () {
 		return output;
 	}
 
+	function predictTrains(isSearch, offset) {
+		// logic from StardewValley.Locations.Railroad.DayUpdate()
+		var output = '',
+			trainTime,
+			thisTrain,
+			day,
+			week,
+			weekDay,
+			monthName,
+			month,
+			year,
+			tclass,
+			hour,
+			min,
+			ampm,
+			rng;
+			
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#train-prev').prop("disabled", true);
+			$('#train-next').prop("disabled", true);
+			$('#train-reset').html("Clear Search Results &amp; Reset Browsing");
+		} else {
+			if (typeof(offset) === 'undefined') {
+				offset = 28 * Math.floor(save.daysPlayed/28);
+			}
+			if (offset < 112) {
+				$('#train-prev-year').prop("disabled", true);
+			} else {
+				$('#train-prev-year').val(offset - 112);
+				$('#train-prev-year').prop("disabled", false);
+			}
+			if (offset < 28) {
+				$('#train-prev-month').prop("disabled", true);
+			} else {
+				$('#train-prev-month').val(offset - 28);
+				$('#train-prev-month').prop("disabled", false);
+			}
+			$('#train-reset').val('reset');
+			$('#train-next-month').val(offset + 28);
+			$('#train-next-year').val(offset + 112);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
+			output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
+			for (week = 0; week < 4; week++) {
+				output += "<tr>";
+				for (weekDay = 1; weekDay < 8; weekDay++) {
+					day = 7 * week + weekDay + offset;
+					rng = new CSRandom(save.gameID / 2 + day);
+					if (day < 31) {
+						thisTrain = 'Railroad<br/>not yet<br/>accessible';
+					} else {
+						thisTrain = '&nbsp;<br />(No train)<br />&nbsp';
+						if (rng.NextDouble() < 0.2) {
+							trainTime = rng.Next(900,1800);
+							trainTime -= trainTime % 10;
+							hour = Math.floor(trainTime / 100);
+							min = trainTime % 100;
+							if (min < 60) {
+								if (hour > 12) {
+									hour -= 12;
+									ampm = ' pm';
+								} else if (hour === 12) {
+									ampm = ' pm';
+								} else {
+									ampm = ' am';
+								}
+								if (min === 0) {
+									min = '00';
+								}
+								thisTrain = 'Train will<br />arrive at<br />' + hour + ':' + min + ampm;
+							}
+						}
+					}
+					if (day < save.daysPlayed) {
+						tclass = "past";
+					} else if (day === save.daysPlayed) {
+						tclass = "current";
+					} else {
+						tclass = "future";
+					}
+					output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+						'<span class="train cell">' + thisTrain + '</span></td>';
+				}
+				output += "</tr>\n";
+			}
+		output += '<tr><td colspan="9" class="legend">Note: Trains will never spawn on the first day played after loading or reloading a save.</td></tr>';
+			output += "</tbody></table>\n";
+		}
+
+		return output;
+	};
+	
 	function predictWinterStar(isSearch, offset) {
 		var output = "",
 			// NPC list from Data\NPCDispositions
@@ -2244,6 +2338,8 @@ window.onload = function () {
 			output = predictCart(isSearch, extra);
 		} else if (tabID === 'geode') {
 			output = predictGeodes(isSearch, extra);
+		} else if (tabID === 'train') {
+			output = predictTrains(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

@@ -232,6 +232,10 @@ tr.current > td, td.current {
 	display: inline-block;
 	padding: 3px;
 }
+td .train {
+	text-align: center;
+	width: 100%;
+}
 td img {
 	vertical-align: -1px;
 	width: 13px;
@@ -269,7 +273,7 @@ fieldset {
 	display: flex;
 	justify-content: space-between;
 }
-#mines-buttons {
+#mines-buttons, #train-buttons {
 	max-width: 57em;
 }
 #winterstar-buttons {

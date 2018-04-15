@@ -22,8 +22,10 @@
 <div id="header" class="panel">
 <h1>Stardew Predictor</h1>
 <h2 id="sec_about">About</h2>
-<p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about the game after reading the save file. Currently, the information predicted includes special mine levels
-(mushroom floor & infestations), items sold by the traveling merchant, results from cracking geodes, and the gift exchange of the Feast of the Winter Star.</p>
+<p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about 
+the game after reading the save file. Currently, the information predicted includes special mine levels 
+(mushroom floor & infestations), items sold by the traveling merchant, 
+results from cracking geodes, the train schedule, and the gift exchange of the Feast of the Winter Star.</p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>.</p>
 </div>
 
@@ -52,6 +54,8 @@
 <label for="tab-cart">Merchant Cart</label>
 <input type="radio" name="tabset" id="tab-geode" >
 <label for="tab-geode">Geodes</label>
+<input type="radio" name="tabset" id="tab-train" >
+<label for="tab-train">Trains</label>
 <input type="radio" name="tabset" id="tab-winterstar">
 <label for="tab-winterstar">Winter Star</label>
 <div class="tab-panels">
@@ -108,6 +112,17 @@ Search Range: <select id="geode-search-range">
 </div></fieldset>
 <output id="out-geode"> </output>
 </section>
+<section id="sec-train" class="tab-panel">
+<h3>Train Visits</h3>
+<fieldset id="train-buttons"><div class="buttons">
+<button id="train-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="train-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="train-reset" type="button" class="browse">Reset Calendar</button>
+<button id="train-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="train-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-train"> </output>
+</section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
 <fieldset id="winterstar-buttons"><div class="buttons">
@@ -125,6 +140,7 @@ Search Range: <select id="geode-search-range">
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>14 Apr  2018 - v1.1  - Train schedule added</li>
 <li> 7 Mar  2018 - v1.0  - Full release, searching for geodes added</li>
 <li> 4 Mar  2018 - v0.94 - Rewrite of RNG class to avoid ES2015-specific features for Pale Moon compatibility</li>
 <li> 3 Mar  2018 - v0.93 - Indicator for geode contents which need donation</li>
@@ -136,15 +152,17 @@ Search Range: <select id="geode-search-range">
 </div>
 
 <div id="footer" class="panel">
-Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> || 
+Stardew Apps by MouseyPounds: <a href="https://mouseypounds.github.io/stardew-checkup/">Stardew Checkup</a> ||
+<a href="https://mouseypounds.github.io/stardew-predictor/">Stardew Predictor</a>
+<br />
+Other Stardew Valley resources: <a href="http://stardewvalley.net/">Website</a> || 
 <a href="http://store.steampowered.com/app/413150/Stardew_Valley/">Steam Page</a> ||
 <a href="https://www.gog.com/game/stardew_valley">GOG Page</a> ||
 <a href="http://www.stardewvalleywiki.com/">Wiki</a> || 
 <a href="http://community.playstarbound.com/index.php?forums/stardew-valley.72/">Forums</a> ||
 <a href="https://www.reddit.com/r/StardewValley">Subreddit</a>
 <br />
-Stardew Predictor written by MouseyPounds. 
-Stardew Valley developed by <a href="http://twitter.com/concernedape">ConcernedApe</a> and published by 
+Stardew Valley was developed by <a href="http://twitter.com/concernedape">ConcernedApe</a> and published by 
 <a href="http://blog.chucklefish.org/about/">Chucklefish Games</a>.
 <br />
 Some images are cropped from in-game screenshots and their copyright is held by ConcernedApe.
