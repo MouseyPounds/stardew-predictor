@@ -1418,10 +1418,10 @@ window.onload = function () {
 				$(xmlDoc).find('player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
 			// Date originally used XXForSaveGame elements, but those were not always present on saves downloaded from upload.farm
-			save.daysPlayed = Number($(xmlDoc).find('stats > daysPlayed').text());
-			save.year = Number($(xmlDoc).find('year').text());
-			output += '<span class="result">Day ' + $(xmlDoc).find('dayOfMonth').text() + ' of ' +
-				capitalize($(xmlDoc).find('currentSeason').text()) + ', Year ' + save.year +
+			save.daysPlayed = Number($(xmlDoc).find('stats > daysPlayed').first().text());
+			save.year = Number($(xmlDoc).find('year').first().text());
+			output += '<span class="result">Day ' + $(xmlDoc).find('dayOfMonth').first().text() + ' of ' +
+				capitalize($(xmlDoc).find('currentSeason').first().text()) + ', Year ' + save.year +
 				' (' + save.daysPlayed + ' days played)</span><br />\n';
 			// Playtime of < 1 min will be rounded up to 1 min to avoid blank output.
 			playTime = Math.max(Number($(xmlDoc).find('player > millisecondsPlayed').text()), 6e4);
