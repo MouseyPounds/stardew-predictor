@@ -7,6 +7,7 @@ This app simulates the random number generator used in Stardew Valley and makes 
 The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-checkup/ and the source code repository is https://github.com/MouseyPounds/stardew-checkup. It is released under the MIT license.
 
 Changelog
+*  6 May  2018 - v1.3  - Traveling Merchant now includes Night Market if save is from 1.3
 *  4 May  2018 - v1.2  - Days Played bugfix
 * 14 Apr  2018 - v1.1  - Train schedule added
 *  7 Mar  2018 - v1.0  - Full release, searching for geodes added

@@ -35,6 +35,7 @@ window.onload = function () {
 	// all the tab functions have access. Some of this could be condensed via some looping, I'm sure.
 	// Most of this comes from Data\ObjectInformation.xnb, some from Data\FurnitureInformation.xnb
 	save.seasonNames = ['Spring', 'Summer', 'Fall', 'Winter'];
+	save.dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	save.cartItems = {
 		789: 'Wild Horseradish',
 		788: 'Wild Horseradish',
@@ -1412,6 +1413,13 @@ window.onload = function () {
 		if (typeof xmlDoc !== 'undefined') {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
+			save.is1_3 = ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true');
+			output += '<span class="result">Save is ' + (save.is1_3 ? '' : 'not ') + ' from version 1.3 or later</span><br />\n';
+			if (save.is1_3) {
+				$('#cart-title').html('Traveling Merchant Cart and Night Market Boat');
+			} else {
+				$('#cart-title').html('Traveling Merchant Cart');
+			}
 			// Farmer & farm names are read as html() because they come from user input and might contain characters
 			// which must be escaped.
 			output += '<span class="result">' + $(xmlDoc).find('player > name').html() + ' of ' +
@@ -1458,8 +1466,10 @@ window.onload = function () {
 			save.year = 1;
 			save.geodesCracked = 0;
 			save.deepestMineLevel = 0;
-			output += '<span class="result">App run using supplied gameID ' + save.gameID +
-				'. No save information available so minimal progress assumed.</span><br />\n';
+			save.is1_3 = true;
+			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
+				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
+				'<span class="result">Version 1.3 features will be included.</span><br />\n';
 		} else {
 			output = '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
@@ -1592,6 +1602,7 @@ window.onload = function () {
 			monthName,
 			year,
 			dayOfMonth,
+			dayOfWeek,
 			slot,
 			item,
 			qty,
@@ -1600,8 +1611,11 @@ window.onload = function () {
 			searchStart,
 			searchEnd,
 			count,
-			rngFri,
-			rngSun;
+			rngFirst,
+			rngMid,
+			rngLast,
+			isNightMarket = false,
+			startDay;
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
@@ -1617,120 +1631,72 @@ window.onload = function () {
 				(($('#cart-search-all').prop('checked')) ? 'first ' : 'next ') + $('#cart-search-range').val() + ' year(s)</th></tr>\n';
 			output += '<tr><th class="day">Day</th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
 			count = 0;
-			// Note: the double RNG setup was implemented because of the way the browsing table displays its results; when searching
-			// we would instead always want the friday results before the sunday results, so we really don't need separate rng instances
-			// even though we will still use them for clarity. Much of the logic here is duplicated from the browsing section, but
-			// comments related to it have been removed.
+			// Much of the logic here is duplicated from the browsing section, but comments related to it have been removed.
+			// Also, because output is purely a chronological list, we only need one RNG instance.
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				// It might make more sense to only bother with the date stuff when matches are found.
+				var days=[5,7];
+				if (save.is1_3 && offset % 112 === 98) {
+					days = [1,2,3,5,7];
+				}
 				month = Math.floor(offset / 28);
 				monthName = save.seasonNames[month % 4];
 				year = 1 + Math.floor(offset / 112);
-				dayOfMonth = offset % 28 + 5;
-				rngFri = new CSRandom(save.gameID + offset + 5);
-				for (slot = 1; slot <= 10; slot++) {
-					item = save.cartItems[rngFri.Next(2,790)];
-					price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
-					qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				for (var i = 0; i < days.length; i++) {
+					dayOfMonth = offset % 28 + days[i];
+					dayOfWeek = save.dayNames[days[i]-1];
+					rngFirst = new CSRandom(save.gameID + offset + days[i]);
+					for (slot = 1; slot <= 10; slot++) {
+						item = save.cartItems[rngFirst.Next(2,790)];
+						price = Math.max(rngFirst.Next(1,11)*100, save.cartPrices[item]*rngFirst.Next(3,6));
+						qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
+						if (searchTerm.test(item)) {
+							count++;
+							output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+								wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+						}
+					}
+					slot = -1;
+					while (!save.cartFurniture.hasOwnProperty(slot)) {
+						slot = rngFirst.Next(0,1613);
+					}
+					item = save.cartFurniture[slot];
+					price = rngFirst.Next(1,11)*250;
 					if (searchTerm.test(item)) {
 						count++;
-						output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+							wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+					}
+					if (month % 4 < 2) {
+						item = 'Rare Seed';
+						price = 1000;
+						qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
+					} else {
+						if (rngFirst.NextDouble() < 0.4) {
+							item = 'Rarecrow (Snowman)';
+							qty = 1;
+							price = '4000g';
+						} else {
+							item = '';
+						}
+					}
+					if (searchTerm.test(item)) {
+						count++;
+						output += '<tr><td>'  + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 					}
-				}
-				slot = -1;
-				while (!save.cartFurniture.hasOwnProperty(slot)) {
-					slot = rngFri.Next(0,1613);
-				}
-				item = save.cartFurniture[slot];
-				price = rngFri.Next(1,11)*250;
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-				}
-				if (month % 4 < 2) {
-					item = 'Rare Seed';
-					price = 1000;
-					qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
-				} else {
-					if (rngFri.NextDouble() < 0.4) {
-						item = 'Rarecrow (Snowman)';
+					if (rngFirst.NextDouble() < 0.25) {
+						item = 'Coffee Bean';
 						qty = 1;
-						price = '4000g';
+						price = '2500g';
 					} else {
 						item = '';
 					}
-				}
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-				}
-				if (rngFri.NextDouble() < 0.25) {
-					item = 'Coffee Bean';
-					qty = 1;
-					price = '2500g';
-				} else {
-					item = '';
-				}
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Friday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-				}
-				dayOfMonth += 2;
-				rngSun = new CSRandom(save.gameID + offset + 7);
-				for (slot = 1; slot <= 10; slot++) {
-					item = save.cartItems[rngSun.Next(2,790)];
-					price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
-					qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
 					if (searchTerm.test(item)) {
 						count++;
-						output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 					}
-				}
-				slot = -1;
-				while (!save.cartFurniture.hasOwnProperty(slot)) {
-					slot = rngSun.Next(0,1613);
-				}
-				item = save.cartFurniture[slot];
-				price = rngSun.Next(1,11)*250;
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ' Year ' + year + '</td><td>' +
-						wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-				}
-				if (month % 4 < 2) {
-					item = 'Rare Seed';
-					price = 1000;
-					qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
-				} else {
-					if (rngSun.NextDouble() < 0.4) {
-						item = 'Rarecrow (Snowman)';
-						qty = 1;
-						price = '4000g';
-					} else {
-						item = '';
-					}
-				}
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
-				}
-				if (rngSun.NextDouble() < 0.25) {
-					item = 'Coffee Bean';
-					qty = 1;
-					price = '2500g';
-				} else {
-					item = '';
-				}
-				if (searchTerm.test(item)) {
-					count++;
-					output += '<tr><td>Sunday ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-						wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
 				}
 			}
 			output += '<tr><td colspan="4" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
@@ -1738,15 +1704,34 @@ window.onload = function () {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
 			}
+			if (save.is1_3 && offset % 112 === 94) {
+				isNightMarket = true;
+				$('#cart-next-week').val(offset + 4);
+				$('#cart-prev-week').val(offset - 3);
+				startDay = 0;
+			} else {
+				isNightMarket = false;
+				startDay = 4;
+				if (save.is1_3 && offset % 112 === 91) {
+					// weekend before night market
+					$('#cart-next-week').val(offset + 3);
+					$('#cart-prev-week').val(offset - 7);
+				} else if (save.is1_3 && offset % 112 === 98) {
+					// weekend after night market
+					$('#cart-next-week').val(offset + 7);
+					$('#cart-prev-week').val(offset - 4);
+				} else {
+					$('#cart-next-week').val(offset + 7);
+					$('#cart-prev-week').val(offset - 7);
+				}
+			}
 			if (offset < 7) {
 				$('#cart-prev-week').prop("disabled", true);
 			} else {
-				$('#cart-prev-week').val(offset - 7);
 				$('#cart-prev-week').prop("disabled", false);
-			}
+			}			
 			$('#cart-reset').val('reset');
-			$('#cart-reset').html("Reset Browsing");
-			$('#cart-next-week').val(offset + 7);
+			$('#cart-reset').html("Reset Browsing");			
 			$('#cart-next-week').prop("disabled", false);
 			// Reset search fields too
 			$('#cart-search-text').val('');
@@ -1756,23 +1741,41 @@ window.onload = function () {
 			monthName = save.seasonNames[month % 4];
 			year = 1 + Math.floor(offset / 112);
 			dayOfMonth = offset % 28;
-			output += '<table class="output"><thead><tr><th> </th><th colspan="3" class="multi">Friday ' +
-				monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +	'</th>' + '<th colspan="3" class="multi">Sunday ' +
+			output += '<table class="output"><thead><tr><th rowspan="2">' + (isNightMarket ? 'Night Market<br />Boat' : 'Forest Cart') + '</th>';
+			output += '<th colspan="3" class="multi">' + save.dayNames[startDay] + ' ' +
+				monthName + ' ' + (dayOfMonth + 5) + ', Year ' + year +	'</th>';
+			if (isNightMarket) {
+				output +=	'<th colspan="3" class="multi">' + save.dayNames[startDay + 1] + ' ' +
+					monthName + ' ' + (dayOfMonth + 6) + ', Year ' + year + '</th>\n';
+			}
+			output +=	'<th colspan="3" class="multi">' + save.dayNames[startDay + 2] + ' ' +
 				monthName + ' ' + (dayOfMonth + 7) + ', Year ' + year + '</th></tr>\n';
-			output += '<tr><th> </th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>' +
-				'<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
-			// Odd doubling of RNG because of outputting both Friday & Sunday of the same week in the same table.
-			rngFri = new CSRandom(save.gameID + offset + 5);
-			rngSun = new CSRandom(save.gameID + offset + 7);
+			output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>';
+			if (isNightMarket) {
+				output += '<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>';
+			}
+			output += '<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			// Multiple RNG instances because of the layout of the output table. rngMid only needed for Night Market
+			rngFirst = new CSRandom(save.gameID + offset + 5);
+			if (isNightMarket) {
+				rngMid = new CSRandom(save.gameID + offset + 6);
+			}
+			rngLast = new CSRandom(save.gameID + offset + 7);
 			for (slot = 1; slot <= 10; slot++) {
 				output += "<tr><td>Basic Item " + slot + "</td>";
-				item = save.cartItems[rngFri.Next(2,790)];
-				price = Math.max(rngFri.Next(1,11)*100, save.cartPrices[item]*rngFri.Next(3,6));
-				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				item = save.cartItems[rngFirst.Next(2,790)];
+				price = Math.max(rngFirst.Next(1,11)*100, save.cartPrices[item]*rngFirst.Next(3,6));
+				qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
 				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
-				item = save.cartItems[rngSun.Next(2,790)];
-				price = Math.max(rngSun.Next(1,11)*100, save.cartPrices[item]*rngSun.Next(3,6));
-				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+				if (isNightMarket) {
+					item = save.cartItems[rngMid.Next(2,790)];
+					price = Math.max(rngMid.Next(1,11)*100, save.cartPrices[item]*rngMid.Next(3,6));
+					qty = (rngMid.NextDouble() < 0.1) ? 5 : 1;
+					output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";					
+				}
+				item = save.cartItems[rngLast.Next(2,790)];
+				price = Math.max(rngLast.Next(1,11)*100, save.cartPrices[item]*rngLast.Next(3,6));
+				qty = (rngLast.NextDouble() < 0.1) ? 5 : 1;
 				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			}
 			// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
@@ -1780,29 +1783,42 @@ window.onload = function () {
 			// only contains items which are valid for sale.
 			slot = -1;
 			while (!save.cartFurniture.hasOwnProperty(slot)) {
-				slot = rngFri.Next(0,1613);
+				slot = rngFirst.Next(0,1613);
 			}
 			item = save.cartFurniture[slot];
-			price = rngFri.Next(1,11)*250;
+			price = rngFirst.Next(1,11)*250;
 			output += '<tr><td>Furniture</td><td class="item">' + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td>';
+			if (isNightMarket) {
+				slot = -1;
+				while (!save.cartFurniture.hasOwnProperty(slot)) {
+					slot = rngMid.Next(0,1613);
+				}
+				item = save.cartFurniture[slot];
+				price = rngMid.Next(1,11)*250;
+				output += '<td class="item">' + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td>';
+			}
 			slot = -1;
 			while (!save.cartFurniture.hasOwnProperty(slot)) {
-				slot = rngSun.Next(0,1613);
+				slot = rngLast.Next(0,1613);
 			}
 			item = save.cartFurniture[slot];
-			price = rngSun.Next(1,11)*250;
+			price = rngLast.Next(1,11)*250;
 			output += '<td class="item">' + wikify(item,'Furniture') + '</td><td>1</td><td>' + addCommas(price) + 'g</td></tr>';
 			// Next comes seasonal specials
-			output += "<td>Seasonal Special</td>";
+			output += "<tr><td>Seasonal Special</td>";
 			if (month % 4 < 2) {
 				item = 'Rare Seed';
 				price = 1000;
-				qty = (rngFri.NextDouble() < 0.1) ? 5 : 1;
+				qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
 				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
-				qty = (rngSun.NextDouble() < 0.1) ? 5 : 1;
+				if (isNightMarket) {
+					qty = (rngMid.NextDouble() < 0.1) ? 5 : 1;
+					output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+				}
+				qty = (rngLast.NextDouble() < 0.1) ? 5 : 1;
 				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 			} else {
-				if (rngFri.NextDouble() < 0.4) {
+				if (rngFirst.NextDouble() < 0.4) {
 					item = wikify('Rarecrow (Snowman)');
 					qty = 1;
 					price = '4000g';
@@ -1811,8 +1827,20 @@ window.onload = function () {
 					qty = '(N/A)';
 					price = '(N/A)';
 				}
-				output += "<td>" + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
-				if (rngSun.NextDouble() < 0.4) {
+				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
+				if (isNightMarket) {
+					if (rngMid.NextDouble() < 0.4) {
+						item = wikify('Rarecrow (Snowman)');
+						qty = 1;
+						price = '4000g';
+					} else {
+						item = '(None)';
+						qty = '(N/A)';
+						price = '(N/A)';
+					}
+					output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
+				}
+				if (rngLast.NextDouble() < 0.4) {
 					item = wikify('Rarecrow (Snowman)');
 					qty = 1;
 					price = '4000g';
@@ -1824,8 +1852,8 @@ window.onload = function () {
 				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			}
 			// Coffee Bean
-			output += "<td>Other Special</td>";
-			if (rngFri.NextDouble() < 0.25) {
+			output += "<tr><td>Other Special</td>";
+			if (rngFirst.NextDouble() < 0.25) {
 				item = wikify('Coffee Bean');
 				qty = 1;
 				price = '2500g';
@@ -1835,7 +1863,19 @@ window.onload = function () {
 				price = '(N/A)';
 			}
 			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
-			if (rngSun.NextDouble() < 0.25) {
+			if (isNightMarket) {
+				if (rngMid.NextDouble() < 0.25) {
+					item = wikify('Coffee Bean');
+					qty = 1;
+					price = '2500g';
+				} else {
+					item = '(None)';
+					qty = '(N/A)';
+					price = '(N/A)';
+				}
+				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
+			}
+			if (rngLast.NextDouble() < 0.25) {
 				item = wikify('Coffee Bean');
 				qty = 1;
 				price = '2500g';
@@ -2374,8 +2414,7 @@ window.onload = function () {
 		prog.value = 0;
 		$('#output-container').hide();
 		$('#progress-container').show();
-		// Keep changelong visable to help with tab switches messing up the scroll position.
-		//$('#changelog').hide();
+		$('#changelog').hide();
 		reader.onloadstart = function (e) {
 			prog.value = 20;
 		};

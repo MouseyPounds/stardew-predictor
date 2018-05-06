@@ -35,7 +35,10 @@ h3 {
 	padding-right: 12px;
 }
 #input-container { display: none; }
-#output-container { display: none; }
+#output-container { 
+	display: none;
+	min-height: 750px;
+}
 #progress-container { display: none; }
 .error {
 	font-weight: bold;
