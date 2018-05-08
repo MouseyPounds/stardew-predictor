@@ -1392,10 +1392,7 @@ window.onload = function () {
 
 	function parseSummary(xmlDoc) {
 		var output = '',
-			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness'],
-			playTime,
-			playHr,
-			playMin;
+			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness'];
 		// This app doesn't actually need a whole lot from the save file, and can be run from just the gameID number.
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
@@ -1422,31 +1419,39 @@ window.onload = function () {
 			}
 			// Farmer & farm names are read as html() because they come from user input and might contain characters
 			// which must be escaped.
-			output += '<span class="result">' + $(xmlDoc).find('player > name').html() + ' of ' +
-				$(xmlDoc).find('player > farmName').html() + ' Farm (' +
+			save.names = [];
+			save.geodesCracked = [];
+			save.names.push($(xmlDoc).find('SaveGame > player > name').html());
+			output += '<span class="result">' + save.names[0] + ' of ' +
+				$(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
+			// In 1.2, stats are under SaveGame, but in 1.3 they are under SaveGame > player and the farmhand elements.
+			if (save.is1_3) {
+				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > player > stats > geodesCracked').text()));
+				$(xmlDoc).find('farmhand').each(function(i) {
+					save.names.push($(this).find('name').html());
+					save.geodesCracked.push(Number($(this).find('stats > geodesCracked').text()));
+					});
+				if (save.names.length > 1) {
+					output += '<span class="result">Farmhands: ' + save.names.slice(1).join(', ') + '</span><br />\n';
+				}
+			} else {
+				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > stats > geodesCracked').text()));
+			}
 			// Date originally used XXForSaveGame elements, but those were not always present on saves downloaded from upload.farm
 			save.daysPlayed = Number($(xmlDoc).find('stats > daysPlayed').first().text());
-			save.year = Number($(xmlDoc).find('year').first().text());
-			output += '<span class="result">Day ' + $(xmlDoc).find('dayOfMonth').first().text() + ' of ' +
-				capitalize($(xmlDoc).find('currentSeason').first().text()) + ', Year ' + save.year +
+			save.year = Number($(xmlDoc).find('SaveGame > year').first().text());
+			output += '<span class="result">Day ' + $(xmlDoc).find('SaveGame > dayOfMonth').text() + ' of ' +
+				capitalize($(xmlDoc).find('SaveGame > currentSeason').text()) + ', Year ' + save.year +
 				' (' + save.daysPlayed + ' days played)</span><br />\n';
-			// Playtime of < 1 min will be rounded up to 1 min to avoid blank output.
-			playTime = Math.max(Number($(xmlDoc).find('player > millisecondsPlayed').text()), 6e4);
-			playHr = Math.floor(playTime / 36e5);
-			playMin = Math.floor((playTime % 36e5) / 6e4);
-			output += '<span class="result">Played for ';
-			if (playHr > 0) {
-				output += playHr + ' hr ';
-			}
-			if (playMin > 0) {
-				output += playMin + ' min ';
+			
+			output += '<span class="result">Geodes opened: ';
+			for (var i = 0; i < save.names.length; i++) {
+				output += save.geodesCracked[i] + ' (' + save.names[i] + ') ';
 			}
 			output += '</span><br />\n';
-			save.geodesCracked = Number($(xmlDoc).find('stats > geodesCracked').text());
-			output += '<span class="result">' + save.geodesCracked + ' geodes opened</span><br />\n';
 			save.deepestMineLevel = Number($(xmlDoc).find('player > deepestMineLevel').text());
-			output += '<span class="result">Has reached level ' + Math.min(120, save.deepestMineLevel) + ' of the mine</span><br />\n';
+			output += '<span class="result">Deepest mine level: ' + Math.min(120, save.deepestMineLevel) + '</span><br />\n';
 			// Currently, the only reason we care about museum donations is because of geode contents. save.minerals actually
 			// contains only a subset of the minerals (and a few artifacts) and we will only store the donation status of
 			// stuff that is in that array (i.e. potential geode results).
@@ -1464,7 +1469,7 @@ window.onload = function () {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
 			save.year = 1;
-			save.geodesCracked = 0;
+			save.geodesCracked = [0];
 			save.deepestMineLevel = 0;
 			save.is1_3 = true;
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
@@ -1917,7 +1922,7 @@ window.onload = function () {
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
 			searchTerm = new RegExp(offset, "i");
-			searchStart = ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked;
+			searchStart = ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0];
 			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
 			output += '<table class="output"><thead><tr><th colspan="5">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
@@ -2066,8 +2071,12 @@ window.onload = function () {
 			output += '<tr><td colspan="5" class="count">Found ' + count + ' matching instance(s) of ' +
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 		} else {
+			if (save.is1_3) {
+				output += '<span class="note">Note: In multiplayer, everyone\'s geode counters are tracked separately.' +
+					'The initial browse state and highlighting are based on the host\'s counter.</span><br />';
+			}
 			if (typeof(offset) === 'undefined') {
-				offset = pageSize * Math.floor(save.geodesCracked / pageSize);
+				offset = pageSize * Math.floor(save.geodesCracked[0] / pageSize);
 			}
 			if (offset < pageSize) {
 				$('#geode-prev').prop("disabled", true);
@@ -2194,9 +2203,9 @@ window.onload = function () {
 						item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
 					}
 				}
-				if (numCracked === save.geodesCracked + 1) {
+				if (numCracked === save.geodesCracked[0] + 1) {
 					tclass = "current";
-				} else if (numCracked <= save.geodesCracked) {
+				} else if (numCracked <= save.geodesCracked[0]) {
 					tclass = "past";
 				} else {
 					tclass = "future";
