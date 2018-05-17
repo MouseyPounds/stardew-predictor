@@ -1589,13 +1589,13 @@ window.onload = function () {
 					infestedSlime.push("None");
 				}
 				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
-					'<span class="cell"><img src="IconM.png" alt="Mushroom"> ' + rainbowLights.join(', ') +
-					'<br /><img src="IconI.png" alt="Sword"> ' + infestedMonster.join(', ') +
-					'<br /><img src="IconS.png" alt="Slime"> ' + infestedSlime.join(', ') + '</span></td>';
+					'<span class="cell"><img src="IconM.png" class="icon" alt="Mushroom"> ' + rainbowLights.join(', ') +
+					'<br /><img src="IconI.png" class="icon" alt="Sword"> ' + infestedMonster.join(', ') +
+					'<br /><img src="IconS.png" class="icon" alt="Slime"> ' + infestedSlime.join(', ') + '</span></td>';
 			}
 			output += "</tr>\n";
 		}
-		output += '<tr><td colspan="7" class="legend">Legend: <img src="IconM.png" alt="Mushroom"> Mushroom Level | <img src="IconI.png" alt="Sword"> Monster Infestation | <img src="IconS.png" alt="Slime"> Slime Infestation</td></tr>';
+		output += '<tr><td colspan="7" class="legend">Legend: <img src="IconM.png" class="icon" alt="Mushroom"> Mushroom Level | <img src="IconI.png" class="icon" alt="Sword"> Monster Infestation | <img src="IconS.png" class="icon" alt="Slime"> Slime Infestation</td></tr>';
 		output += "</tbody></table>\n";
 		return output;
 	}
@@ -2298,7 +2298,7 @@ window.onload = function () {
 								if (min === 0) {
 									min = '00';
 								}
-								thisTrain = 'Train will<br />arrive at<br />' + hour + ':' + min + ampm;
+								thisTrain = '<img src="Train.png"><br />Train at ' + hour + ':' + min + ampm;
 							}
 						}
 					}

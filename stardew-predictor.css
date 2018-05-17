@@ -241,6 +241,10 @@ td .train {
 }
 td img {
 	vertical-align: -1px;
+	width: 
+}
+img.icon {
+	vertical-align: -1px;
 	width: 13px;
 }
 th img {
