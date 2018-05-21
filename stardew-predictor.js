@@ -1382,9 +1382,10 @@ window.onload = function () {
 	}
 
 	function wikify(item, page) {
-		// removing egg colors & changing spaces to underscores
+		// removing egg colors & quantity amounts; changing spaces to underscores
 		var trimmed = item.replace(' (White)', '');
 		trimmed = trimmed.replace(' (Brown)', '');
+		trimmed = trimmed.replace(/ \(\d+\)/, '');
 		trimmed = trimmed.replace(/ /g, '_');
 		return (page) ? ('<a href="http://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>') :
 					('<a href="http://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
@@ -2071,10 +2072,6 @@ window.onload = function () {
 			output += '<tr><td colspan="5" class="count">Found ' + count + ' matching instance(s) of ' +
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 		} else {
-			if (save.is1_3) {
-				output += '<span class="note">Note: In multiplayer, everyone\'s geode counters are tracked separately.' +
-					'The initial browse state and highlighting are based on the host\'s counter.</span><br />';
-			}
 			if (typeof(offset) === 'undefined') {
 				offset = pageSize * Math.floor(save.geodesCracked[0] / pageSize);
 			}
@@ -2314,13 +2311,93 @@ window.onload = function () {
 				}
 				output += "</tr>\n";
 			}
-		output += '<tr><td colspan="9" class="legend">Note: Trains will never spawn on the first day played after loading or reloading a save.</td></tr>';
 			output += "</tbody></table>\n";
 		}
 
 		return output;
 	};
 	
+	function predictNight(isSearch, offset) {
+		// logic from StardewValley.Utility.<>c.<pickFarmEvent>b__146_0()
+		var output = '',
+			thisEvent,
+			day,
+			week,
+			weekDay,
+			monthName,
+			month,
+			year,
+			tclass,
+			rng;
+			
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#night-prev').prop("disabled", true);
+			$('#night-next').prop("disabled", true);
+			$('#night-reset').html("Clear Search Results &amp; Reset Browsing");
+		} else {
+			if (typeof(offset) === 'undefined') {
+				offset = 28 * Math.floor(save.daysPlayed/28);
+			}
+			if (offset < 112) {
+				$('#night-prev-year').prop("disabled", true);
+			} else {
+				$('#night-prev-year').val(offset - 112);
+				$('#night-prev-year').prop("disabled", false);
+			}
+			if (offset < 28) {
+				$('#night-prev-month').prop("disabled", true);
+			} else {
+				$('#night-prev-month').val(offset - 28);
+				$('#night-prev-month').prop("disabled", false);
+			}
+			$('#night-reset').val('reset');
+			$('#night-next-month').val(offset + 28);
+			$('#night-next-year').val(offset + 112);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
+			output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
+			for (week = 0; week < 4; week++) {
+				output += "<tr>";
+				for (weekDay = 1; weekDay < 8; weekDay++) {
+					day = 7 * week + weekDay + offset;
+					// The event is actually rolled in the morning at 6am, but from a user standpoint it makes more since
+					// to think of it occuring during the previous night. We will offset the day by 1 because of this.
+					rng = new CSRandom(save.gameID / 2 + day + 1);
+					if (day === 30) {
+						thisEvent = '<img src="Train.png"><br />Earthquake';
+					} else if (rng.NextDouble() < 0.01 && (month%4) < 3) {
+						thisEvent = '<img src="EventF.png"><br />Fairy';
+					} else if (rng.NextDouble() < 0.01) {
+						thisEvent = '<img src="EventW.png"><br />Witch';
+					} else if (rng.NextDouble() < 0.01) {
+						thisEvent = '<img src="EventM.png"><br />Meteor';
+					} else if (rng.NextDouble() < 0.01 && year > 1) {
+						thisEvent = '<img src="EventC.png"><br />Strange Capsule';
+					} else if (rng.NextDouble() < 0.01) {
+						thisEvent = '<img src="EventO.png"><br />Stone Owl';
+					} else {
+						thisEvent = '&nbsp;<br />(No event)<br />&nbsp';
+					}
+
+					if (day < save.daysPlayed) {
+						tclass = "past";
+					} else if (day === save.daysPlayed) {
+						tclass = "current";
+					} else {
+						tclass = "future";
+					}
+					output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+						'<span class="night cell">' + thisEvent+ '</span></td>';
+				}
+				output += "</tr>\n";
+			}
+			output += "</tbody></table>\n";
+		}
+		return output;
+	};
+
 	function predictWinterStar(isSearch, offset) {
 		var output = "",
 			// NPC list from Data\NPCDispositions
@@ -2329,6 +2406,15 @@ window.onload = function () {
 					'Kent', 'Leah', 'Lewis', 'Linus', 'Marlon', 'Marnie', 'Maru', 'Pam',
 					'Penny', 'Pierre', 'Robin', 'Sam', 'Sebastian', 'Shane', 'Vincent',
 					'Wizard', 'Dwarf', 'Sandy', 'Krobus'],
+			giftChoices = { 'Clint': ['Iridium Bar', 'Gold Bar (5)', 'Geode (5)', 'Frozen Geode (5)', 'Magma Geode (5)'],
+							'Marnie': ['Egg (12)'],
+							'Robin': ['Wood (99)', 'Stone (50)', 'Hardwood (25)'],
+							'Willy': ['Warp Totem: Beach (25)', 'Dressed Spinner', 'Magnet'],
+							'Evelyn': ['Cookie'],
+							'Jas': ['Clay', 'Ancient Doll', 'Rainbow Shell', 'Geode', 'Frozen Geode', 'Magma Geode'],
+							'Vincent': ['Clay', 'Ancient Doll', 'Rainbow Shell', 'Geode', 'Frozen Geode', 'Magma Geode'],
+							'DEFAULT': ['Pumpkin Pie', 'Poppyseed Muffin', 'Blackberry Cobbler', 'Glow Ring', 'Deluxe Speed-Gro (10)', 'Purple Mushroom', 'Nautilus Shell', 'Wine', 'Beer', 'Tea Set', 'Pink Cake', 'Ruby', 'Emerald', 'Jade'] },
+			gifts = '',
 			excluded = {'Wizard': 1, 'Krobus': 1, 'Sandy': 1, 'Dwarf': 1, 'Marlon': 1},
 			secretSantaGiveTo = '',
 			secretSantaGetFrom = '',
@@ -2347,7 +2433,7 @@ window.onload = function () {
 		$('#winterstar-reset').val('reset');
 		$('#winterstar-next').val(offset + 10);
 
-		output += '<table class="output"><thead><tr><th>Year</th><th>Farmer gives gift to</th><th>Farmer receives gift from</th></tr>\n<tbody>';
+		output += '<table class="output"><thead><tr><th>Year</th><th>Farmer gives gift to</th><th>Farmer receives gift from</th><th class="long_list">Possible gifts received</th></tr>\n<tbody>';
 		for (year = offset + 1; year <= offset + 10; year++) {
 			// Gift giver and receiver logic from StardewValley.Event.setUpPlayerControlSequence() and StardewValley.Utility.getRandomTownNPC()
 			// While it looks like the gift itself might be predictable from StardewValley.Utility.getGiftFromNPC(), the RNG there gets seeded
@@ -2372,8 +2458,13 @@ window.onload = function () {
 			} else {
 				tclass = "future";
 			}
+			if (giftChoices.hasOwnProperty(secretSantaGetFrom)) {
+				gifts = (giftChoices[secretSantaGetFrom]).map(function (i) { return wikify(i); }).sort().join(', ');
+			} else {
+				gifts = (giftChoices['DEFAULT']).map(function (i) { return wikify(i); }).sort().join(', ');
+			}
 			output += '<tr class="' + tclass + '"><td>' + year + "</td><td>" + wikify(secretSantaGiveTo) +
-				"</td><td>" + wikify(secretSantaGetFrom) + "</td></tr>\n";
+				"</td><td>" + wikify(secretSantaGetFrom) + '</td><td class="long_list">' + gifts + "</td></tr>\n";
 		}
 		output += "</tbody></table>\n";
 		return output;
@@ -2389,6 +2480,8 @@ window.onload = function () {
 			output = predictGeodes(isSearch, extra);
 		} else if (tabID === 'train') {
 			output = predictTrains(isSearch, extra);
+		} else if (tabID === 'night') {
+			output = predictNight(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

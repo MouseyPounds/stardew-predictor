@@ -235,7 +235,7 @@ tr.current > td, td.current {
 	display: inline-block;
 	padding: 3px;
 }
-td .train {
+td .train, td .night {
 	text-align: center;
 	width: 100%;
 }
@@ -272,6 +272,12 @@ th.price, th.index {
 th.geode-result {
 	width: 12.25em;
 }
+th.long_list {
+	width: 36em;
+}
+td.long_list {
+	text-align: left;
+}
 fieldset {
 	padding: .5em;
 	margin: .5em;
@@ -280,11 +286,8 @@ fieldset {
 	display: flex;
 	justify-content: space-between;
 }
-#mines-buttons, #train-buttons {
+#mines-buttons, #train-buttons, #night-buttons, #winterstar-buttons {
 	max-width: 57em;
-}
-#winterstar-buttons {
-	max-width: 22em;
 }
 #cart-buttons, #cart-search {
 	max-width: 45em;

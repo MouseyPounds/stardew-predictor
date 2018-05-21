@@ -57,11 +57,16 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 <label for="tab-geode">Geodes</label>
 <input type="radio" name="tabset" id="tab-train" >
 <label for="tab-train">Trains</label>
+<input type="radio" name="tabset" id="tab-night" >
+<label for="tab-night">Night Events</label>
 <input type="radio" name="tabset" id="tab-winterstar">
 <label for="tab-winterstar">Winter Star</label>
 <div class="tab-panels">
 <section id="sec-mines" class="tab-panel">
 <h3>Special Mine Floors</h3>
+<p class="intro" id="mine-intro">This calendar showss the prediction of Mushroom Levels and Monster Infestations in 
+<a href="https://stardewvalleywiki.com/The_Mines">the Mines</a>. These special levels persist throughout the day, even
+when the contents of the level reset, allowing multiple trips to gather mushrooms or fight monsters.</p>
 <!-- divs inside of fieldsets because of Chrome bugs with flex display -->
 <fieldset id="mines-buttons"><div class="buttons">
 <button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
@@ -74,6 +79,11 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 </section>
 <section id="sec-cart" class="tab-panel">
 <h3 id="cart-title">Traveling Merchant Cart and Night Market Boat</h3>
+<p class="intro" id="cart-intro">Inventory list for the <a href=="https://stardewvalleywiki.com/Traveling_Cart">traveling
+merchant</a>. The merchant operates a cart in <a href="https://stardewvalleywiki.com/Cindersap_Forest">Cindersap Forest</a>
+every Friday and Sunday (6am - 8pm) and also a boat during the winter <a href="https://stardewvalleywiki.com/Night_Market">Night
+Market.</a> Results can be browsed by week (the Night Market is treated as a separate week) or searched using a case-insensitive
+substring (regular expression wildcards are allowed.)</p>
 <fieldset id="cart-search">
 <input type="text" id="cart-search-text" class="search">
 <button id="cart-search-button" type="button" class="search">Search</button><br />
@@ -95,6 +105,12 @@ Search Range: <select id="cart-search-range">
 </section>
 <section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
+<p class="intro" id="geode-intro">Predicted results from cracking open all types of
+<a href="https://stardewvalleywiki.com/Minerals#Geodes">geodes</a> at Clint's
+<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The "number opened" is a cumulative count across all types. Results can
+be browsed twenty at a time or searched using a case-insensitive substring (regular expression wildcards are allowed.)
+Note that in multiplayer, each player's geode count is tracked separately; the browse results are initially set and highlighted
+based on the host's count.</p>
 <fieldset id="geode-search">
 <input type="text" id="geode-search-text" class="search">
 <button id="geode-search-button" type="button" class="search">Search</button><br />
@@ -115,6 +131,9 @@ Search Range: <select id="geode-search-range">
 </section>
 <section id="sec-train" class="tab-panel">
 <h3>Train Schedule</h3>
+<p class="intro" id="train-intro">This calendar shows the predicted train spawns on the
+<a href="https://stardewvalleywiki.com/Railroad">Railroad</a> map. The time of the train can be predicted, but the type of train cars
+and amount of dropped items cannot. Note that a train will not spawn on the first day after a save is loaded or reloaded.</p>
 <fieldset id="train-buttons"><div class="buttons">
 <button id="train-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
 <button id="train-prev-month" type="button" class="browse">&lt; Previous Month</button>
@@ -124,8 +143,31 @@ Search Range: <select id="geode-search-range">
 </div></fieldset>
 <output id="out-train"> </output>
 </section>
+<section id="sec-night" class="tab-panel">
+<h3>Night Events</h3>
+<p class="intro" id="night-intro">This calendar shows potential
+<a href="https://stardewvalleywiki.com/Random_Events">overnight events</a> on the farm. These events will not occur if there
+is a player wedding the next day, and they will also be overridden by a restoration event from the completion of a
+<a href="https://stardewvalleywiki.com/Bundles">full Community Center room</a> or a
+<a href="https://stardewvalleywiki.com/Joja_Community_Development_Form">Joja Community Development</a> purchase.
+Most of the events have other checks they must pass to actually trigger, so they are not 100%
+guaranteed; in particular the <a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events are 
+<a href="https://www.reddit.com/r/StardewValley/comments/5aj878/the_last_mystery_and_a_technical_explanation/">extremely rare</a>
+even when the calendar shows them to be possible.</p>
+<fieldset id="night-buttons"><div class="buttons">
+<button id="night-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="night-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="night-reset" type="button" class="browse">Reset Calendar</button>
+<button id="night-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="night-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-night"> </output>
+</section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
+<p class="intro" id="winterstar-intro">This shows the secret gift assignments for the
+<a href="https://stardewvalleywiki.com/Feast_of_the_Winter_Star">Winter Star festival</a>. The actual gift the farmer will receive
+cannot be reliably predicted, but a list of all the possibilities is provided.</p>
 <fieldset id="winterstar-buttons"><div class="buttons">
 <button id="winterstar-prev" type="button" class="browse">&lt; Previous 10 Years</button>
 <button id="winterstar-reset" type="button" class="browse">Reset</button>
@@ -141,6 +183,7 @@ Search Range: <select id="geode-search-range">
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>21 May  2018 - v1.5  - Night events added; list potential Winter Star gifts.</li>
 <li> 7 May  2018 - v1.4  - Geode counter bugfix; additional multiplayer support</li>
 <li> 6 May  2018 - v1.3  - Traveling Merchant now includes Night Market if save is from 1.3</li>
 <li> 4 May  2018 - v1.2  - Days Played bugfix</li>
