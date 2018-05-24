@@ -5,6 +5,7 @@
 <meta charset="UTF-8" />
 
 <link rel="stylesheet" type="text/css" href="./stardew-predictor.css" />
+<link rel="icon" type="image/png" href="./favicon_p.png" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
@@ -150,10 +151,14 @@ and amount of dropped items cannot. Note that a train will not spawn on the firs
 is a player wedding the next day, and they will also be overridden by a restoration event from the completion of a
 <a href="https://stardewvalleywiki.com/Bundles">full Community Center room</a> or a
 <a href="https://stardewvalleywiki.com/Joja_Community_Development_Form">Joja Community Development</a> purchase.
-Most of the events have other checks they must pass to actually trigger, so they are not 100%
-guaranteed; in particular the <a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events are 
+Most of these events also have other checks they must pass to actually trigger (such as finding a suitable location), 
+so <span class="strong">they are not 100% guaranteed</span>; in particular the 
+<a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events are still 
 <a href="https://www.reddit.com/r/StardewValley/comments/5aj878/the_last_mystery_and_a_technical_explanation/">extremely rare</a>
-even when the calendar shows them to be possible.</p>
+even when the calendar shows them to be possible.<br/>
+<span class="note">Note: The app may misidentify the type of event in version 1.2 if the farmer has the possibility of
+having more children.</span>
+</p>
 <fieldset id="night-buttons"><div class="buttons">
 <button id="night-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
 <button id="night-prev-month" type="button" class="browse">&lt; Previous Month</button>
@@ -183,18 +188,19 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
-<li>21 May  2018 - v1.5  - Night events added; list potential Winter Star gifts.</li>
-<li> 7 May  2018 - v1.4  - Geode counter bugfix; additional multiplayer support</li>
-<li> 6 May  2018 - v1.3  - Traveling Merchant now includes Night Market if save is from 1.3</li>
-<li> 4 May  2018 - v1.2  - Days Played bugfix</li>
-<li>14 Apr  2018 - v1.1  - Train schedule added</li>
-<li> 7 Mar  2018 - v1.0  - Full release, searching for geodes added</li>
-<li> 4 Mar  2018 - v0.94 - Rewrite of RNG class to avoid ES2015-specific features for Pale Moon compatibility</li>
-<li> 3 Mar  2018 - v0.93 - Indicator for geode contents which need donation</li>
-<li>25 Feb  2018 - v0.92 - Fixing Baryte spelling and double-button processing bug</li>
-<li>22 Feb  2018 - v0.91 - Search for Cart items, Winter Star bugfix</li>
-<li>20 Feb  2018 - v0.9  - Beta Testing</li>
-<li> 4 July 2017 - v0.5  - Alpha Testing</li>
+<li>23 May  2018 - v1.5.1 - Clarification in Night event intro & disclaimer about 1.2</li>
+<li>21 May  2018 - v1.5   - Night events added; list potential Winter Star gifts.</li>
+<li> 7 May  2018 - v1.4   - Geode counter bugfix; additional multiplayer support</li>
+<li> 6 May  2018 - v1.3   - Traveling Merchant now includes Night Market if save is from 1.3</li>
+<li> 4 May  2018 - v1.2   - Days Played bugfix</li>
+<li>14 Apr  2018 - v1.1   - Train schedule added</li>
+<li> 7 Mar  2018 - v1.0   - Full release, searching for geodes added</li>
+<li> 4 Mar  2018 - v0.94  - Rewrite of RNG class to avoid ES2015-specific features for Pale Moon compatibility</li>
+<li> 3 Mar  2018 - v0.93  - Indicator for geode contents which need donation</li>
+<li>25 Feb  2018 - v0.92  - Fixing Baryte spelling and double-button processing bug</li>
+<li>22 Feb  2018 - v0.91  - Search for Cart items, Winter Star bugfix</li>
+<li>20 Feb  2018 - v0.9   - Beta Testing</li>
+<li> 4 July 2017 - v0.5   - Alpha Testing</li>
 </ul>
 </div>
 
