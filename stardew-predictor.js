@@ -1466,12 +1466,32 @@ window.onload = function () {
 					});
 				}
 			});
+			// Need to know if the baby question is possible. For now, only doing for 1.2
+			save.canHaveChildren = false;
+			if (!save.is1_3) {
+				var spouse = $(xmlDoc).find('player > spouse').text();
+				var child_count = 0;
+				if (typeof(spouse) !== 'undefined' && spouse !== '') {
+					$(xmlDoc).find('locations > GameLocation').each(function () {
+						$(this).find('characters > NPC').each(function () {
+							if ($(this).attr('xsi:type') === 'Child') {
+								child_count++;
+							}
+						});
+					});
+					if (child_count < 2) {
+						save.canHaveChildren = true;
+					}
+				}
+			}
+			
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
 			save.year = 1;
 			save.geodesCracked = [0];
 			save.deepestMineLevel = 0;
+			save.canHaveChildren = false;
 			save.is1_3 = true;
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
@@ -2367,6 +2387,8 @@ window.onload = function () {
 					rng = new CSRandom(save.gameID / 2 + day + 1);
 					if (day === 30) {
 						thisEvent = '<img src="Train.png"><br />Earthquake';
+					} else if (!save.is1_3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
+						thisEvent = '<img src="EventB.png"><br />"Want a Baby?"';
 					} else if (rng.NextDouble() < 0.01 && (month%4) < 3) {
 						thisEvent = '<img src="EventF.png"><br />Fairy';
 					} else if (rng.NextDouble() < 0.01) {

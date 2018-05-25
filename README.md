@@ -7,6 +7,7 @@ This app simulates the random number generator used in Stardew Valley and makes 
 The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-checkup/ and the source code repository is https://github.com/MouseyPounds/stardew-checkup. It is released under the MIT license.
 
 Changelog
+* 24 May  2018 - v1.6   - Favicon; Baby question for 1.2 save night events
 * 23 May  2018 - v1.5.1 - Clarification in Night event intro & disclaimer about 1.2
 * 21 May  2018 - v1.5   - Night events added; list potential Winter Star gifts
 *  7 May  2018 - v1.4   - Geode counter bugfix; additional multiplayer support
