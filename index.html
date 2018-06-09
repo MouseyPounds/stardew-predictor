@@ -62,6 +62,8 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 <label for="tab-night">Night Events</label>
 <input type="radio" name="tabset" id="tab-winterstar">
 <label for="tab-winterstar">Winter Star</label>
+<input type="radio" name="tabset" id="tab-krobus">
+<label for="tab-krobus">Krobus</label>
 <div class="tab-panels">
 <section id="sec-mines" class="tab-panel">
 <h3>Special Mine Floors</h3>
@@ -179,6 +181,32 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <button id="winterstar-next" type="button" class="browse">Next 10 Years &gt;</button>
 </div></fieldset>
 <output id="out-winterstar"> </output>
+</section>
+<section id="sec-krobus" class="tab-panel">
+<h3 id="krobus-title">Krobus Fish/Cooked Meals Inventory</h3>
+<p class="intro" id="cart-intro">Fish &amp; Cooked Meals inventory list for <a href=="https://stardewvalleywiki.com/Krobus">Krobus</a>. Krobus operates in <a href="https://stardewvalleywiki.com/The_Sewers">The Sewers</a>
+all day, every day. Results can be browsed by season or searched using a case-insensitive
+substring (regular expression wildcards are allowed.)</p>
+<fieldset id="krobus-search">
+    <input type="text" id="krobus-search-text" class="search">
+    <button id="krobus-search-button" type="button" class="search">Search</button><br />
+    Search Range: <select id="krobus-search-range">
+    <option value="1">1 year</option>
+    <option value="2" selected>2 years</option>
+    <option value="3">3 years</option>
+    <option value="5">5 years</option>
+    <option value="10">10 years</option>
+    </select><br />
+    <input type="checkbox" id="krobus-search-all"> Start search from Spring 1, Year 1 instead of current day
+</fieldset>
+<fieldset id="krobus-buttons"><div class="buttons">
+<button id="krobus-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="krobus-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="krobus-reset" type="button" class="browse">Reset Calendar</button>
+<button id="krobus-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="krobus-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-krobus"> </output>
 </section>
 </div>
 </div>
