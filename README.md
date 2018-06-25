@@ -4,7 +4,7 @@ About Stardew Predictor
 
 This app simulates the random number generator used in Stardew Valley and makes "predictions" about the game either from the Game ID or by reading the save file.
 
-The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-checkup/ and the source code repository is https://github.com/MouseyPounds/stardew-checkup. It is released under the MIT license.
+The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 Changelog
 * 24 May  2018 - v1.6   - Favicon; Baby question for 1.2 save night events
