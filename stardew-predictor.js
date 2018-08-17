@@ -1987,7 +1987,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[82];
+							item[3] = save.minerals[(save.is1_3) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
@@ -2149,7 +2149,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[82];
+							item[3] = save.minerals[(save.is1_3) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
