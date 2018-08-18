@@ -2465,8 +2465,10 @@ window.onload = function () {
 			// by an expression that includes the NPC's X coordinate, and (based on in-game testing) that seems to be from a pre-festival
 			// position which is not easily predictable.
 			if (save.is1_3) {
-				console.log("Game ID: {" + save.gameID + "}, year: {" + year + "}, UMP ID: {" + save.mp_ids[0] +"}");
-				rng = new CSRandom( parseInt(save.gameID / 2) ^ year ^ parseInt(save.mp_ids[0]) );
+				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage
+				var UMP_ID = parseInt(bigInt(save.mp_ids[0]).and(4294967295));
+				var seed = parseInt(save.gameID / 2) ^ year ^ UMP_ID;
+				rng = new CSRandom( seed );
 			} else {
 				rng = new CSRandom(save.gameID / 2 - year);
 			}
