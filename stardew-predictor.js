@@ -1421,6 +1421,7 @@ window.onload = function () {
 			// Farmer & farm names are read as html() because they come from user input and might contain characters
 			// which must be escaped.
 			save.names = [];
+			save.mp_ids = [];
 			save.geodesCracked = [];
 			save.names.push($(xmlDoc).find('SaveGame > player > name').html());
 			output += '<span class="result">' + save.names[0] + ' of ' +
@@ -1428,9 +1429,11 @@ window.onload = function () {
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
 			// In 1.2, stats are under SaveGame, but in 1.3 they are under SaveGame > player and the farmhand elements.
 			if (save.is1_3) {
+				save.mp_ids.push($(xmlDoc).find('SaveGame > player > UniqueMultiplayerID').text());
 				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > player > stats > geodesCracked').text()));
 				$(xmlDoc).find('farmhand').each(function(i) {
 					save.names.push($(this).find('name').html());
+					save.mp_ids.push($(this).find('UniqueMultiplayerID').text());
 					save.geodesCracked.push(Number($(this).find('stats > geodesCracked').text()));
 					});
 				if (save.names.length > 1) {
@@ -1495,7 +1498,7 @@ window.onload = function () {
 			save.is1_3 = true;
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
-				'<span class="result">Version 1.3 features will be included.</span><br />\n';
+				'<span class="result">Version 1.3 features will be included where possible.</span><br />\n';
 		} else {
 			output = '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
@@ -2461,7 +2464,12 @@ window.onload = function () {
 			// While it looks like the gift itself might be predictable from StardewValley.Utility.getGiftFromNPC(), the RNG there gets seeded
 			// by an expression that includes the NPC's X coordinate, and (based on in-game testing) that seems to be from a pre-festival
 			// position which is not easily predictable.
-			rng = new CSRandom(save.gameID / 2 - year);
+			if (save.is1_3) {
+				console.log("Game ID: {" + save.gameID + "}, year: {" + year + "}, UMP ID: {" + save.mp_ids[0] +"}");
+				rng = new CSRandom( parseInt(save.gameID / 2) ^ year ^ parseInt(save.mp_ids[0]) );
+			} else {
+				rng = new CSRandom(save.gameID / 2 - year);
+			}
 			secretSantaGiveTo = npcs[rng.Next(npcs.length)];
 			secretSantaGetFrom = '';
 			// In addition to 5 hardcoded exclusions, NPCs are not eligible if they haven't been met yet; technically we should probably be

@@ -7,6 +7,7 @@ This app simulates the random number generator used in Stardew Valley and makes 
 The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 Changelog
+* 17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3
 * 17 Aug  2018 - v1.7   - Small bugfix on Geode predictions for 1.3
 * 24 May  2018 - v1.6   - Favicon; Baby question for 1.2 save night events
 * 23 May  2018 - v1.5.1 - Clarification in Night event intro & disclaimer about 1.2
