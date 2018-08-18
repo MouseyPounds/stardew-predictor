@@ -2469,7 +2469,7 @@ window.onload = function () {
 			// position which is not easily predictable.
 			if (save.is1_3) {
 				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage
-				var UMP_ID = parseInt(bigInt(save.mp_ids[player]).and(4294967295));
+				var UMP_ID = parseInt(bigInt(save.mp_ids[player]).and(0xffffffff));
 				var seed = parseInt(save.gameID / 2) ^ year ^ UMP_ID;
 				rng = new CSRandom( seed );
 			} else {
