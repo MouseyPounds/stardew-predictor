@@ -1624,6 +1624,140 @@ window.onload = function () {
 		return output;
 	}
 
+	function predictKrobus(isSearch, offset) {
+		var month,
+		monthName,
+		year,
+		dayOfMonth,
+		dayOfWeek,
+		week,
+		output,
+		stock,
+		searchTerm,
+		searchStart,
+		searchEnd,
+		count,
+		trClass,
+		match
+		output = '';
+
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#krobus-prev-year').prop("disabled", true);
+			$('#krobus-next-year').prop("disabled", true);
+			$('#krobus-prev-month').prop("disabled", true);
+			$('#krobus-next-month').prop("disabled", true);
+			$('#krobus-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = ($('#krobus-search-all').prop('checked')) ? 0 : 7 * Math.floor((save.daysPlayed - 1) / 7);
+			searchEnd = 112 * $('#krobus-search-range').val();
+			output += '<table class="output"><thead><tr><th colspan="4">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#krobus-search-all').prop('checked')) ? 'first ' : 'next ') + $('#krobus-search-range').val() + ' year(s)</th></tr>\n';
+			output += '<tr><th class="day">Day</th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			count = 0;
+			// Much of the logic here is duplicated from the browsing section, but comments related to it have been removed.
+			// Also, because output is purely a chronological list, we only need one RNG instance.
+			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
+				stock = kronusStock(offset);
+				match = null;
+				if (searchTerm.test(stock['fish'])) {
+					match = {item: stock['fish'], quantity: 5, price: 200, date: 3};
+
+				} else if (searchTerm.test(stock['dish'])) {
+					match = {item: stock['dish'], quantity: 5, price: stock['dishPrice'], date: 6};
+				}
+				if (match !== null) {
+					count += 1;
+					month = Math.floor(offset / 28);
+					monthName = save.seasonNames[month % 4];
+					year = 1 + Math.floor(offset / 112);
+					dayOfMonth = offset % 28 + match['date'];
+					dayOfWeek = save.dayNames[match['date']-1];
+					output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+						wikify(match['item']) + "</td><td>" + match['quantity'] + "</td><td>" + match['price'] + "g</td>";
+				}
+			}
+			output += '<tr><td colspan="4" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
+		} else {
+			if (typeof(offset) === 'undefined' || offset === '') {
+				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
+			}
+
+			if (offset < 112) {
+				$('#krobus-prev-year').prop("disabled", true);
+			} else {
+				$('#krobus-prev-year').val(offset - 112);
+				$('#krobus-prev-year').prop("disabled", false);
+			}
+			if (offset < 28) {
+				$('#krobus-prev-month').prop("disabled", true);
+			} else {
+				$('#krobus-prev-month').val(offset - 28);
+				$('#krobus-prev-month').prop("disabled", false);
+			}
+			$('#krobus-next-year').prop("disabled", false);
+			$('#krobus-next-month').prop("disabled", false);
+
+			$('#krobus-reset').val('reset');
+			$('#krobus-reset').html("Reset Browsing");			
+			$('#krobus-next-month').val(offset + 28);
+			$('#krobus-next-year').val(offset + 112);
+
+
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+
+			offset = (month)*28;
+			output = '';
+
+			output += '<table class="output"><thead><tr><th colspan="4">Krobus Fish/Meals Inventory</th></tr></thead>';
+			output += '<tr><th class="day">Day</th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			for (week=0; week < 4; week+=1) {
+				stock = kronusStock(offset+week*7);
+				trClass = 'future';
+				if (offset+week*7+3 < save.daysPlayed) {
+					trClass = 'past';
+				} else if (offset+week*7+3 == save.daysPlayed) {
+					trClass='current';
+				}
+				output += '<tr class="' + trClass + '"><td>' + save.dayNames[2] + ' ' + monthName + ' ' + (offset+week*7 +3) % 28 + ', Year ' + year + '</td><td>'
+				output += wikify(stock['fish']) + "</td><td>5<td>200";
+				if (offset+week*7+6 < save.daysPlayed) {
+					trClass = 'past';
+				} else if (offset+week*7+6 == save.daysPlayed) {
+					trClass = 'current';
+				}
+				output += '<tr class="' + trClass + '"><td>' + save.dayNames[5] + ' ' + monthName + ' ' + (offset+week*7 +6) % 28 + ', Year ' + year + '</td><td>'
+				output += wikify(stock['dish']) + "</td><td>5<td>" + stock['dishPrice'];
+			}
+		}
+
+		return output;
+	}
+
+	function kronusStock(offset) {
+		var output = '',
+		rngFish,
+		rngDish,
+		dishPrice,
+		dish,
+		fish
+
+		if (typeof(offset) === 'undefined' || offset === '') {
+			offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
+		}
+
+		rngFish = new CSRandom(Math.floor(save.gameID/2) + offset + 3);
+		rngDish = new CSRandom(Math.floor(save.gameID/2) + offset + 6);
+		fish = save.cartItems[rngFish.Next(698, 709)-1];
+		dish = save.cartItems[rngDish.Next(194, 245)-1];
+		dishPrice = rngDish.Next(5, 51)*10;
+
+		return {'fish': fish, 'dish': dish, 'dishPrice': dishPrice}
+	}
+
 	function predictCart(isSearch, offset) {
 		// logic from StardewValley.Utility.getTravelingMerchantStock()
 		var output = '',
@@ -2519,6 +2653,8 @@ window.onload = function () {
 			output = predictNight(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
+		} else if (tabID === 'krobus') {
+			output = predictKrobus(isSearch, extra);
 		} else {
 			console.log("Unknown tabID: " + tabID);
 		}
