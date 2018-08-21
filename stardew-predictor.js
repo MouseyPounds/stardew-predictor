@@ -34,6 +34,9 @@ window.onload = function () {
 	// Although this stuff isn't really part of the save file, it's a good place to put it so that
 	// all the tab functions have access. Some of this could be condensed via some looping, I'm sure.
 	// Most of this comes from Data\ObjectInformation.xnb, some from Data\FurnitureInformation.xnb
+	// cartItems is a giant hardcoded list so that we can simply look everything up by the random roll
+	// Note that the IDs here are offset by 1 from actual Object Information IDs and there is also a lot
+	// of repetition due to 'unapproved' items being replaced by other items.
 	save.seasonNames = ['Spring', 'Summer', 'Fall', 'Winter'];
 	save.dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	save.cartItems = {
@@ -1445,8 +1448,8 @@ window.onload = function () {
 			// Date originally used XXForSaveGame elements, but those were not always present on saves downloaded from upload.farm
 			save.daysPlayed = Number($(xmlDoc).find('stats > daysPlayed').first().text());
 			save.year = Number($(xmlDoc).find('SaveGame > year').first().text());
-			output += '<span class="result">Day ' + $(xmlDoc).find('SaveGame > dayOfMonth').text() + ' of ' +
-				capitalize($(xmlDoc).find('SaveGame > currentSeason').text()) + ', Year ' + save.year +
+			output += '<span class="result">Day ' + Number($(xmlDoc).find('SaveGame > dayOfMonth').text()) + ' of ' +
+				capitalize($(xmlDoc).find('SaveGame > currentSeason').html()) + ', Year ' + save.year +
 				' (' + save.daysPlayed + ' days played)</span><br />\n';
 			
 			output += '<span class="result">Geodes opened: ';
@@ -1915,6 +1918,117 @@ window.onload = function () {
 			}
 			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			output += '</tbody></table>\n';
+		}
+		return output;
+	}
+	
+	function predictKrobus(isSearch, offset) {
+		// logic from StardewValley.Locations.Sewer.getShadowShopStock()
+		var output = '',
+			month,
+			monthName,
+			year,
+			dayOfMonth,
+			dayOfWeek,
+			item,
+			qty,
+			price,
+			searchTerm,
+			searchStart,
+			searchEnd,
+			count,
+			rngFirst,
+			rngLast,
+			thisRoll;
+		// Hitting search without an actual search term will fall through to the default browse function; we might want
+		// to add some sort of error message or other feedback.
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#krobus-prev-week').prop("disabled", true);
+			$('#krobus-next-week').prop("disabled", true);
+			$('#krobus-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = ($('#krobus-search-all').prop('checked')) ? 0 : 7 * Math.floor((save.daysPlayed - 1) / 7);
+			searchEnd = 112 * $('#krobus-search-range').val();
+			output += '<table class="output"><thead><tr><th colspan="4">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#krobus-search-all').prop('checked')) ? 'first ' : 'next ') + $('#krobus-search-range').val() + ' year(s)</th></tr>\n';
+			output += '<tr><th class="day">Day</th><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
+			count = 0;
+			// Much of the logic here is duplicated from the browsing section, but comments related to it have been removed.
+			// Also, because output is purely a chronological list, we only need one RNG instance.
+			qty = 5; // This never changes
+			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
+				var days=[3,6];
+				for (var i = 0; i < days.length; i++) {
+					rngFirst = new CSRandom((save.gameID / 2) + offset + days[i]);
+					if (days[i] === 3) {
+						// Wednesday Fish
+						item = save.cartItems[rngFirst.Next(698,709) - 1];
+						price = 200;
+					} else if (days[i] === 6) {
+						// Saturday Cooking
+						thisRoll = rngFirst.Next(194,245) - 1;
+						if (thisRoll === 216) { thisRoll = 215; }
+						item = save.cartItems[thisRoll];
+						price = rngFirst.Next(5,51) * 10;
+					}
+					if (searchTerm.test(item)) {
+						count++;
+						month = Math.floor(offset / 28);
+						monthName = save.seasonNames[month % 4];
+						year = 1 + Math.floor(offset / 112);
+						dayOfMonth = offset % 28 + days[i];
+						dayOfWeek = save.dayNames[days[i]-1];
+						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+					}
+				}
+			}
+			output += '<tr><td colspan="4" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
+		} else {
+			if (typeof(offset) === 'undefined' || offset === '') {
+				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
+			}
+			$('#krobus-prev-week').val(offset - 7);
+			$('#krobus-next-week').val(offset + 7);
+			if (offset < 7) {
+				$('#krobus-prev-week').prop("disabled", true);
+			} else {
+				$('#krobus-prev-week').prop("disabled", false);
+			}			
+			$('#krobus-reset').val('reset');
+			$('#krobus-reset').html("Reset Browsing");			
+			$('#krobus-next-week').prop("disabled", false);
+			// Reset search fields too
+			$('#krobus-search-text').val('');
+			$('#krobus-search-range').val(2);
+			$('#krobus-search-all').prop('checked', false);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			dayOfMonth = offset % 28;
+			output += '<table class="output"><thead><tr><th colspan="3" class="multi">' + save.dayNames[2] + ' ' +
+				monthName + ' ' + (dayOfMonth + 3) + ', Year ' + year +	'</th>';
+			output +=	'<th colspan="3" class="multi">' + save.dayNames[5] + ' ' +
+				monthName + ' ' + (dayOfMonth + 6) + ', Year ' + year + '</th></tr>\n';
+			output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th>';
+			output += '<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody><tr>';
+			// Multiple RNG instances because of the layout of the output table.
+			// Note that we adjust the ID ranges down by 1 to fit our cartItems list
+			rngFirst = new CSRandom((save.gameID / 2) + offset + 3);
+			rngLast = new CSRandom((save.gameID / 2) + offset + 6);
+			item = save.cartItems[rngFirst.Next(698,709) - 1];
+			price = 200;
+			qty = 5;
+			output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+			thisRoll = rngLast.Next(194,245) - 1;
+			if (thisRoll === 216) { thisRoll = 215; }
+			item = save.cartItems[thisRoll];
+			price = rngLast.Next(5,51) * 10;
+			qty = 5;
+			output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+			output += '</tr></tbody></table>\n';
 		}
 		return output;
 	}
@@ -2517,6 +2631,8 @@ window.onload = function () {
 			output = predictTrains(isSearch, extra);
 		} else if (tabID === 'night') {
 			output = predictNight(isSearch, extra);
+		} else if (tabID === 'krobus') {
+			output = predictKrobus(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

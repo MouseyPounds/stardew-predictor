@@ -55,6 +55,8 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 <label for="tab-mines">Mine Floors</label>
 <input type="radio" name="tabset" id="tab-cart" >
 <label for="tab-cart">Traveling Merchant</label>
+<input type="radio" name="tabset" id="tab-krobus" >
+<label for="tab-krobus">Krobus</label>
 <input type="radio" name="tabset" id="tab-geode" >
 <label for="tab-geode">Geodes</label>
 <input type="radio" name="tabset" id="tab-train" >
@@ -104,6 +106,31 @@ Search Range: <select id="cart-search-range">
 <button id="cart-next-week" type="button" class="browse">Next Week &gt;</button>
 </div></fieldset>
 <output id="out-cart"> </output>
+</section>
+<section id="sec-krobus" class="tab-panel">
+<h3>Krobus' Sewer Shop Stock</h3>
+<p class="intro" id="Krobus-intro">Partial inventory list for <a href=="https://stardewvalleywiki.com/Krobus">Krobus</a> who sells items
+in the <a href="https://stardewvalleywiki.com/Sewers">Sewers</a>. While his stock is static on most days, there is a random
+fish sold on Wednesdays and a random cooked dish sold on Saturdays; these items can be predicted and are listed below.
+Results can be browsed by week or searched using a case-insensitive substring (regular expression wildcards are allowed.)</p>
+<fieldset id="krobus-search">
+<input type="text" id="krobus-search-text" class="search">
+<button id="krobus-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="krobus-search-range">
+<option value="1">1 year</option>
+<option value="2" selected>2 years</option>
+<option value="3">3 years</option>
+<option value="5">5 years</option>
+<option value="10">10 years</option>
+</select><br />
+<input type="checkbox" id="krobus-search-all"> Start search from Spring 1, Year 1 instead of current day
+</fieldset>
+<fieldset id="krobus-buttons"><div class="buttons">
+<button id="krobus-prev-week" type="button" class="browse">&lt; Previous Week</button>
+<button id="krobus-reset" type="button" class="browse">Reset Browsing</button>
+<button id="krobus-next-week" type="button" class="browse">Next Week &gt;</button>
+</div></fieldset>
+<output id="out-krobus"> </output>
 </section>
 <section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
@@ -189,6 +216,7 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>20 Aug  2018 - v2.0   - Added Krobus tab (thanks ronw23 on GitHub). Better input sanitization for anti-Cat protection</li>
 <li>18 Aug  2018 - v1.8   - Added public domain BigInteger library; MP support and fixed predictions for Winter Star 1.3</li>
 <li>17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3</li>
 <li>17 Aug  2018 - v1.7   - Small bugfix on Geode predictions for 1.3</li>
