@@ -2686,8 +2686,22 @@ window.onload = function () {
 		reader.readAsText(file);
 	}
 
+	function toggleVisible(evt) {
+		var t = evt.target;
+		if ($(t).next().is(':visible')) {
+			$(t).next().hide();
+			$(t).html("Show");
+		} else {
+			$(t).next().show();
+			$(t).html("Hide");
+		}
+	}
+	
 	document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
 	initializeHandlers();
+	$('.collapsible').each(function() {
+		$(this).children('button').click(toggleVisible);
+	});
 	// Run output immediately if an ID was given in the URL
 	if ($.QueryString.hasOwnProperty("id")) {
 		updateOutput();

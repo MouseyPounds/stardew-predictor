@@ -1,12 +1,16 @@
 # stardew-predictor
 
-About Stardew Predictor
+## About Stardew Predictor
 
-This app simulates the random number generator used in Stardew Valley and makes "predictions" about the game either from the Game ID or by reading the save file.
+This app simulates the random number generator used in [Stardew Valley](http://stardewvalley.net/) and makes "predictions" about the game either from the Game ID or by reading the save file. Currently, the information predicted includes special mine levels  (mushroom floor & infestations), items sold by the traveling merchant & Krobus, results from cracking geodes, the train schedule, and the gift exchange of the Feast of the Winter Star.
 
-The app is written in Javascript and uses jQuery it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
+All changed & added content from version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to the [topic in the official forums](https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/).
 
-Changelog
+The app is written in Javascript and uses [jQuery](https://jquery.com/) and [BigInteger.js](https://github.com/peterolson/BigInteger.js) it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
+
+## Changelog
+
+*  1 Sept 2018 - v2.0.1 - Collapse older entries in changelog
 * 20 Aug  2018 - v2.0   - Added Krobus tab (thanks ronw23 on GitHub). Better input sanitization for anti-Cat protection
 * 18 Aug  2018 - v1.8   - Added public domain BigInteger library; MP support and fixed predictions for Winter Star 1.3
 * 17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3

@@ -26,7 +26,7 @@
 <h2 id="sec_about">About</h2>
 <p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about 
 the game after reading the save file. Currently, the information predicted includes special mine levels 
-(mushroom floor & infestations), items sold by the traveling merchant, 
+(mushroom floor &amp; infestations), items sold by the traveling merchant &amp; Krobus, 
 results from cracking geodes, the train schedule, and the gift exchange of the Feast of the Winter Star.</p>
 <p>All changed &amp; added content from the version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a> and <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>.</p>
@@ -216,10 +216,16 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li> 1 Sept 2018 - v2.0.1 - Collapse older entries in changelog</li>
 <li>20 Aug  2018 - v2.0   - Added Krobus tab (thanks ronw23 on GitHub). Better input sanitization for anti-Cat protection</li>
 <li>18 Aug  2018 - v1.8   - Added public domain BigInteger library; MP support and fixed predictions for Winter Star 1.3</li>
 <li>17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3</li>
 <li>17 Aug  2018 - v1.7   - Small bugfix on Geode predictions for 1.3</li>
+</ul>
+<h3>Older changes</h3>
+<div id="changelog_old" class="collapsible">
+<button id="changelog_toggle" type="button">Show</button>
+<ul class="initial_hide">
 <li>24 May  2018 - v1.6   - Favicon; Baby question for 1.2 save night events</li>
 <li>23 May  2018 - v1.5.1 - Clarification in Night event intro & disclaimer about 1.2</li>
 <li>21 May  2018 - v1.5   - Night events added; list potential Winter Star gifts.</li>
@@ -235,6 +241,7 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <li>20 Feb  2018 - v0.9   - Beta Testing</li>
 <li> 4 July 2017 - v0.5   - Alpha Testing</li>
 </ul>
+</div>
 </div>
 
 <div id="footer" class="panel">

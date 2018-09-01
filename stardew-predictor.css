@@ -40,6 +40,7 @@ h3 {
 	min-height: 750px;
 }
 #progress-container { display: none; }
+.initial_hide { display: none; }
 .error {
 	font-weight: bold;
 	font-size: 150%;
