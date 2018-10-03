@@ -2560,6 +2560,9 @@ window.onload = function () {
 			year,
 			rng,
 			player,
+			numPlayers = 1,
+			playerName = "Farmer",
+			forceOldLogic = false,
 			tclass;
 		if (typeof(offset) === 'undefined') {
 			offset = save.year - 1;
@@ -2574,20 +2577,27 @@ window.onload = function () {
 		$('#winterstar-next').val(offset + 1);
 		year = offset + 1;
 
+		if (typeof save.names !== "undefined") {
+			numPlayers = save.names.length;
+		} else {
+			forceOldLogic = true;
+		}
+		
 		output += '<table class="output"><thead><tr><th colspan = "4">Year ' + year + '</th></tr>';
 		output += '<tr><th>Player</th><th>Player gives gift to</th><th>Player receives gift from</th><th class="long_list">Possible gifts received</th></tr></thead>\n<tbody>';
-		for (player = 0; player < save.names.length; player++) {
+		for (player = 0; player < numPlayers; player++) {
 			// Gift giver and receiver logic from StardewValley.Event.setUpPlayerControlSequence() and StardewValley.Utility.getRandomTownNPC()
 			// While it looks like the gift itself might be predictable from StardewValley.Utility.getGiftFromNPC(), the RNG there gets seeded
 			// by an expression that includes the NPC's X coordinate, and (based on in-game testing) that seems to be from a pre-festival
 			// position which is not easily predictable.
-			if (save.is1_3) {
+			if (forceOldLogic || !save.is1_3) {
+				rng = new CSRandom(save.gameID / 2 - year);
+			} else {
 				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage
 				var UMP_ID = parseInt(bigInt(save.mp_ids[player]).and(0xffffffff));
 				var seed = parseInt(save.gameID / 2) ^ year ^ UMP_ID;
 				rng = new CSRandom( seed );
-			} else {
-				rng = new CSRandom(save.gameID / 2 - year);
+				playerName = save.names[player];
 			}
 			secretSantaGiveTo = npcs[rng.Next(npcs.length)];
 			secretSantaGetFrom = '';
@@ -2612,7 +2622,7 @@ window.onload = function () {
 			} else {
 				gifts = (giftChoices['DEFAULT']).map(function (i) { return wikify(i); }).sort().join(', ');
 			}
-			output += '<tr class="' + tclass + '"><td>' + save.names[player] + "</td><td>" + wikify(secretSantaGiveTo) +
+			output += '<tr class="' + tclass + '"><td>' + playerName + "</td><td>" + wikify(secretSantaGiveTo) +
 				"</td><td>" + wikify(secretSantaGetFrom) + '</td><td class="long_list">' + gifts + "</td></tr>\n";
 		}
 		output += "</tbody></table>\n";
