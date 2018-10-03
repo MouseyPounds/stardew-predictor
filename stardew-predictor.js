@@ -2581,6 +2581,7 @@ window.onload = function () {
 			numPlayers = save.names.length;
 		} else {
 			forceOldLogic = true;
+			$('#winterstar-intro').after('<p class="note">Note: No players found; predictions may be wrong in game version 1.3</p>');
 		}
 		
 		output += '<table class="output"><thead><tr><th colspan = "4">Year ' + year + '</th></tr>';
