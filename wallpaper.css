@@ -1,0 +1,346 @@
+/* wallpaper.css
+ * https://mouseypounds.github.io/stardew-predictor/
+ */
+
+ img.wp {
+	float: left;
+    width: 16px;
+    height: 48px;
+	background-image:url("./walls_and_floors.png")
+}
+img#wp_1 {
+    background-position: 0px 0px;
+}
+img#wp_2 {
+    background-position: -16px 0px;
+}
+img#wp_3 {
+    background-position: -32px 0px;
+}
+img#wp_4 {
+    background-position: -48px 0px;
+}
+img#wp_5 {
+    background-position: -64px 0px;
+}
+img#wp_6 {
+    background-position: -80px 0px;
+}
+img#wp_7 {
+    background-position: -96px 0px;
+}
+img#wp_8 {
+    background-position: -112px 0px;
+}
+img#wp_9 {
+    background-position: -128px 0px;
+}
+img#wp_10 {
+    background-position: -144px 0px;
+}
+img#wp_11 {
+    background-position: -160px 0px;
+}
+img#wp_12 {
+    background-position: -176px 0px;
+}
+img#wp_13 {
+    background-position: -192px 0px;
+}
+img#wp_14 {
+    background-position: -208px 0px;
+}
+img#wp_15 {
+    background-position: -224px 0px;
+}
+img#wp_16 {
+    background-position: -240px 0px;
+}
+img#wp_17 {
+    background-position: 0px -48px;
+}
+img#wp_18 {
+    background-position: -16px -48px;
+}
+img#wp_19 {
+    background-position: -32px -48px;
+}
+img#wp_20 {
+    background-position: -48px -48px;
+}
+img#wp_21 {
+    background-position: -64px -48px;
+}
+img#wp_22 {
+    background-position: -80px -48px;
+}
+img#wp_23 {
+    background-position: -96px -48px;
+}
+img#wp_24 {
+    background-position: -112px -48px;
+}
+img#wp_25 {
+    background-position: -128px -48px;
+}
+img#wp_26 {
+    background-position: -144px -48px;
+}
+img#wp_27 {
+    background-position: -160px -48px;
+}
+img#wp_28 {
+    background-position: -176px -48px;
+}
+img#wp_29 {
+    background-position: -192px -48px;
+}
+img#wp_30 {
+    background-position: -208px -48px;
+}
+img#wp_31 {
+    background-position: -224px -48px;
+}
+img#wp_32 {
+    background-position: -240px -48px;
+}
+img#wp_33 {
+    background-position: 0px -96px;
+}
+img#wp_34 {
+    background-position: -16px -96px;
+}
+img#wp_35 {
+    background-position: -32px -96px;
+}
+img#wp_36 {
+    background-position: -48px -96px;
+}
+img#wp_37 {
+    background-position: -64px -96px;
+}
+img#wp_38 {
+    background-position: -80px -96px;
+}
+img#wp_39 {
+    background-position: -96px -96px;
+}
+img#wp_40 {
+    background-position: -112px -96px;
+}
+img#wp_41 {
+    background-position: -128px -96px;
+}
+img#wp_42 {
+    background-position: -144px -96px;
+}
+img#wp_43 {
+    background-position: -160px -96px;
+}
+img#wp_44 {
+    background-position: -176px -96px;
+}
+img#wp_45 {
+    background-position: -192px -96px;
+}
+img#wp_46 {
+    background-position: -208px -96px;
+}
+img#wp_47 {
+    background-position: -224px -96px;
+}
+img#wp_48 {
+    background-position: -240px -96px;
+}
+img#wp_49 {
+    background-position: 0px -144px;
+}
+img#wp_50 {
+    background-position: -16px -144px;
+}
+img#wp_51 {
+    background-position: -32px -144px;
+}
+img#wp_52 {
+    background-position: -48px -144px;
+}
+img#wp_53 {
+    background-position: -64px -144px;
+}
+img#wp_54 {
+    background-position: -80px -144px;
+}
+img#wp_55 {
+    background-position: -96px -144px;
+}
+img#wp_56 {
+    background-position: -112px -144px;
+}
+img#wp_57 {
+    background-position: -128px -144px;
+}
+img#wp_58 {
+    background-position: -144px -144px;
+}
+img#wp_59 {
+    background-position: -160px -144px;
+}
+img#wp_60 {
+    background-position: -176px -144px;
+}
+img#wp_61 {
+    background-position: -192px -144px;
+}
+img#wp_62 {
+    background-position: -208px -144px;
+}
+img#wp_63 {
+    background-position: -224px -144px;
+}
+img#wp_64 {
+    background-position: -240px -144px;
+}
+img#wp_65 {
+    background-position: 0px -192px;
+}
+img#wp_66 {
+    background-position: -16px -192px;
+}
+img#wp_67 {
+    background-position: -32px -192px;
+}
+img#wp_68 {
+    background-position: -48px -192px;
+}
+img#wp_69 {
+    background-position: -64px -192px;
+}
+img#wp_70 {
+    background-position: -80px -192px;
+}
+img#wp_71 {
+    background-position: -96px -192px;
+}
+img#wp_72 {
+    background-position: -112px -192px;
+}
+img#wp_73 {
+    background-position: -128px -192px;
+}
+img#wp_74 {
+    background-position: -144px -192px;
+}
+img#wp_75 {
+    background-position: -160px -192px;
+}
+img#wp_76 {
+    background-position: -176px -192px;
+}
+img#wp_77 {
+    background-position: -192px -192px;
+}
+img#wp_78 {
+    background-position: -208px -192px;
+}
+img#wp_79 {
+    background-position: -224px -192px;
+}
+img#wp_80 {
+    background-position: -240px -192px;
+}
+img#wp_81 {
+    background-position: 0px -240px;
+}
+img#wp_82 {
+    background-position: -16px -240px;
+}
+img#wp_83 {
+    background-position: -32px -240px;
+}
+img#wp_84 {
+    background-position: -48px -240px;
+}
+img#wp_85 {
+    background-position: -64px -240px;
+}
+img#wp_86 {
+    background-position: -80px -240px;
+}
+img#wp_87 {
+    background-position: -96px -240px;
+}
+img#wp_88 {
+    background-position: -112px -240px;
+}
+img#wp_89 {
+    background-position: -128px -240px;
+}
+img#wp_90 {
+    background-position: -144px -240px;
+}
+img#wp_91 {
+    background-position: -160px -240px;
+}
+img#wp_92 {
+    background-position: -176px -240px;
+}
+img#wp_93 {
+    background-position: -192px -240px;
+}
+img#wp_94 {
+    background-position: -208px -240px;
+}
+img#wp_95 {
+    background-position: -224px -240px;
+}
+img#wp_96 {
+    background-position: -240px -240px;
+}
+img#wp_97 {
+    background-position: 0px -288px;
+}
+img#wp_98 {
+    background-position: -16px -288px;
+}
+img#wp_99 {
+    background-position: -32px -288px;
+}
+img#wp_100 {
+    background-position: -48px -288px;
+}
+img#wp_101 {
+    background-position: -64px -288px;
+}
+img#wp_102 {
+    background-position: -80px -288px;
+}
+img#wp_103 {
+    background-position: -96px -288px;
+}
+img#wp_104 {
+    background-position: -112px -288px;
+}
+img#wp_105 {
+    background-position: -128px -288px;
+}
+img#wp_106 {
+    background-position: -144px -288px;
+}
+img#wp_107 {
+    background-position: -160px -288px;
+}
+img#wp_108 {
+    background-position: -176px -288px;
+}
+img#wp_109 {
+    background-position: -192px -288px;
+}
+img#wp_110 {
+    background-position: -208px -288px;
+}
+img#wp_111 {
+    background-position: -224px -288px;
+}
+img#wp_112 {
+    background-position: -240px -288px;
+}

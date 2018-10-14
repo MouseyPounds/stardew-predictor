@@ -35,7 +35,7 @@ window.onload = function () {
 	// all the tab functions have access. Some of this could be condensed via some looping, I'm sure.
 	// Most of this comes from Data\ObjectInformation.xnb, some from Data\FurnitureInformation.xnb
 	// cartItems is a giant hardcoded list so that we can simply look everything up by the random roll
-	// Note that the IDs here are offset by 1 from actual Object Information IDs and there is also a lot
+	// Note that the IDs in cartItems are offset by 1 from actual Object Information IDs and there is also a lot
 	// of repetition due to 'unapproved' items being replaced by other items.
 	save.seasonNames = ['Spring', 'Summer', 'Fall', 'Winter'];
 	save.dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -1369,6 +1369,48 @@ window.onload = function () {
 		577: 'Fairy Stone',
 		578: 'Star Shards'
 	};
+	save.wallpaperEquiv = {
+		16: 'Wild Horseradish',
+		18: 'Daffodil',
+		20: 'Leek',
+		22: 'Dandelion',
+		24: 'Parsnip',
+		60: 'Emerald',
+		62: 'Aquamarine',
+		64: 'Ruby',
+		66: 'Amethyst',
+		68: 'Topaz',
+		70: 'Jade',
+		72: 'Diamond',
+		74: 'Prismatic Shard',
+		78: 'Cave Carrot',
+		79: 'Secret Note',
+		80: 'Quartz',
+		82: 'Fire Quartz',
+		84: 'Frozen Tear',
+		86: 'Earth Crystal',
+		88: 'Coconut',
+		90: 'Cactus Fruit',
+		92: 'Sap',
+		93: 'Torch',
+		94: 'Spirit Torch',
+		96: 'Dwarf Scroll I',
+		97: 'Dwarf Scroll II',
+		98: 'Dwarf Scroll III',
+		99: 'Dwarf Scroll IV',
+		100: 'Chipped Amphora',
+		101: 'Arrowhead',
+		102: 'Lost Book',
+		103: 'Ancient Doll',
+		104: 'Elvish Jewelry',
+		105: 'Chewing Stick',
+		106: 'Ornamental Fan',
+		107: 'Dinosaur Egg',
+		108: 'Rare Disc',
+		109: 'Ancient Sword',
+		110: 'Rusty Spoon',
+		111: 'Rusty Spur',
+	};		
 
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
@@ -1411,6 +1453,12 @@ window.onload = function () {
 			'Gold Ore': 1,
 			'Iridium Ore': 1,
 		};
+		// Large multiplayer games will sometimes get out of synch between the actual number of days played and the current date
+		// The URL parameter 'days' lets this offset be defined.
+		save.dayAdjust = 0;
+		if ($.QueryString.hasOwnProperty("days")) {
+			save.dayAdjust = parseInt($.QueryString.days);
+		}
 		if (typeof xmlDoc !== 'undefined') {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
@@ -1451,7 +1499,6 @@ window.onload = function () {
 			output += '<span class="result">Day ' + Number($(xmlDoc).find('SaveGame > dayOfMonth').text()) + ' of ' +
 				capitalize($(xmlDoc).find('SaveGame > currentSeason').html()) + ', Year ' + save.year +
 				' (' + save.daysPlayed + ' days played)</span><br />\n';
-			
 			output += '<span class="result">Geodes opened: ';
 			for (var i = 0; i < save.names.length; i++) {
 				output += save.geodesCracked[i] + ' (' + save.names[i] + ') ';
@@ -1503,9 +1550,12 @@ window.onload = function () {
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
 				'<span class="result">Version 1.3 features will be included where possible.</span><br />\n';
 		} else {
-			output = '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
+			return '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
 
+		if (save.dayAdjust !== 0) {
+			output += '<span class="result">Day adjustment found in URL; will offset days played by ' + save.dayAdjust + '</span><br />\n';
+		}			
 		return output;
 	}
 
@@ -1577,7 +1627,7 @@ window.onload = function () {
 						continue;
 					}
 					// Monster infestation seems to override mushroom spawns so that is checked first
-					rng = new CSRandom(day + mineLevel + save.gameID / 2);
+					rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
 					if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
 						if (rng.NextDouble() < 0.05) {
 							if (rng.NextDouble() < 0.5) {
@@ -1590,7 +1640,7 @@ window.onload = function () {
 					}
 					// Reset the seed for checking Mushrooms. Note, there are a couple checks related to
 					// darker than normal lighting. We don't care about the results but need to mimic them.
-					rng = new CSRandom(day + mineLevel + save.gameID / 2);
+					rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
 					if (rng.NextDouble() < 0.3 && mineLevel > 2) {
 						rng.NextDouble(); // checked vs < 0.3 again
 					}
@@ -1616,13 +1666,92 @@ window.onload = function () {
 					infestedSlime.push("None");
 				}
 				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
-					'<span class="cell"><img src="IconM.png" class="icon" alt="Mushroom"> ' + rainbowLights.join(', ') +
-					'<br /><img src="IconI.png" class="icon" alt="Sword"> ' + infestedMonster.join(', ') +
-					'<br /><img src="IconS.png" class="icon" alt="Slime"> ' + infestedSlime.join(', ') + '</span></td>';
+					'<span class="cell"><img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;' + rainbowLights.join(',&nbsp;') +
+					'<br /><img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;' + infestedMonster.join(',&nbsp;') +
+					'<br /><img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;' + infestedSlime.join(',&nbsp;') + '</span></td>';
 			}
 			output += "</tr>\n";
 		}
-		output += '<tr><td colspan="7" class="legend">Legend: <img src="IconM.png" class="icon" alt="Mushroom"> Mushroom Level | <img src="IconI.png" class="icon" alt="Sword"> Monster Infestation | <img src="IconS.png" class="icon" alt="Slime"> Slime Infestation</td></tr>';
+		output += '<tr><td colspan="7" class="legend">Legend: <img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m"> Mushroom Level | <img src="blank.png" class="small-icon" alt="Sword" id="icon_i"> Monster Infestation | <img src="blank.png" class="small-icon" alt="Slime" id="icon_s"> Slime Infestation</td></tr>';
+		output += "</tbody></table>\n";
+		return output;
+	}
+
+	function predictWallpaper(isSearch, offset) {
+		// Pierre's stock is determined by StardewValley.Utility.getShopStock()
+		// Joja-mart's stock is determined by StardewValley.Utility.getJojaStock()
+		var output = "",
+			rng_p,
+			rng_j,
+			wp_p,
+			wp_j,
+			eq_p,
+			eq_j,
+			day,
+			weekDay,
+			week,
+			monthName,
+			month,
+			year,
+			tclass;
+		if (typeof(offset) === 'undefined') {
+			offset = 7 * Math.floor(save.daysPlayed/7);
+		}
+		if (offset < 112) {
+			$('#wallpaper-prev-year').prop("disabled", true);
+		} else {
+			$('#wallpaper-prev-year').val(offset - 112);
+			$('#wallpaper-prev-year').prop("disabled", false);
+		}
+		if (offset < 7) {
+			$('#wallpaper-prev-week').prop("disabled", true);
+		} else {
+			$('#wallpaper-prev-week').val(offset - 7);
+			$('#wallpaper-prev-week').prop("disabled", false);
+		}
+		$('#wallpaper-reset').val('reset');
+		$('#wallpaper-next-week').val(offset + 7);
+		$('#wallpaper-next-year').val(offset + 112);
+		month = Math.floor(offset / 28);
+		monthName = save.seasonNames[month % 4];
+		year = 1 + Math.floor(offset / 112);
+		output += '<table class="output"><thead><tr><th class="day">Date</th>' +
+			'<th class="wp-result">Pierre\'s General Store <img src="blank.png" class="icon" id="pierre"></th>' +
+			'<th class="wp-result">Joja Mart <img src="blank.png" class="icon" id="morris"></th></tr></thead><tbody>';
+
+		for (weekDay = 1; weekDay < 8; weekDay++) {
+			day = weekDay + offset;
+			rng_p = new CSRandom(day + save.gameID / 2 + save.dayAdjust);
+			rng_j = new CSRandom(day + save.gameID / 2 + 1 + save.dayAdjust);
+			wp_p = rng_p.Next(112);
+			if (save.wallpaperEquiv.hasOwnProperty(wp_p)) {
+				eq_p = wikify(save.wallpaperEquiv[wp_p]);
+			} else {
+				eq_p = "(No valid equivalence)";
+			}
+			wp_p++;
+			wp_j = rng_j.Next(112);
+			if (wp_j === 21) {
+				wp_j = 22;
+			}
+			if (save.wallpaperEquiv.hasOwnProperty(wp_j)) {
+				eq_j = wikify(save.wallpaperEquiv[wp_j]);
+			} else {
+				eq_j = "(No valid equivalence)";
+			}
+			wp_j++;
+			if (day < save.daysPlayed) {
+				tclass = "past";
+			} else if (day === save.daysPlayed) {
+				tclass = "current";
+			} else {
+				tclass = "future";
+			}
+			output += '<tr><td class="' + tclass + '">' + save.dayNames[(day - 1) % 7] + '<br />' +
+				monthName + ' ' + ((day - 1) % 28 + 1) +', Year ' + year + '</td>' +
+				'<td class="' + tclass + '"><img src="blank.png" class="wp" id="wp_' + wp_p + '"> Wallpaper #' + wp_p + '<br/>' + eq_p + '</td>' +
+				'<td class="' + tclass + '"><img src="blank.png" class="wp" id="wp_' + wp_j + '"> Wallpaper #' + wp_j + '<br/>' + eq_j + '</td></tr>';
+		}
 		output += "</tbody></table>\n";
 		return output;
 	}
@@ -1651,8 +1780,10 @@ window.onload = function () {
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#cart-prev-year').prop("disabled", true);
 			$('#cart-prev-week').prop("disabled", true);
 			$('#cart-next-week').prop("disabled", true);
+			$('#cart-next-year').prop("disabled", true);
 			$('#cart-reset').html("Clear Search Results &amp; Reset Browsing");
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
@@ -1677,7 +1808,7 @@ window.onload = function () {
 				for (var i = 0; i < days.length; i++) {
 					dayOfMonth = offset % 28 + days[i];
 					dayOfWeek = save.dayNames[days[i]-1];
-					rngFirst = new CSRandom(save.gameID + offset + days[i]);
+					rngFirst = new CSRandom(save.gameID + offset + days[i] + save.dayAdjust);
 					for (slot = 1; slot <= 10; slot++) {
 						item = save.cartItems[rngFirst.Next(2,790)];
 						price = Math.max(rngFirst.Next(1,11)*100, save.cartPrices[item]*rngFirst.Next(3,6));
@@ -1757,10 +1888,17 @@ window.onload = function () {
 					$('#cart-prev-week').val(offset - 7);
 				}
 			}
+			$('#cart-next-year').val(offset + 112);
+			$('#cart-prev-year').val(offset - 112);
 			if (offset < 7) {
 				$('#cart-prev-week').prop("disabled", true);
 			} else {
 				$('#cart-prev-week').prop("disabled", false);
+			}			
+			if (offset < 112) {
+				$('#cart-prev-year').prop("disabled", true);
+			} else {
+				$('#cart-prev-year').prop("disabled", false);
 			}			
 			$('#cart-reset').val('reset');
 			$('#cart-reset').html("Reset Browsing");			
@@ -1788,11 +1926,11 @@ window.onload = function () {
 			}
 			output += '<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody>';
 			// Multiple RNG instances because of the layout of the output table. rngMid only needed for Night Market
-			rngFirst = new CSRandom(save.gameID + offset + 5);
+			rngFirst = new CSRandom(save.gameID + offset + 5 + save.dayAdjust);
 			if (isNightMarket) {
-				rngMid = new CSRandom(save.gameID + offset + 6);
+				rngMid = new CSRandom(save.gameID + offset + 6 + save.dayAdjust);
 			}
-			rngLast = new CSRandom(save.gameID + offset + 7);
+			rngLast = new CSRandom(save.gameID + offset + 7 + save.dayAdjust);
 			for (slot = 1; slot <= 10; slot++) {
 				output += "<tr><td>Basic Item " + slot + "</td>";
 				item = save.cartItems[rngFirst.Next(2,790)];
@@ -1943,8 +2081,10 @@ window.onload = function () {
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#krobus-prev-year').prop("disabled", true);
 			$('#krobus-prev-week').prop("disabled", true);
 			$('#krobus-next-week').prop("disabled", true);
+			$('#krobus-next-year').prop("disabled", true);
 			$('#krobus-reset').html("Clear Search Results &amp; Reset Browsing");
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
@@ -1961,7 +2101,7 @@ window.onload = function () {
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				var days=[3,6];
 				for (var i = 0; i < days.length; i++) {
-					rngFirst = new CSRandom((save.gameID / 2) + offset + days[i]);
+					rngFirst = new CSRandom((save.gameID / 2) + offset + days[i] + save.dayAdjust);
 					if (days[i] === 3) {
 						// Wednesday Fish
 						item = save.cartItems[rngFirst.Next(698,709) - 1];
@@ -1990,12 +2130,19 @@ window.onload = function () {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
 			}
+			$('#krobus-prev-year').val(offset - 112);
 			$('#krobus-prev-week').val(offset - 7);
 			$('#krobus-next-week').val(offset + 7);
+			$('#krobus-next-year').val(offset + 112);
 			if (offset < 7) {
 				$('#krobus-prev-week').prop("disabled", true);
 			} else {
 				$('#krobus-prev-week').prop("disabled", false);
+			}			
+			if (offset < 112) {
+				$('#krobus-prev-year').prop("disabled", true);
+			} else {
+				$('#krobus-prev-year').prop("disabled", false);
 			}			
 			$('#krobus-reset').val('reset');
 			$('#krobus-reset').html("Reset Browsing");			
@@ -2016,8 +2163,8 @@ window.onload = function () {
 			output += '<th class="item">Item</th><th class="qty">Qty</th><th class="price">Price</th></tr>\n<tbody><tr>';
 			// Multiple RNG instances because of the layout of the output table.
 			// Note that we adjust the ID ranges down by 1 to fit our cartItems list
-			rngFirst = new CSRandom((save.gameID / 2) + offset + 3);
-			rngLast = new CSRandom((save.gameID / 2) + offset + 6);
+			rngFirst = new CSRandom((save.gameID / 2) + offset + 3 + save.dayAdjust);
+			rngLast = new CSRandom((save.gameID / 2) + offset + 6 + save.dayAdjust);
 			item = save.cartItems[rngFirst.Next(698,709) - 1];
 			price = 200;
 			qty = 5;
@@ -2054,8 +2201,10 @@ window.onload = function () {
 			rng;
 
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#geode-prev-100').prop("disabled", true);
 			$('#geode-prev').prop("disabled", true);
 			$('#geode-next').prop("disabled", true);
+			$('#geode-next-100').prop("disabled", true);
 			$('#geode-reset').html("Clear Search Results &amp; Reset Browsing");
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
@@ -2065,10 +2214,14 @@ window.onload = function () {
 			output += '<table class="output"><thead><tr><th colspan="5">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
 			output += '<tr><th class="item">Item</th>' +
-				'<th class="geode-result">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' +
-				'<th class="geode-result">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
-				'<th class="geode-result">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
-				'<th class="geode-result">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n<tbody>';
+				'<th class="geode-result">Geode <a href="https://stardewvalleywiki.com/Geode">' +
+				'<img src="blank.png" class="icon" id="geode_r"></a></th>' +
+				'<th class="geode-result">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode">' + 
+				'<img src="blank.png" class="icon" id="geode_f"></a></th>' +
+				'<th class="geode-result">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode">' +
+				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
+				'<th class="geode-result">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
+				'<img src="blank.png" class="icon" id="geode_o"></a></th></tr>\n<tbody>';
 			count = 0;
 			searchResults = {};
 			console.log('searching from ' + searchStart + ' to ' + searchEnd);
@@ -2189,7 +2342,7 @@ window.onload = function () {
 				itemIcon = '';
 				//count++;
 				if (!save.donatedItems.hasOwnProperty(key)) {
-					itemIcon = ' <span tooltip="Need to Donate"><img src="Gunther.png" alt="Need to Donate"></span>';
+					itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
 				}
 				output += '<tr><td class="item">' + wikify(key) + itemIcon + '</td>';
 				for (c = 0; c < 4; c++) {
@@ -2218,19 +2371,31 @@ window.onload = function () {
 				$('#geode-prev').val(offset - pageSize);
 				$('#geode-prev').prop("disabled", false);
 			}
+			if (offset < 100) {
+				$('#geode-prev-100').prop("disabled", true);
+			} else {
+				$('#geode-prev-100').val(offset - 100);
+				$('#geode-prev-100').prop("disabled", false);
+			}
 			$('#geode-reset').val('reset');
 			$('#geode-reset').html("Reset Browsing");
 			$('#geode-next').val(offset + pageSize);
 			$('#geode-next').prop("disabled", false);
+			$('#geode-next-100').val(offset + 100);
+			$('#geode-next-100').prop("disabled", false);
 			// Reset search fields too
 			$('#geode-search-text').val('');
 			$('#geode-search-range').val(200);
 			$('#geode-search-all').prop('checked', false);
 			output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
-				'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode"><img src="Geode.png"></a></th>' +
-				'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode"><img src="GeodeF.png"></a></th>' +
-				'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode"><img src="GeodeM.png"></a></th>' +
-				'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode"><img src="GeodeO.png"></a></th></tr>\n';
+				'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode">' +
+				'<img src="blank.png" class="icon" id="geode_r"></a></th>' +
+				'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode">' +
+				'<img src="blank.png" class="icon" id="geode_f"></a></th>' +
+				'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode">' +
+				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
+				'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
+				'<img src="blank.png" class="icon" id="geode_o"></a></th></tr>\n';
 			output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
 				'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
 			// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
@@ -2348,14 +2513,14 @@ window.onload = function () {
 				for (c = 0; c < 4; c++) {
 					itemIcon = '';
 					if (!save.donatedItems.hasOwnProperty(item[c])) {
-						itemIcon = ' <span tooltip="Need to Donate"><img src="Gunther.png" alt="Need to Donate"></span>';
+						itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
 					}
 					output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
 				}
 				output += '</tr>';
 			}
 		}
-		output += '<tr><td colspan="9" class="legend">Note: <img src="Gunther.png" alt="Need to Donate"> denotes items ' +
+		output += '<tr><td colspan="9" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' +
 			'which need to be donated to the ' + wikify('Museum') + '</td></tr>';
 		output += '</tbody></table>';
 		return output;
@@ -2410,7 +2575,7 @@ window.onload = function () {
 				output += "<tr>";
 				for (weekDay = 1; weekDay < 8; weekDay++) {
 					day = 7 * week + weekDay + offset;
-					rng = new CSRandom(save.gameID / 2 + day);
+					rng = new CSRandom(save.gameID / 2 + day + save.dayAdjust);
 					if (day < 31) {
 						thisTrain = 'Railroad<br/>not yet<br/>accessible';
 					} else {
@@ -2432,7 +2597,7 @@ window.onload = function () {
 								if (min === 0) {
 									min = '00';
 								}
-								thisTrain = '<img src="Train.png"><br />Train at ' + hour + ':' + min + ampm;
+								thisTrain = '<img src="blank.png" class="event" id="train"><br />Train at ' + hour + ':' + min + ampm;
 							}
 						}
 					}
@@ -2501,21 +2666,21 @@ window.onload = function () {
 					day = 7 * week + weekDay + offset;
 					// The event is actually rolled in the morning at 6am, but from a user standpoint it makes more since
 					// to think of it occuring during the previous night. We will offset the day by 1 because of this.
-					rng = new CSRandom(save.gameID / 2 + day + 1);
+					rng = new CSRandom(save.gameID / 2 + day + 1 + save.dayAdjust);
 					if (day === 30) {
-						thisEvent = '<img src="Train.png"><br />Earthquake';
+						thisEvent = '<img src="blank.png" class="event" id="train"><br />Earthquake';
 					} else if (!save.is1_3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
-						thisEvent = '<img src="EventB.png"><br />"Want a Baby?"';
+						thisEvent = '<img src="blank.png" class="event" id="event_b"><br />"Want a Baby?"';
 					} else if (rng.NextDouble() < 0.01 && (month%4) < 3) {
-						thisEvent = '<img src="EventF.png"><br />Fairy';
+						thisEvent = '<img src="blank.png" class="event" id="event_f"><br />Fairy';
 					} else if (rng.NextDouble() < 0.01) {
-						thisEvent = '<img src="EventW.png"><br />Witch';
+						thisEvent = '<img src="blank.png" class="event" id="event_w"><br />Witch';
 					} else if (rng.NextDouble() < 0.01) {
-						thisEvent = '<img src="EventM.png"><br />Meteor';
+						thisEvent = '<img src="blank.png" class="event" id="event_m"><br />Meteor';
 					} else if (rng.NextDouble() < 0.01 && year > 1) {
-						thisEvent = '<img src="EventC.png"><br />Strange Capsule';
+						thisEvent = '<img src="blank.png" class="event" id="event_c"><br />Strange Capsule';
 					} else if (rng.NextDouble() < 0.01) {
-						thisEvent = '<img src="EventO.png"><br />Stone Owl';
+						thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
 					} else {
 						thisEvent = '&nbsp;<br />(No event)<br />&nbsp';
 					}
@@ -2644,6 +2809,8 @@ window.onload = function () {
 			output = predictNight(isSearch, extra);
 		} else if (tabID === 'krobus') {
 			output = predictKrobus(isSearch, extra);
+		} else if (tabID === 'wallpaper') {
+			output = predictWallpaper(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

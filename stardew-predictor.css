@@ -158,7 +158,8 @@ h3 {
 .tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
 .tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
 .tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6),
-.tabset > input:nth-child(13):checked ~ .tab-panels > .tab-panel:nth-child(7) {
+.tabset > input:nth-child(13):checked ~ .tab-panels > .tab-panel:nth-child(7),
+.tabset > input:nth-child(15):checked ~ .tab-panels > .tab-panel:nth-child(8) {
     display: block;
 }
 .tabset > label {
@@ -241,17 +242,6 @@ td .train, td .night {
 	text-align: center;
 	width: 100%;
 }
-td img {
-	vertical-align: -1px;
-	width: 
-}
-img.icon {
-	vertical-align: -1px;
-	width: 13px;
-}
-th img {
-	vertical-align: -2px;
-}
 td.legend {
 	border: 2px solid black;
 	text-align: center;
@@ -271,7 +261,7 @@ th.qty {
 th.price, th.index {
 	width: 4em;
 }
-th.geode-result {
+th.geode-result, th.wp-result {
 	width: 12.25em;
 }
 th.long_list {
@@ -291,11 +281,84 @@ fieldset {
 #mines-buttons, #train-buttons, #night-buttons, #winterstar-buttons {
 	max-width: 57em;
 }
-#cart-buttons, #cart-search {
+#cart-buttons, #cart-search, #krobus-buttons, #krobus-search, #wallpaper-buttons, #wallpaper-search {
 	max-width: 45em;
 }
 #geode-buttons, #geode-search {
 	max-width: 62em;
+}
+/* Icon images */
+img.icon {
+	vertical-align: -2px;
+	width: 16px;
+	height: 16px;
+	background-image:url("./all_icons.png")
+}
+img.small-icon {
+	vertical-align: -2px;
+	width: 13px;
+	height: 16px;
+	background-image:url("./all_icons.png")
+}
+img.event {
+	vertical-align: -1px;
+	width: 32px;
+	height: 32px;
+	background-image:url("./all_icons.png")
+}
+img#train {
+    background-position: 0px 0px;
+	width: 64px;
+}
+img#event_b {
+    background-position: -100px 0px;
+	width: 28px;
+}
+img#event_c {
+    background-position: 0px -32px;
+}
+img#event_f {
+    background-position: -96px -32px;
+}
+img#event_m {
+    background-position: -64px -32px;
+}
+img#event_o {
+    background-position: -32px -32px;
+}
+img#event_w {
+    background-position: -64px 0px;
+	width: 36px;
+}
+img#geode_r {
+    background-position: 0px -96px;
+}
+img#geode_f {
+    background-position: -16px -96px;
+}
+img#geode_m {
+    background-position: -32px -96px;
+}
+img#geode_o {
+    background-position: -48px -96px;
+}
+img#gunther {
+    background-position: -64px -96px;
+}
+img#pierre {
+    background-position: 0px -112px;
+}
+img#morris {
+    background-position: -16px -112px;
+}
+img#icon_m {
+    background-position: -80px -96px;
+}
+img#icon_i {
+    background-position: -96px -96px;
+}
+img#icon_s {
+    background-position: -112px -96px;
 }
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
