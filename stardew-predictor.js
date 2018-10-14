@@ -2209,7 +2209,7 @@ window.onload = function () {
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
 			searchTerm = new RegExp(offset, "i");
-			searchStart = ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0];
+			searchStart = Math.max(1, ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0]);
 			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
 			output += '<table class="output"><thead><tr><th colspan="5">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
