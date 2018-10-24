@@ -10,7 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
-* 14 Oct  2018 - v2.1   - Added Wallpaper predictions and moved images to spritesheets
+* 24 Oct  2018 - v2.1   - Added Wallpaper predictions and moved images to spritesheets
 *  3 Oct  2018 - v2.0.2 - Bug fixes for Winter Star processing when using URL ID parameter instead of a save
 *  1 Sept 2018 - v2.0.1 - Collapse older entries in changelog
 * 20 Aug  2018 - v2.0   - Added Krobus tab (thanks ronw23 on GitHub). Better input sanitization for anti-Cat protection

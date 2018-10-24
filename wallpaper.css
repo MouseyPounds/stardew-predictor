@@ -2,11 +2,22 @@
  * https://mouseypounds.github.io/stardew-predictor/
  */
 
- img.wp {
+div.wp {
+	clear: left;
+}
+img.wp {
 	float: left;
     width: 16px;
-    height: 48px;
+    height: 45px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
 	background-image:url("./walls_and_floors.png")
+}
+img.left {
+	border-left: 1px solid black;
+}
+img.right {
+	border-right: 1px solid black;
 }
 img#wp_1 {
     background-position: 0px 0px;
@@ -343,4 +354,134 @@ img#wp_111 {
 }
 img#wp_112 {
     background-position: -240px -288px;
+}
+div.fl {
+	clear: left;
+}
+img.fl {
+	float: left;
+    width: 32px;
+    height: 32px;
+	border: 1px solid black;
+	background-image:url("./walls_and_floors.png")
+}
+img#fl_1 {
+    background-position: 0px -336px;
+}
+img#fl_2 {
+    background-position: -32px -336px;
+}
+img#fl_3 {
+    background-position: -64px -336px;
+}
+img#fl_4 {
+    background-position: -96px -336px;
+}
+img#fl_5 {
+    background-position: -128px -336px;
+}
+img#fl_6 {
+    background-position: -160px -336px;
+}
+img#fl_7 {
+    background-position: -192px -336px;
+}
+img#fl_8 {
+    background-position: -224px -336px;
+}
+img#fl_9 {
+    background-position: 0px -368px;
+}
+img#fl_10 {
+    background-position: -32px -368px;
+}
+img#fl_11 {
+    background-position: -64px -368px;
+}
+img#fl_12 {
+    background-position: -96px -368px;
+}
+img#fl_13 {
+    background-position: -128px -368px;
+}
+img#fl_14 {
+    background-position: -160px -368px;
+}
+img#fl_15 {
+    background-position: -192px -368px;
+}
+img#fl_16 {
+    background-position: -224px -368px;
+}
+img#fl_17 {
+    background-position: 0px -400px;
+}
+img#fl_18 {
+    background-position: -32px -400px;
+}
+img#fl_19 {
+    background-position: -64px -400px;
+}
+img#fl_20 {
+    background-position: -96px -400px;
+}
+img#fl_21 {
+    background-position: -128px -400px;
+}
+img#fl_22 {
+    background-position: -160px -400px;
+}
+img#fl_23 {
+    background-position: -192px -400px;
+}
+img#fl_24 {
+    background-position: -224px -400px;
+}
+img#fl_25 {
+    background-position: 0px -432px;
+}
+img#fl_26 {
+    background-position: -32px -432px;
+}
+img#fl_27 {
+    background-position: -64px -432px;
+}
+img#fl_28 {
+    background-position: -96px -432px;
+}
+img#fl_29 {
+    background-position: -128px -432px;
+}
+img#fl_30 {
+    background-position: -160px -432px;
+}
+img#fl_31 {
+    background-position: -192px -432px;
+}
+img#fl_32 {
+    background-position: -224px -432px;
+}
+img#fl_33 {
+    background-position: 0px -464px;
+}
+img#fl_34 {
+    background-position: -32px -464px;
+}
+img#fl_35 {
+    background-position: -64px -464px;
+}
+img#fl_36 {
+    background-position: -96px -464px;
+}
+img#fl_37 {
+    background-position: -128px -464px;
+}
+img#fl_38 {
+    background-position: -160px -464px;
+}
+img#fl_39 {
+    background-position: -192px -464px;
+}
+img#fl_40 {
+    background-position: -224px -464px;
 }

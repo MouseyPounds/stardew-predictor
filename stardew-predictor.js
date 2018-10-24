@@ -1687,6 +1687,8 @@ window.onload = function () {
 			wp_j,
 			eq_p,
 			eq_j,
+			fl_p,
+			fl_j,
 			day,
 			weekDay,
 			week,
@@ -1695,7 +1697,7 @@ window.onload = function () {
 			year,
 			tclass;
 		if (typeof(offset) === 'undefined') {
-			offset = 7 * Math.floor(save.daysPlayed/7);
+			offset = 7 * Math.floor((save.daysPlayed-1)/7);
 		}
 		if (offset < 112) {
 			$('#wallpaper-prev-year').prop("disabled", true);
@@ -1730,6 +1732,7 @@ window.onload = function () {
 				eq_p = "(No valid equivalence)";
 			}
 			wp_p++;
+			fl_p = 1 + rng_p.Next(40);
 			wp_j = rng_j.Next(112);
 			if (wp_j === 21) {
 				wp_j = 22;
@@ -1740,6 +1743,7 @@ window.onload = function () {
 				eq_j = "(No valid equivalence)";
 			}
 			wp_j++;
+			fl_j = 1 + rng_j.Next(40);
 			if (day < save.daysPlayed) {
 				tclass = "past";
 			} else if (day === save.daysPlayed) {
@@ -1749,8 +1753,12 @@ window.onload = function () {
 			}
 			output += '<tr><td class="' + tclass + '">' + save.dayNames[(day - 1) % 7] + '<br />' +
 				monthName + ' ' + ((day - 1) % 28 + 1) +', Year ' + year + '</td>' +
-				'<td class="' + tclass + '"><img src="blank.png" class="wp" id="wp_' + wp_p + '"> Wallpaper #' + wp_p + '<br/>' + eq_p + '</td>' +
-				'<td class="' + tclass + '"><img src="blank.png" class="wp" id="wp_' + wp_j + '"> Wallpaper #' + wp_j + '<br/>' + eq_j + '</td></tr>';
+				'<td class="' + tclass + '"><div class="wp"><img src="blank.png" class="wp left" id="wp_' + wp_p +
+				'"><img src="blank.png" class="wp right" id="wp_' + wp_p + '"> ' + 'Wallpaper #' + wp_p + '<br/>' + eq_p + '<br/></div><br />' +
+				'<div class="fl"><img src="blank.png" class="fl" id="fl_' + fl_p + '"> ' + 'Floor # ' + fl_p + '</div></td>' +
+				'<td class="' + tclass + '"><div class="wp"><img src="blank.png" class="wp left" id="wp_' + wp_j +
+				'"><img src="blank.png" class="wp right" id="wp_' + wp_j + '"> ' + 'Wallpaper #' + wp_j + '<br/>' + eq_j + '<br/></div><br />' +
+				'<div class="fl"><img src="blank.png" class="fl" id="fl_' + fl_j + '"> ' + 'Floor # ' + fl_j + '</div></td></tr>';
 		}
 		output += "</tbody></table>\n";
 		return output;
@@ -2667,7 +2675,7 @@ window.onload = function () {
 					// The event is actually rolled in the morning at 6am, but from a user standpoint it makes more since
 					// to think of it occuring during the previous night. We will offset the day by 1 because of this.
 					rng = new CSRandom(save.gameID / 2 + day + 1 + save.dayAdjust);
-					if (day === 30) {
+					if (day + save.dayAdjust === 30) {
 						thisEvent = '<img src="blank.png" class="event" id="train"><br />Earthquake';
 					} else if (!save.is1_3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
 						thisEvent = '<img src="blank.png" class="event" id="event_b"><br />"Want a Baby?"';
