@@ -1911,6 +1911,7 @@ window.onload = function () {
 			$('#cart-reset').val('reset');
 			$('#cart-reset').html("Reset Browsing");			
 			$('#cart-next-week').prop("disabled", false);
+			$('#cart-next-year').prop("disabled", false);
 			// Reset search fields too
 			$('#cart-search-text').val('');
 			$('#cart-search-range').val(2);
@@ -2155,6 +2156,7 @@ window.onload = function () {
 			$('#krobus-reset').val('reset');
 			$('#krobus-reset').html("Reset Browsing");			
 			$('#krobus-next-week').prop("disabled", false);
+			$('#krobus-next-year').prop("disabled", false);
 			// Reset search fields too
 			$('#krobus-search-text').val('');
 			$('#krobus-search-range').val(2);
