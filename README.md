@@ -6,7 +6,7 @@ This app simulates the random number generator used in [Stardew Valley](http://s
 
 All changed & added content from version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to the [topic in the official forums](https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/).
 
-The app is written in Javascript and uses [jQuery](https://jquery.com/) and [BigInteger.js](https://github.com/peterolson/BigInteger.js) it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
+The app is written in Javascript and uses [jQuery](https://jquery.com/) and [BigInteger.js](https://github.com/peterolson/BigInteger.js); it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 ## Changelog
 
