@@ -1469,6 +1469,7 @@ window.onload = function () {
 			} else {
 				$('#cart-title').html('Traveling Merchant Cart');
 			}
+			save.ns_prefix = ($(xmlDoc).find('SaveGame[xmlns\\:xsi]').length > 0) ? 'xsi': 'p3';
 			// Farmer & farm names are read as html() because they come from user input and might contain characters
 			// which must be escaped.
 			save.names = [];
@@ -1510,7 +1511,7 @@ window.onload = function () {
 			// contains only a subset of the minerals (and a few artifacts) and we will only store the donation status of
 			// stuff that is in that array (i.e. potential geode results).
 			$(xmlDoc).find('locations > GameLocation').each(function () {
-				if ($(this).attr('xsi:type') === 'LibraryMuseum') {
+				if ($(this).attr(save.ns_prefix + ':type') === 'LibraryMuseum') {
 					$(this).find('museumPieces > item').each(function () {
 						var id = $(this).find('value > int').text();
 						if (save.minerals.hasOwnProperty(id)) {
@@ -1527,7 +1528,7 @@ window.onload = function () {
 				if (typeof(spouse) !== 'undefined' && spouse !== '') {
 					$(xmlDoc).find('locations > GameLocation').each(function () {
 						$(this).find('characters > NPC').each(function () {
-							if ($(this).attr('xsi:type') === 'Child') {
+							if ($(this).attr(save.ns_prefix + ':type') === 'Child') {
 								child_count++;
 							}
 						});
