@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" type="text/css" href="./stardew-predictor.css" />
 <link rel="stylesheet" type="text/css" href="./wallpaper.css" />
+<link rel="stylesheet" type="text/css" href="./shirt.css" />
 <link rel="icon" type="image/png" href="./favicon_p.png" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -34,11 +35,12 @@
 <h1>Stardew Predictor</h1>
 <h2 id="sec_about">About</h2>
 <p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about 
-the game after reading the save file. Currently, the information predicted includes special mine levels 
-(mushroom floor &amp; infestations), items sold by the traveling merchant &amp; Krobus, 
-results from cracking geodes, the train schedule, and the gift exchange of the Feast of the Winter Star.</p>
-<p>All changed &amp; added content from the version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
-<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a> and <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>.</p>
+the game after reading the save file. The information predicted includes special mine levels 
+(e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.</p>
+<p>Most changed &amp; added content from version 1.4 is supported. <span class="strong note">While the app tries to detect the version in the save and use
+prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
+<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a> and <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
+Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
 </div>
 
 <div id="input-container" class="panel">
@@ -61,11 +63,13 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 <output id="out-summary"> </output>
 <div id="tabset-div" class="tabset">
 <input type="radio" name="tabset" id="tab-mines" checked>
-<label for="tab-mines">Mine Floors</label>
+<label for="tab-mines">Mines</label>
 <input type="radio" name="tabset" id="tab-cart" >
-<label for="tab-cart">Traveling Merchant</label>
+<label for="tab-cart">Traveling Cart</label>
 <input type="radio" name="tabset" id="tab-krobus" >
 <label for="tab-krobus">Krobus</label>
+<input type="radio" name="tabset" id="tab-sandy" >
+<label for="tab-sandy">Sandy</label>
 <input type="radio" name="tabset" id="tab-wallpaper" >
 <label for="tab-wallpaper">Wallpaper</label>
 <input type="radio" name="tabset" id="tab-geode" >
@@ -74,14 +78,18 @@ results from cracking geodes, the train schedule, and the gift exchange of the F
 <label for="tab-train">Trains</label>
 <input type="radio" name="tabset" id="tab-night" >
 <label for="tab-night">Night Events</label>
-<input type="radio" name="tabset" id="tab-winterstar">
+<input type="radio" name="tabset" id="tab-crane" >
+<label for="tab-crane">Crane Game</label>
+<input type="radio" name="tabset" id="tab-winterstar" >
 <label for="tab-winterstar">Winter Star</label>
 <div class="tab-panels">
 <section id="sec-mines" class="tab-panel">
 <h3>Special Mine Floors</h3>
 <p class="intro" id="mine-intro">This calendar showss the prediction of Mushroom Levels and Monster Infestations in 
-<a href="https://stardewvalleywiki.com/The_Mines">the Mines</a>. These special levels persist throughout the day, even
-when the contents of the level reset, allowing multiple trips to gather mushrooms or fight monsters.</p>
+<a href="https://stardewvalleywiki.com/The_Mines">the Mines</a>. In version 1.3 and earlier, these special levels persist throughout the day, even
+when the contents of the level reset, allowing multiple trips to gather mushrooms or fight monsters.
+However, in version 1.4 and later, mushroom levels do not respawn after the level resets. "Quarry levels" (version 1.4 or later) are when a normal mine level changes to use the grey quarry dungeon tileset and special monster groups; they are only predicted if reading a save where the quarry has been unlocked.
+</p>
 <!-- divs inside of fieldsets because of Chrome bugs with flex display -->
 <fieldset id="mines-buttons"><div class="buttons">
 <button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
@@ -122,7 +130,7 @@ Search Range: <select id="cart-search-range">
 </section>
 <section id="sec-krobus" class="tab-panel">
 <h3>Krobus' Sewer Shop Stock</h3>
-<p class="intro" id="Krobus-intro">Partial inventory list for <a href=="https://stardewvalleywiki.com/Krobus">Krobus</a> who sells items
+<p class="intro" id="Krobus-intro">Partial inventory list for <a href="https://stardewvalleywiki.com/Krobus">Krobus</a> who sells items
 in the <a href="https://stardewvalleywiki.com/Sewers">Sewers</a>. While his stock is static on most days, there is a random
 fish sold on Wednesdays and a random cooked dish sold on Saturdays; these items can be predicted and are listed below.
 Results can be browsed by week or searched using a case-insensitive substring (regular expression wildcards are allowed.)</p>
@@ -147,6 +155,33 @@ Search Range: <select id="krobus-search-range">
 </div></fieldset>
 <output id="out-krobus"> </output>
 </section>
+<section id="sec-sandy" class="tab-panel">
+<h3>Sandy's Oasis Shop Stock</h3>
+<p class="intro" id="sandy-intro">Partial inventory list for <a href="https://stardewvalleywiki.com/Sandy">Sandy</a> who sells items
+in the <a href="https://stardewvalleywiki.com/Oasis">Oasis shop</a>. While her stock is mostly static, beginning in version 1.4 there
+is a random shirt sold every day; this shirt choice is predictable and listed below. The shirt is always 1000g.
+Results can be browsed by week or searched using a case-insensitive substring (regular expression wildcards are allowed.)</p>
+<fieldset id="sandy-search">
+<input type="text" id="sandy-search-text" class="search">
+<button id="sandy-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="sandy-search-range">
+<option value="1">1 year</option>
+<option value="2" selected>2 years</option>
+<option value="3">3 years</option>
+<option value="5">5 years</option>
+<option value="10">10 years</option>
+</select><br />
+<input type="checkbox" id="sandy-search-all"> Start search from Spring 1, Year 1 instead of current day
+</fieldset>
+<fieldset id="sandy-buttons"><div class="buttons">
+<button id="sandy-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="sandy-prev-week" type="button" class="browse">&lt; Previous Week</button>
+<button id="sandy-reset" type="button" class="browse">Reset Browsing</button>
+<button id="sandy-next-week" type="button" class="browse">Next Week &gt;</button>
+<button id="sandy-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-sandy"> </output>
+</section>
 <section id="sec-wallpaper" class="tab-panel">
 <h3>Wallpaper from Pierre and Joja</h3>
 <p class="intro" id="wallpaper-intro">This calendar shows the prediction of which 
@@ -162,7 +197,8 @@ wallpaper to be interpreted as another item for various situations such as bundl
 <button id="wallpaper-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
 </div></fieldset>
 <output id="out-wallpaper"> </output>
-</section><section id="sec-geode" class="tab-panel">
+</section>
+<section id="sec-geode" class="tab-panel">
 <h3>Geode Processing</h3>
 <p class="intro" id="geode-intro">Predicted results from cracking open all types of
 <a href="https://stardewvalleywiki.com/Minerals#Geodes">geodes</a> at Clint's
@@ -229,11 +265,25 @@ having more children.</p>
 </div></fieldset>
 <output id="out-night"> </output>
 </section>
+<section id="sec-crane" class="tab-panel">
+<h3>Crane Game</h3>
+<p class="intro" id="crane-intro">This calendar shows the presence of the worst villain in Stardew Valley, the green shirt man
+who hogs the crane game.</p>
+<fieldset id="crane-buttons"><div class="buttons">
+<button id="crane-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="crane-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="crane-reset" type="button" class="browse">Reset Calendar</button>
+<button id="crane-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="crane-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-crane"> </output>
+</section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
 <p class="intro" id="winterstar-intro">This shows the secret gift assignments for the
 <a href="https://stardewvalleywiki.com/Feast_of_the_Winter_Star">Winter Star festival</a>. The actual gift(s) the player(s) will receive
 cannot be reliably predicted, but a list of all the possibilities is provided.</p>
+<p class="note" id="winterstar-note"></p>
 <fieldset id="winterstar-buttons"><div class="buttons">
 <button id="winterstar-prev" type="button" class="browse">&lt; Previous Year</button>
 <button id="winterstar-reset" type="button" class="browse">Reset</button>
@@ -249,20 +299,21 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>26 Nov  2019 - v3.0   - Support for Stardew Valley 1.4</li>
 <li> 5 July 2019 - v2.2.1 - Fixed a wiki link error.</li>
 <li>30 Jan  2019 - v2.2   - Improved support for iOS save files</li>
 <li>24 Oct  2018 - v2.1   - Added Wallpaper predictions and moved images to spritesheets</li>
 <li> 3 Oct  2018 - v2.0.2 - Bug fixes for Winter Star processing when using URL ID parameter instead of a save</li>
 <li> 1 Sept 2018 - v2.0.1 - Collapse older entries in changelog</li>
 <li>20 Aug  2018 - v2.0   - Added Krobus tab (thanks ronw23 on GitHub). Better input sanitization for anti-Cat protection</li>
-<li>18 Aug  2018 - v1.8   - Added public domain BigInteger library; MP support and fixed predictions for Winter Star 1.3</li>
-<li>17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3</li>
-<li>17 Aug  2018 - v1.7   - Small bugfix on Geode predictions for 1.3</li>
 </ul>
 <h3>Older changes</h3>
 <div id="changelog_old" class="collapsible">
 <button id="changelog_toggle" type="button">Show</button>
 <ul class="initial_hide">
+<li>18 Aug  2018 - v1.8   - Added public domain BigInteger library; MP support and fixed predictions for Winter Star 1.3</li>
+<li>17 Aug  2018 - v1.7.1 - Added warning about broken Winter Star predictions in 1.3</li>
+<li>17 Aug  2018 - v1.7   - Small bugfix on Geode predictions for 1.3</li>
 <li>24 May  2018 - v1.6   - Favicon; Baby question for 1.2 save night events</li>
 <li>23 May  2018 - v1.5.1 - Clarification in Night event intro & disclaimer about 1.2</li>
 <li>21 May  2018 - v1.5   - Night events added; list potential Winter Star gifts.</li>
