@@ -1158,6 +1158,679 @@ window.onload = function () {
 		'Yam': 160,
 		'Yam Seeds': 30
 	};
+	save.cartItems_1_4 = {
+		16: 'Wild Horseradish',
+		18: 'Daffodil',
+		20: 'Leek',
+		22: 'Dandelion',
+		24: 'Parsnip',
+		78: 'Cave Carrot',
+		88: 'Coconut',
+		90: 'Cactus Fruit',
+		92: 'Sap',
+		128: 'Pufferfish',
+		129: 'Anchovy',
+		130: 'Tuna',
+		131: 'Sardine',
+		132: 'Bream',
+		136: 'Largemouth Bass',
+		137: 'Smallmouth Bass',
+		138: 'Rainbow Trout',
+		139: 'Salmon',
+		140: 'Walleye',
+		141: 'Perch',
+		142: 'Carp',
+		143: 'Catfish',
+		144: 'Pike',
+		145: 'Sunfish',
+		146: 'Red Mullet',
+		147: 'Herring',
+		148: 'Eel',
+		149: 'Octopus',
+		150: 'Red Snapper',
+		151: 'Squid',
+		154: 'Sea Cucumber',
+		155: 'Super Cucumber',
+		156: 'Ghostfish',
+		164: 'Sandfish',
+		165: 'Scorpion Carp',
+		167: 'Joja Cola',
+		174: 'Large Egg (White)',
+		176: 'Egg (Brown)',
+		180: 'Egg (Brown)',
+		182: 'Large Egg (Brown)',
+		184: 'Milk',
+		186: 'Large Milk',
+		188: 'Green Bean',
+		190: 'Cauliflower',
+		192: 'Potato',
+		194: 'Fried Egg',
+		195: 'Omelet',
+		196: 'Salad',
+		197: 'Cheese Cauliflower',
+		198: 'Baked Fish',
+		199: 'Parsnip Soup',
+		200: 'Vegetable Medley',
+		201: 'Complete Breakfast',
+		202: 'Fried Calamari',
+		203: 'Strange Bun',
+		204: 'Lucky Lunch',
+		205: 'Fried Mushroom',
+		206: 'Pizza',
+		207: 'Bean Hotpot',
+		208: 'Glazed Yams',
+		209: 'Carp Surprise',
+		210: 'Hashbrowns',
+		211: 'Pancakes',
+		212: 'Salmon Dinner',
+		213: 'Fish Taco',
+		214: 'Crispy Bass',
+		215: 'Pepper Poppers',
+		216: 'Bread',
+		218: 'Tom Kha Soup',
+		219: 'Trout Soup',
+		220: 'Chocolate Cake',
+		221: 'Pink Cake',
+		222: 'Rhubarb Pie',
+		223: 'Cookie',
+		224: 'Spaghetti',
+		225: 'Fried Eel',
+		226: 'Spicy Eel',
+		227: 'Sashimi',
+		228: 'Maki Roll',
+		229: 'Tortilla',
+		230: 'Red Plate',
+		231: 'Eggplant Parmesan',
+		232: 'Rice Pudding',
+		233: 'Ice Cream',
+		234: 'Blueberry Tart',
+		235: 'Autumn\'s Bounty',
+		236: 'Pumpkin Soup',
+		237: 'Super Meal',
+		238: 'Cranberry Sauce',
+		239: 'Stuffing',
+		240: 'Farmer\'s Lunch',
+		241: 'Survival Burger',
+		242: 'Dish O\' The Sea',
+		243: 'Miner\'s Treat',
+		244: 'Roots Platter',
+		248: 'Garlic',
+		250: 'Kale',
+		251: 'Tea Sapling',
+		252: 'Rhubarb',
+		253: 'Triple Shot Espresso',
+		254: 'Melon',
+		256: 'Tomato',
+		257: 'Morel',
+		258: 'Blueberry',
+		259: 'Fiddlehead Fern',
+		260: 'Hot Pepper',
+		262: 'Wheat',
+		264: 'Radish',
+		265: 'Seafoam Pudding',
+		266: 'Red Cabbage',
+		267: 'Flounder',
+		268: 'Starfruit',
+		269: 'Midnight Carp',
+		270: 'Corn',
+		271: 'Unmilled Rice',
+		272: 'Eggplant',
+		273: 'Rice Shoot',
+		274: 'Artichoke',
+		276: 'Pumpkin',
+		278: 'Bok Choy',
+		280: 'Yam',
+		281: 'Chanterelle',
+		282: 'Cranberries',
+		283: 'Holly',
+		284: 'Beet',
+		286: 'Cherry Bomb',
+		287: 'Bomb',
+		288: 'Mega Bomb',
+		293: 'Brick Floor',
+		296: 'Salmonberry',
+		298: 'Hardwood Fence',
+		299: 'Amaranth Seeds',
+		300: 'Amaranth',
+		301: 'Grape Starter',
+		302: 'Hops Starter',
+		303: 'Pale Ale',
+		304: 'Hops',
+		306: 'Mayonnaise',
+		307: 'Duck Mayonnaise',
+		309: 'Acorn',
+		310: 'Maple Seed',
+		311: 'Pine Cone',
+		322: 'Wood Fence',
+		323: 'Stone Fence',
+		324: 'Iron Fence',
+		325: 'Gate',
+		328: 'Wood Floor',
+		329: 'Stone Floor',
+		330: 'Clay',
+		331: 'Weathered Floor',
+		333: 'Crystal Floor',
+		334: 'Copper Bar',
+		335: 'Iron Bar',
+		336: 'Gold Bar',
+		337: 'Iridium Bar',
+		338: 'Refined Quartz',
+		340: 'Honey',
+		342: 'Pickles',
+		344: 'Jelly',
+		346: 'Beer',
+		347: 'Rare Seed',
+		348: 'Wine',
+		350: 'Juice',
+		368: 'Basic Fertilizer',
+		369: 'Quality Fertilizer',
+		370: 'Basic Retaining Soil',
+		371: 'Quality Retaining Soil',
+		372: 'Clam',
+		376: 'Poppy',
+		378: 'Copper Ore',
+		380: 'Iron Ore',
+		382: 'Coal',
+		384: 'Gold Ore',
+		386: 'Iridium Ore',
+		388: 'Wood',
+		390: 'Stone',
+		392: 'Nautilus Shell',
+		393: 'Coral',
+		394: 'Rainbow Shell',
+		396: 'Spice Berry',
+		397: 'Sea Urchin',
+		398: 'Grape',
+		399: 'Spring Onion',
+		400: 'Strawberry',
+		401: 'Straw Floor',
+		402: 'Sweet Pea',
+		404: 'Common Mushroom',
+		405: 'Wood Path',
+		406: 'Wild Plum',
+		407: 'Gravel Path',
+		408: 'Hazelnut',
+		409: 'Crystal Path',
+		410: 'Blackberry',
+		411: 'Cobblestone Path',
+		412: 'Winter Root',
+		414: 'Crystal Fruit',
+		415: 'Stepping Stone Path',
+		416: 'Snow Yam',
+		418: 'Crocus',
+		420: 'Red Mushroom',
+		421: 'Sunflower',
+		422: 'Purple Mushroom',
+		424: 'Cheese',
+		425: 'Fairy Seeds',
+		426: 'Goat Cheese',
+		427: 'Tulip Bulb',
+		428: 'Cloth',
+		429: 'Jazz Seeds',
+		430: 'Truffle',
+		431: 'Sunflower Seeds',
+		432: 'Truffle Oil',
+		433: 'Coffee Bean',
+		436: 'Goat Milk',
+		438: 'L. Goat Milk',
+		440: 'Wool',
+		442: 'Duck Egg',
+		444: 'Duck Feather',
+		445: 'Caviar',
+		446: 'Rabbit\'s Foot',
+		453: 'Poppy Seeds',
+		455: 'Spangle Seeds',
+		456: 'Algae Soup',
+		457: 'Pale Broth',
+		459: 'Mead',
+		465: 'Speed-Gro',
+		466: 'Deluxe Speed-Gro',
+		472: 'Parsnip Seeds',
+		473: 'Bean Starter',
+		474: 'Cauliflower Seeds',
+		475: 'Potato Seeds',
+		476: 'Garlic Seeds',
+		477: 'Kale Seeds',
+		478: 'Rhubarb Seeds',
+		479: 'Melon Seeds',
+		480: 'Tomato Seeds',
+		481: 'Blueberry Seeds',
+		482: 'Pepper Seeds',
+		483: 'Wheat Seeds',
+		484: 'Radish Seeds',
+		485: 'Red Cabbage Seeds',
+		486: 'Starfruit Seeds',
+		487: 'Corn Seeds',
+		488: 'Eggplant Seeds',
+		489: 'Artichoke Seeds',
+		490: 'Pumpkin Seeds',
+		491: 'Bok Choy Seeds',
+		492: 'Yam Seeds',
+		493: 'Cranberry Seeds',
+		494: 'Beet Seeds',
+		495: 'Spring Seeds',
+		496: 'Summer Seeds',
+		497: 'Fall Seeds',
+		498: 'Winter Seeds',
+		499: 'Ancient Seeds',
+		591: 'Tulip',
+		593: 'Summer Spangle',
+		595: 'Fairy Rose',
+		597: 'Blue Jazz',
+		599: 'Sprinkler',
+		604: 'Plum Pudding',
+		605: 'Artichoke Dip',
+		606: 'Stir Fry',
+		607: 'Roasted Hazelnuts',
+		608: 'Pumpkin Pie',
+		609: 'Radish Salad',
+		610: 'Fruit Salad',
+		611: 'Blackberry Cobbler',
+		612: 'Cranberry Candy',
+		613: 'Apple',
+		614: 'Green Tea',
+		618: 'Bruschetta',
+		621: 'Quality Sprinkler',
+		628: 'Cherry Sapling',
+		629: 'Apricot Sapling',
+		630: 'Orange Sapling',
+		631: 'Peach Sapling',
+		632: 'Pomegranate Sapling',
+		633: 'Apple Sapling',
+		634: 'Apricot',
+		635: 'Orange',
+		636: 'Peach',
+		637: 'Pomegranate',
+		638: 'Cherry',
+		648: 'Coleslaw',
+		649: 'Fiddlehead Risotto',
+		651: 'Poppyseed Muffin',
+		684: 'Bug Meat',
+		685: 'Bait',
+		686: 'Spinner',
+		687: 'Dressed Spinner',
+		691: 'Barbed Hook',
+		692: 'Lead Bobber',
+		693: 'Treasure Hunter',
+		694: 'Trap Bobber',
+		695: 'Cork Bobber',
+		698: 'Sturgeon',
+		699: 'Tiger Trout',
+		700: 'Bullhead',
+		701: 'Tilapia',
+		702: 'Chub',
+		703: 'Magnet',
+		704: 'Dorado',
+		705: 'Albacore',
+		706: 'Shad',
+		707: 'Lingcod',
+		708: 'Halibut',
+		709: 'Hardwood',
+		715: 'Lobster',
+		716: 'Crayfish',
+		717: 'Crab',
+		718: 'Cockle',
+		719: 'Mussel',
+		720: 'Shrimp',
+		721: 'Snail',
+		722: 'Periwinkle',
+		723: 'Oyster',
+		724: 'Maple Syrup',
+		725: 'Oak Resin',
+		726: 'Pine Tar',
+		727: 'Chowder',
+		728: 'Fish Stew',
+		729: 'Escargot',
+		730: 'Lobster Bisque',
+		731: 'Maple Bar',
+		732: 'Crab Cakes',
+		733: 'Shrimp Cocktail',
+		734: 'Woodskip',
+		766: 'Slime',
+		767: 'Bat Wing',
+		768: 'Solar Essence',
+		769: 'Void Essence',
+		771: 'Fiber',
+		772: 'Oil of Garlic',
+		773: 'Life Elixir',
+		787: 'Battery Pack',
+	};
+	save.cartPrices_1_4 = {
+		'Acorn': 20,
+		'Albacore': 75,
+		'Algae Soup': 100,
+		'Amaranth': 150,
+		'Amaranth Seeds': 35,
+		'Anchovy': 30,
+		'Ancient Seeds': 30,
+		'Apple': 100,
+		'Apple Sapling': 1000,
+		'Apricot': 50,
+		'Apricot Sapling': 500,
+		'Artichoke': 160,
+		'Artichoke Dip': 210,
+		'Artichoke Seeds': 15,
+		'Autumn\'s Bounty': 350,
+		'Bait': 1,
+		'Baked Fish': 100,
+		'Barbed Hook': 500,
+		'Basic Fertilizer': 2,
+		'Basic Retaining Soil': 4,
+		'Bat Wing': 15,
+		'Battery Pack': 500,
+		'Bean Hotpot': 100,
+		'Bean Starter': 30,
+		'Beer': 200,
+		'Beet': 100,
+		'Beet Seeds': 10,
+		'Blackberry': 20,
+		'Blackberry Cobbler': 260,
+		'Blue Jazz': 50,
+		'Blueberry': 50,
+		'Blueberry Seeds': 40,
+		'Blueberry Tart': 150,
+		'Bok Choy': 80,
+		'Bok Choy Seeds': 25,
+		'Bomb': 50,
+		'Bread': 60,
+		'Bream': 45,
+		'Brick Floor': 1,
+		'Bruschetta': 210,
+		'Bug Meat': 8,
+		'Bullhead': 75,
+		'Cactus Fruit': 75,
+		'Carp': 30,
+		'Carp Surprise': 150,
+		'Catfish': 200,
+		'Cauliflower': 175,
+		'Cauliflower Seeds': 40,
+		'Cave Carrot': 25,
+		'Caviar': 500,
+		'Chanterelle': 160,
+		'Cheese': 230,
+		'Cheese Cauliflower': 300,
+		'Cherry': 80,
+		'Cherry Bomb': 50,
+		'Cherry Sapling': 850,
+		'Chocolate Cake': 200,
+		'Chowder': 135,
+		'Chub': 50,
+		'Clam': 50,
+		'Clay': 20,
+		'Cloth': 470,
+		'Coal': 15,
+		'Cobblestone Path': 1,
+		'Cockle': 50,
+		'Coconut': 100,
+		'Coffee Bean': 15,
+		'Coleslaw': 345,
+		'Common Mushroom': 40,
+		'Complete Breakfast': 350,
+		'Cookie': 140,
+		'Copper Bar': 60,
+		'Copper Ore': 5,
+		'Coral': 80,
+		'Cork Bobber': 250,
+		'Corn': 50,
+		'Corn Seeds': 75,
+		'Crab': 100,
+		'Crab Cakes': 275,
+		'Cranberries': 75,
+		'Cranberry Candy': 175,
+		'Cranberry Sauce': 120,
+		'Cranberry Seeds': 120,
+		'Crayfish': 75,
+		'Crispy Bass': 150,
+		'Crocus': 60,
+		'Crystal Floor': 1,
+		'Crystal Fruit': 150,
+		'Crystal Path': 1,
+		'Daffodil': 30,
+		'Dandelion': 40,
+		'Deluxe Speed-Gro': 40,
+		'Dish O\' The Sea': 220,
+		'Dorado': 100,
+		'Dressed Spinner': 500,
+		'Duck Egg': 95,
+		'Duck Feather': 125,
+		'Duck Mayonnaise': 375,
+		'Eel': 85,
+		'Egg (Brown)': 50,
+		'Eggplant': 60,
+		'Eggplant Parmesan': 200,
+		'Eggplant Seeds': 10,
+		'Escargot': 125,
+		'Fairy Rose': 290,
+		'Fairy Seeds': 100,
+		'Fall Seeds': 45,
+		'Farmer\'s Lunch': 150,
+		'Fiber': 1,
+		'Fiddlehead Fern': 90,
+		'Fiddlehead Risotto': 350,
+		'Fish Stew': 175,
+		'Fish Taco': 500,
+		'Flounder': 100,
+		'Fried Calamari': 150,
+		'Fried Eel': 120,
+		'Fried Egg': 35,
+		'Fried Mushroom': 200,
+		'Fruit Salad': 450,
+		'Garlic': 60,
+		'Garlic Seeds': 20,
+		'Gate': 4,
+		'Ghostfish': 45,
+		'Glazed Yams': 200,
+		'Goat Cheese': 400,
+		'Goat Milk': 225,
+		'Gold Bar': 250,
+		'Gold Ore': 25,
+		'Grape': 80,
+		'Grape Starter': 30,
+		'Gravel Path': 1,
+		'Green Bean': 40,
+		'Green Tea': 100,
+		'Halibut': 80,
+		'Hardwood': 15,
+		'Hardwood Fence': 10,
+		'Hashbrowns': 120,
+		'Hazelnut': 90,
+		'Herring': 30,
+		'Holly': 80,
+		'Honey': 100,
+		'Hops': 25,
+		'Hops Starter': 30,
+		'Hot Pepper': 40,
+		'Ice Cream': 120,
+		'Iridium Bar': 1000,
+		'Iridium Ore': 100,
+		'Iron Bar': 120,
+		'Iron Fence': 6,
+		'Iron Ore': 10,
+		'Jazz Seeds': 15,
+		'Jelly': 160,
+		'Joja Cola': 25,
+		'Juice': 150,
+		'Kale': 110,
+		'Kale Seeds': 35,
+		'L. Goat Milk': 345,
+		'Large Egg (Brown)': 95,
+		'Large Egg (White)': 95,
+		'Large Milk': 190,
+		'Largemouth Bass': 100,
+		'Lead Bobber': 150,
+		'Leek': 60,
+		'Life Elixir': 500,
+		'Lingcod': 120,
+		'Lobster': 120,
+		'Lobster Bisque': 205,
+		'Lucky Lunch': 250,
+		'Magnet': 15,
+		'Maki Roll': 220,
+		'Maple Bar': 300,
+		'Maple Seed': 5,
+		'Maple Syrup': 200,
+		'Mayonnaise': 190,
+		'Mead': 200,
+		'Mega Bomb': 50,
+		'Melon': 250,
+		'Melon Seeds': 40,
+		'Midnight Carp': 150,
+		'Milk': 125,
+		'Miner\'s Treat': 200,
+		'Morel': 150,
+		'Mussel': 30,
+		'Nautilus Shell': 120,
+		'Oak Resin': 150,
+		'Octopus': 150,
+		'Oil of Garlic': 1000,
+		'Omelet': 125,
+		'Orange': 100,
+		'Orange Sapling': 1000,
+		'Oyster': 40,
+		'Pale Ale': 300,
+		'Pale Broth': 150,
+		'Pancakes': 80,
+		'Parsnip': 35,
+		'Parsnip Seeds': 10,
+		'Parsnip Soup': 120,
+		'Peach': 140,
+		'Peach Sapling': 1500,
+		'Pepper Poppers': 200,
+		'Pepper Seeds': 20,
+		'Perch': 55,
+		'Periwinkle': 20,
+		'Pickles': 100,
+		'Pike': 100,
+		'Pine Cone': 5,
+		'Pine Tar': 100,
+		'Pink Cake': 480,
+		'Pizza': 300,
+		'Plum Pudding': 260,
+		'Pomegranate': 140,
+		'Pomegranate Sapling': 1500,
+		'Poppy': 140,
+		'Poppy Seeds': 50,
+		'Poppyseed Muffin': 250,
+		'Potato': 80,
+		'Potato Seeds': 25,
+		'Pufferfish': 200,
+		'Pumpkin': 320,
+		'Pumpkin Pie': 385,
+		'Pumpkin Seeds': 50,
+		'Pumpkin Soup': 300,
+		'Purple Mushroom': 250,
+		'Quality Fertilizer': 10,
+		'Quality Retaining Soil': 5,
+		'Quality Sprinkler': 450,
+		'Rabbit\'s Foot': 565,
+		'Radish': 90,
+		'Radish Salad': 300,
+		'Radish Seeds': 20,
+		'Rainbow Shell': 300,
+		'Rainbow Trout': 65,
+		'Rare Seed': 200,
+		'Red Cabbage': 260,
+		'Red Cabbage Seeds': 50,
+		'Red Mullet': 75,
+		'Red Mushroom': 75,
+		'Red Plate': 400,
+		'Red Snapper': 50,
+		'Refined Quartz': 50,
+		'Rhubarb': 220,
+		'Rhubarb Pie': 400,
+		'Rhubarb Seeds': 50,
+		'Rice Pudding': 260,
+		'Rice Shoot': 20,
+		'Roasted Hazelnuts': 270,
+		'Roots Platter': 100,
+		'Salad': 110,
+		'Salmon': 75,
+		'Salmon Dinner': 300,
+		'Salmonberry': 5,
+		'Sandfish': 75,
+		'Sap': 2,
+		'Sardine': 40,
+		'Sashimi': 75,
+		'Scorpion Carp': 150,
+		'Sea Cucumber': 75,
+		'Sea Urchin': 160,
+		'Seafoam Pudding': 300,
+		'Shad': 60,
+		'Shrimp': 60,
+		'Shrimp Cocktail': 160,
+		'Slime': 5,
+		'Smallmouth Bass': 50,
+		'Snail': 65,
+		'Snow Yam': 100,
+		'Solar Essence': 40,
+		'Spaghetti': 120,
+		'Spangle Seeds': 25,
+		'Speed-Gro': 20,
+		'Spice Berry': 80,
+		'Spicy Eel': 175,
+		'Spinner': 250,
+		'Spring Onion': 8,
+		'Spring Seeds': 35,
+		'Sprinkler': 100,
+		'Squid': 80,
+		'Starfruit': 750,
+		'Starfruit Seeds': 200,
+		'Stepping Stone Path': 1,
+		'Stir Fry': 335,
+		'Stone': 2,
+		'Stone Fence': 2,
+		'Stone Floor': 1,
+		'Strange Bun': 225,
+		'Straw Floor': 1,
+		'Strawberry': 120,
+		'Stuffing': 165,
+		'Sturgeon': 200,
+		'Summer Seeds': 55,
+		'Summer Spangle': 90,
+		'Sunfish': 30,
+		'Sunflower': 80,
+		'Sunflower Seeds': 20,
+		'Super Cucumber': 250,
+		'Super Meal': 220,
+		'Survival Burger': 180,
+		'Sweet Pea': 50,
+		'Tea Sapling': 500,
+		'Tiger Trout': 150,
+		'Tilapia': 75,
+		'Tom Kha Soup': 250,
+		'Tomato': 60,
+		'Tomato Seeds': 25,
+		'Tortilla': 50,
+		'Trap Bobber': 200,
+		'Treasure Hunter': 250,
+		'Triple Shot Espresso': 450,
+		'Trout Soup': 100,
+		'Truffle': 625,
+		'Truffle Oil': 1065,
+		'Tulip': 30,
+		'Tulip Bulb': 10,
+		'Tuna': 100,
+		'Unmilled Rice': 30,
+		'Vegetable Medley': 120,
+		'Void Essence': 50,
+		'Walleye': 105,
+		'Weathered Floor': 1,
+		'Wheat': 25,
+		'Wheat Seeds': 5,
+		'Wild Horseradish': 50,
+		'Wild Plum': 80,
+		'Wine': 400,
+		'Winter Root': 70,
+		'Winter Seeds': 30,
+		'Wood': 2,
+		'Wood Fence': 1,
+		'Wood Floor': 1,
+		'Wood Path': 1,
+		'Woodskip': 75,
+		'Wool': 340,
+		'Yam': 160,
+		'Yam Seeds': 30,
+	};
 	save.cartFurniture = {
 		0: "Oak Chair",
 		3: "Walnut Chair",
@@ -1310,17 +1983,41 @@ window.onload = function () {
 		536: [541, 544, 545, 546, 550, 551, 559, 560, 561, 564, 567, 572, 573, 577, 123],
 		537: [539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 122],
 		749: [538, 542, 548, 549, 552, 555, 556, 557, 558, 566, 568, 569, 571, 574, 576, 541, 544, 545, 546, 550, 551, 559,
-			560, 561, 564, 567, 572, 573, 577, 539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 121, 122, 123]
+			560, 561, 564, 567, 572, 573, 577, 539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 121, 122, 123],
+		275: [100, 101, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 166, 373, 797]
 	};
 	save.minerals = {
 		74: 'Prismatic Shard',
 		82: 'Fire Quartz',
 		84: 'Frozen Tear',
 		86: 'Earth Crystal',
+		100: 'Chipped Amphora',
+		101: 'Arrowhead',
+		103: 'Ancient Doll',
+		104: 'Elvish Jewelry',
+		105: 'Chewing Stick',
+		106: 'Ornamental Fan',
+		108: 'Rare Disc',
+		109: 'Ancient Sword',
+		110: 'Rusty Spoon',
+		111: 'Rusty Spur',
+		112: 'Rusty Cog',
+		113: 'Chicken Statue',
+		114: 'Ancient Seed',
+		115: 'Prehistoric Tool',
+		116: 'Dried Starfish',
+		117: 'Anchor',
+		118: 'Glass Shards',
+		119: 'Bone Flute',
+		120: 'Prehistoric Handaxe',
 		121: 'Dwarvish Helm',
 		122: 'Dwarf Gadget',
 		123: 'Ancient Drum',
+		124: 'Golden Mask',
+		125: 'Golden Relic',
+		166: 'Treasure Chest',
 		330: 'Clay',
+		373: 'Golden Pumpkin',
 		378: 'Copper Ore',
 		380: 'Iron Ore',
 		382: 'Coal',
@@ -1367,7 +2064,8 @@ window.onload = function () {
 		575: 'Obsidian',
 		576: 'Slate',
 		577: 'Fairy Stone',
-		578: 'Star Shards'
+		578: 'Star Shards',
+		797: 'Pearl',
 	};
 	save.wallpaperEquiv = {
 		16: 'Wild Horseradish',
@@ -1411,7 +2109,136 @@ window.onload = function () {
 		110: 'Rusty Spoon',
 		111: 'Rusty Spur',
 	};		
-
+	save.shirtItems = {
+		1000: 'Classic Overalls (ID 1)',
+		1001: 'Shirt (ID 2)',
+		1002: 'Mint Blouse (ID 3)',
+		1003: 'Dark Shirt (ID 4)',
+		1004: 'Skull Shirt (ID 5)',
+		1005: 'Light Blue Shirt (ID 6)',
+		1006: 'Tan Striped Shirt (ID 7)',
+		1007: 'Green Overalls (ID 8)',
+		1008: 'Good Grief Shirt (ID 9)',
+		1009: 'Aquamarine Shirt (ID 10)',
+		1010: 'Suit Top (ID 11)',
+		1011: 'Green Belted Shirt (ID 12)',
+		1012: 'Lime Green Striped Shirt (ID 13)',
+		1013: 'Red Striped Shirt (ID 14)',
+		1014: 'Skeleton Shirt (ID 15)',
+		1015: 'Orange Shirt (ID 16)',
+		1016: 'Night Sky Shirt (ID 17)',
+		1017: 'Mayoral Suspenders (ID 18)',
+		1018: 'Brown Jacket (ID 19)',
+		1019: 'Sailor Shirt (ID 20)',
+		1020: 'Green Vest (ID 21)',
+		1021: 'Yellow and Green Shirt (ID 22)',
+		1022: 'Shirt (ID 23)',
+		1023: 'Shirt (ID 24)',
+		1024: 'Shirt (ID 25)',
+		1025: 'Shirt (ID 26)',
+		1026: 'Light Blue Striped Shirt (ID 27)',
+		1027: 'Pink Striped Shirt (ID 28)',
+		1028: 'Heart Shirt (ID 29)',
+		1029: 'Work Shirt (ID 30)',
+		1030: 'Store Owner\'s Jacket (ID 31)',
+		1031: 'Shirt (ID 32)',
+		1032: 'Shirt (ID 33)',
+		1033: 'Shirt (ID 34)',
+		1034: 'Green Tunic (ID 35)',
+		1035: 'Fancy Red Blouse (ID 36)',
+		1036: 'Shirt (ID 37)',
+		1037: 'Shirt (ID 38)',
+		1038: 'Plain Shirt (ID 39)',
+		1039: 'Retro Rainbow Shirt (ID 40)',
+		1040: 'Shirt (ID 41)',
+		1041: 'Shirt (ID 42)',
+		1042: 'Lime Green Tunic (ID 43)',
+		1043: 'Shirt (ID 44)',
+		1044: 'Shirt (ID 45)',
+		1045: 'Shirt (ID 46)',
+		1046: 'Shirt (ID 47)',
+		1047: 'Shirt (ID 48)',
+		1048: 'Shirt (ID 49)',
+		1049: 'Shirt (ID 50)',
+		1050: 'Shirt (ID 51)',
+		1051: 'Shirt (ID 52)',
+		1052: 'Shirt (ID 53)',
+		1053: 'Shirt (ID 54)',
+		1054: 'Shirt (ID 55)',
+		1055: 'Shirt (ID 56)',
+		1056: 'Shirt (ID 57)',
+		1057: 'Shirt (ID 58)',
+		1058: 'Shirt (ID 59)',
+		1059: 'Shirt (ID 60)',
+		1060: 'Shirt (ID 61)',
+		1061: 'Shirt (ID 62)',
+		1062: 'Shirt (ID 63)',
+		1063: 'Shirt (ID 64)',
+		1064: 'Shirt (ID 65)',
+		1065: 'Shirt (ID 66)',
+		1066: 'Shirt (ID 67)',
+		1067: 'Shirt (ID 68)',
+		1068: 'Shirt (ID 69)',
+		1069: 'Shirt (ID 70)',
+		1070: 'Shirt (ID 71)',
+		1071: 'White Overalls Shirt (ID 72)',
+		1072: 'Shirt (ID 73)',
+		1073: 'Shirt (ID 74)',
+		1074: 'Shirt (ID 75)',
+		1075: 'Shirt (ID 76)',
+		1076: 'Shirt (ID 77)',
+		1077: 'Shirt (ID 78)',
+		1078: 'Shirt (ID 79)',
+		1079: 'Shirt (ID 80)',
+		1080: 'Shirt (ID 81)',
+		1081: 'Shirt (ID 82)',
+		1082: 'Shirt (ID 83)',
+		1083: 'Shirt (ID 84)',
+		1084: 'Shirt (ID 85)',
+		1085: 'Shirt (ID 86)',
+		1086: 'Shirt (ID 87)',
+		1087: 'Neat Bow Shirt (ID 88)',
+		1088: 'Shirt (ID 89)',
+		1089: 'Shirt (ID 90)',
+		1090: 'Shirt (ID 91)',
+		1091: 'Shirt (ID 92)',
+		1092: 'Shirt (ID 93)',
+		1093: 'Shirt (ID 94)',
+		1094: 'Shirt (ID 95)',
+		1095: 'Shirt (ID 96)',
+		1096: 'Shirt (ID 97)',
+		1097: 'Shirt (ID 98)',
+		1098: 'Shirt (ID 99)',
+		1099: 'Shirt (ID 100)',
+		1100: 'Shirt (ID 101)',
+		1101: 'Shirt (ID 102)',
+		1102: 'Shirt (ID 103)',
+		1103: 'Shirt (ID 104)',
+		1104: 'Shirt (ID 105)',
+		1105: 'Shirt (ID 106)',
+		1106: 'Shirt (ID 107)',
+		1107: 'Shirt (ID 108)',
+		1108: 'Shirt (ID 109)',
+		1109: 'Shirt (ID 110)',
+		1110: 'Shirt (ID 111)',
+		1111: 'Shirt (ID 112)',
+		1112: 'Shirt (ID 113)',
+		1113: 'Shirt (ID 114)',
+		1114: 'Shirt (ID 115)',
+		1115: 'Shirt (ID 116)',
+		1116: 'Shirt (ID 117)',
+		1117: 'Shirt (ID 118)',
+		1118: 'Shirt (ID 119)',
+		1119: 'Shirt (ID 120)',
+		1120: 'Shirt (ID 121)',
+		1121: 'Shirt (ID 122)',
+		1122: 'Shirt (ID 123)',
+		1123: 'Shirt And Tie (ID 124)',
+		1124: 'Shirt (ID 125)',
+		1125: 'Shirt (ID 126)',
+		1126: 'Shirt (ID 127)',
+	};
+	
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
 
@@ -1438,7 +2265,7 @@ window.onload = function () {
 
 	function parseSummary(xmlDoc) {
 		var output = '',
-			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness'];
+			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'NEW ONE'];
 		// This app doesn't actually need a whole lot from the save file, and can be run from just the gameID number.
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
@@ -1452,6 +2279,9 @@ window.onload = function () {
 			'Iron Ore': 1,
 			'Gold Ore': 1,
 			'Iridium Ore': 1,
+			'Golden Pumpkin': 1,
+			'Treasure Chest': 1,
+			'Pearl': 1,
 		};
 		// Large multiplayer games will sometimes get out of synch between the actual number of days played and the current date
 		// The URL parameter 'days' lets this offset be defined.
@@ -1462,9 +2292,15 @@ window.onload = function () {
 		if (typeof xmlDoc !== 'undefined') {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
-			save.is1_3 = ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true');
-			output += '<span class="result">Save is ' + (save.is1_3 ? '' : 'not ') + ' from version 1.3 or later</span><br />\n';
-			if (save.is1_3) {
+			save.version = 1.2;
+			if ($(xmlDoc).find('hasApplied1_4_UpdateChanges').text() === 'true') {
+				save.version = 1.4;
+			} else if ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true') {
+				save.version = 1.3;
+			}
+			
+			output += '<span class="result">Save is from version ' + save.version + '</span><br />\n';
+			if (save.version >= 1.3) {
 				$('#cart-title').html('Traveling Merchant Cart and Night Market Boat');
 			} else {
 				$('#cart-title').html('Traveling Merchant Cart');
@@ -1480,7 +2316,7 @@ window.onload = function () {
 				$(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
 			// In 1.2, stats are under SaveGame, but in 1.3 they are under SaveGame > player and the farmhand elements.
-			if (save.is1_3) {
+			if (save.version >= 1.3) {
 				save.mp_ids.push($(xmlDoc).find('SaveGame > player > UniqueMultiplayerID').text());
 				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > player > stats > geodesCracked').text()));
 				$(xmlDoc).find('farmhand').each(function(i) {
@@ -1522,7 +2358,7 @@ window.onload = function () {
 			});
 			// Need to know if the baby question is possible. For now, only doing for 1.2
 			save.canHaveChildren = false;
-			if (!save.is1_3) {
+			if (save.version < 1.3) {
 				var spouse = $(xmlDoc).find('player > spouse').text();
 				var child_count = 0;
 				if (typeof(spouse) !== 'undefined' && spouse !== '') {
@@ -1538,7 +2374,14 @@ window.onload = function () {
 					}
 				}
 			}
-			
+			// Check if Quarry is unlocked for mine level predictions.
+			save.quarryUnlocked = false;
+			$(xmlDoc).find('player > mailReceived > string').each(function () {
+				var id = $(this).text();
+				if (id === 'ccCraftsRoom') {
+					save.quarryUnlocked = true;
+				}
+			});
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
@@ -1546,10 +2389,11 @@ window.onload = function () {
 			save.geodesCracked = [0];
 			save.deepestMineLevel = 0;
 			save.canHaveChildren = false;
-			save.is1_3 = true;
+			save.quarryUnlocked = false;
+			save.version = 1.4;
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
-				'<span class="result">Version 1.3 features will be included where possible.</span><br />\n';
+				'<span class="result">Newest version features will be included where possible.</span><br />\n';
 		} else {
 			return '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
@@ -1584,6 +2428,8 @@ window.onload = function () {
 			rainbowLights,
 			infestedMonster,
 			infestedSlime,
+			quarryLevel,
+			infestedQuarryLevel,
 			mineLevel,
 			day,
 			weekDay,
@@ -1621,59 +2467,129 @@ window.onload = function () {
 				rainbowLights = [];
 				infestedMonster = [];
 				infestedSlime = [];
+				quarryLevel = [];
 				day = 7 * week + weekDay + offset;
-				for (mineLevel = 1; mineLevel < 120; mineLevel++) {
-					if (mineLevel % 5 === 0) {
-						// skip elevator floors for everything
-						continue;
-					}
-					// Monster infestation seems to override mushroom spawns so that is checked first
-					rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
-					if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
-						if (rng.NextDouble() < 0.05) {
-							if (rng.NextDouble() < 0.5) {
-								infestedMonster.push(mineLevel);
-							} else {
-								infestedSlime.push(mineLevel);
+				// This is unlike other pages because there is no search capability. Instead, we just have separate logic
+				// based on different versions since RNG seeding was changed in 1.4
+				if (save.version <= 1.3) {
+					for (mineLevel = 1; mineLevel < 120; mineLevel++) {
+						if (mineLevel % 5 === 0) {
+							// skip elevator floors for everything
+							continue;
+						}
+						// Monster infestation seems to override mushroom spawns so that is checked first
+						rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
+						if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
+							if (rng.NextDouble() < 0.044) {
+								if (rng.NextDouble() < 0.5) {
+									infestedMonster.push(mineLevel);
+								} else {
+									infestedSlime.push(mineLevel);
+								}
+								continue; // Skip mushroom checks
 							}
-							continue; // skips Mushroom check
+						}
+						// Reset the seed for checking Mushrooms. Note, there are a couple checks related to
+						// darker than normal lighting. We don't care about the results but need to mimic them.
+						rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
+						if (rng.NextDouble() < 0.3 && mineLevel > 2) {
+							rng.NextDouble(); // checked vs < 0.3 again
+						}
+						rng.NextDouble(); // checked vs < 0.15
+						if (rng.NextDouble() < 0.035 && mineLevel > 80) {
+							rainbowLights.push(mineLevel);
 						}
 					}
-					// Reset the seed for checking Mushrooms. Note, there are a couple checks related to
-					// darker than normal lighting. We don't care about the results but need to mimic them.
-					rng = new CSRandom(day + save.dayAdjust + mineLevel + save.gameID / 2);
-					if (rng.NextDouble() < 0.3 && mineLevel > 2) {
-						rng.NextDouble(); // checked vs < 0.3 again
+					if (day < save.daysPlayed) {
+						tclass = "past";
+					} else if (day === save.daysPlayed) {
+						tclass = "current";
+					} else {
+						tclass = "future";
 					}
-						rng.NextDouble(); // checked vs < 0.15
-					if (rng.NextDouble() < 0.035 && mineLevel > 80) {
-						rainbowLights.push(mineLevel);
-					}
-				}
-				if (day < save.daysPlayed) {
-					tclass = "past";
-				} else if (day === save.daysPlayed) {
-					tclass = "current";
 				} else {
-					tclass = "future";
+					for (mineLevel = 1; mineLevel < 120; mineLevel++) {
+						var skipMushroomCheck = false;
+						if (mineLevel % 5 === 0) {
+							// skip elevator floors for everything
+							continue;
+						}
+						// Monster infestation seems to override mushroom spawns so that is checked first
+							rng = new CSRandom(day + save.dayAdjust + mineLevel*100 + save.gameID / 2);
+						if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
+							if (rng.NextDouble() < 0.044) {
+								if (rng.NextDouble() < 0.5) {
+									infestedMonster.push(mineLevel);
+								} else {
+									infestedSlime.push(mineLevel);
+								}
+								skipMushroomCheck = true;
+							} else if (save.quarryUnlocked) {
+								if (mineLevel % 40 > 1 && rng.NextDouble() < 0.044) {
+									if (rng.NextDouble() < 0.25) {
+										quarryLevel.push(mineLevel + '*');
+									} else {
+										quarryLevel.push(mineLevel);
+									}
+									skipMushroomCheck = true;
+								}
+							}
+						}
+						if (skipMushroomCheck) {
+							continue;
+						}
+						// Reset the seed for checking Mushrooms. Note, there are a couple checks related to
+						// darker than normal lighting. We don't care about the results but need to mimic them.
+						rng = new CSRandom((day + save.dayAdjust) * mineLevel + (4 * mineLevel) + save.gameID / 2);
+						if (rng.NextDouble() < 0.3 && mineLevel > 2) {
+							rng.NextDouble(); // checked vs < 0.3 again
+						}
+						rng.NextDouble(); // checked vs < 0.15
+						if (rng.NextDouble() < 0.035 && mineLevel > 80) {
+							rainbowLights.push(mineLevel);
+						}
+					}
+					if (day < save.daysPlayed) {
+						tclass = "past";
+					} else if (day === save.daysPlayed) {
+						tclass = "current";
+					} else {
+						tclass = "future";
+					}
 				}
+				var mushroomText = "";
 				if (rainbowLights.length === 0) {
-					rainbowLights.push("None");
+					mushroomText = '<span class="none"><img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;None</span>';
+				} else {
+					mushroomText = '<img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;' + rainbowLights.join(',&nbsp;');
 				}
+				var infestedText = "";
 				if (infestedMonster.length === 0) {
-					infestedMonster.push("None");
+					infestedText = '<span class="none"><img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;None</span>';
+				} else {
+					infestedText = '<img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;' + infestedMonster.join(',&nbsp;');
 				}
+				var slimeText = "";
 				if (infestedSlime.length === 0) {
-					infestedSlime.push("None");
+					slimeText = '<span class="none"><img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;None</span>';
+				} else {
+					slimeText = '<img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;' + infestedSlime.join(',&nbsp;');
+				}
+				var quarryText = "";
+				if (quarryLevel.length === 0) {
+					quarryText = '<span class="none"><img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;None</span>';
+				} else {
+					quarryText = '<img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;' + quarryLevel.join(',&nbsp;');
 				}
 				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
-					'<span class="cell"><img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;' + rainbowLights.join(',&nbsp;') +
-					'<br /><img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;' + infestedMonster.join(',&nbsp;') +
-					'<br /><img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;' + infestedSlime.join(',&nbsp;') + '</span></td>';
+					'<span class="cell">' + mushroomText +
+					'<br />' + infestedText + 
+					'<br />' + slimeText + 
+					'<br />' + quarryText + '</span></td>';
 			}
 			output += "</tr>\n";
 		}
-		output += '<tr><td colspan="7" class="legend">Legend: <img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m"> Mushroom Level | <img src="blank.png" class="small-icon" alt="Sword" id="icon_i"> Monster Infestation | <img src="blank.png" class="small-icon" alt="Slime" id="icon_s"> Slime Infestation</td></tr>';
+		output += '<tr><td colspan="7" class="legend">Legend: <img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m"> Mushroom Level | <img src="blank.png" class="small-icon" alt="Sword" id="icon_i"> Monster Infestation | <img src="blank.png" class="small-icon" alt="Slime" id="icon_s"> Slime Infestation | <img src="blank.png" class="small-icon" alt="Skull" id="icon_q"> Quarry Level (* = Infested)</td></tr>';
 		output += "</tbody></table>\n";
 		return output;
 	}
@@ -1765,6 +2681,51 @@ window.onload = function () {
 		return output;
 	}
 
+	function getCartItem(rng, seenItems) {
+		/* Helper function for cart prediction that rolls the itemID, price, and quantity and 
+		 * (depending on version) makes sure this item does not duplicate something already seen.
+		 * To save on the processing done by this script, the valid item lists were pre-calculated
+		 * and listed as save.cartItems and save.cartItems_1_4; so this function doesn't necessarily
+		 * do very much.
+		 */
+		var theItem = {};
+		var itemID = rng.Next(2,790);
+		if (save.version >= 1.4) {
+			var keepGoing = true;
+			while (keepGoing) {
+				itemID++;
+				itemID %= 790;
+				if (save.cartItems_1_4.hasOwnProperty(itemID)) {
+					theItem.name = save.cartItems_1_4[itemID];
+					theItem.price = Math.max(rng.Next(1,11)*100, getCartPrice(theItem.name)*rng.Next(3,6));
+					theItem.qty = (rng.NextDouble() < 0.1) ? 5 : 1;
+					if (!(theItem.name in seenItems)) {
+						seenItems[theItem.name] = 1;
+						keepGoing = false;
+					}
+				}
+			}
+		} else {
+			theItem.name = save.cartItems[itemID];
+			theItem.price = Math.max(rng.Next(1,11)*100, getCartPrice(theItem.name)*rng.Next(3,6));
+			theItem.qty = (rng.NextDouble() < 0.1) ? 5 : 1;
+		}
+		return theItem;
+	}
+	/*
+	if (split[3].Contains('-') && Convert.ToInt32(split[1]) > 0 && !split[3].Contains("-13") && !split[3].Equals("Quest") && !split[0].Equals("Weeds") && !split[3].Contains("Minerals") && !split[3].Contains("Arch") && Utility.addToStock(stock, stockIndices, new Object(index, 1, false, -1, 0), new int[]
+				{
+					Math.Max(r.Next(1, 11) * 100, Convert.ToInt32(split[1]) * r.Next(3, 6)),
+					(r.NextDouble() < 0.1) ? 5 : 1
+				}))
+			*/
+	function getCartPrice(itemName) {
+		/* Another helper function for cart prediction which basically just looks up the given itemName
+		 * in the appropriate dictionary for the save version.
+		 */
+		 return (save.version >= 1.4) ? save.cartPrices_1_4[itemName] : save.cartPrices[itemName];
+	}
+
 	function predictCart(isSearch, offset) {
 		// logic from StardewValley.Utility.getTravelingMerchantStock()
 		var output = '',
@@ -1808,24 +2769,23 @@ window.onload = function () {
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				// It might make more sense to only bother with the date stuff when matches are found.
 				var days=[5,7];
-				if (save.is1_3 && offset % 112 === 98) {
+				if (save.version >= 1.3 && offset % 112 === 98) {
 					days = [1,2,3,5,7];
 				}
 				month = Math.floor(offset / 28);
 				monthName = save.seasonNames[month % 4];
 				year = 1 + Math.floor(offset / 112);
 				for (var i = 0; i < days.length; i++) {
+					var seenItems = {};
 					dayOfMonth = offset % 28 + days[i];
 					dayOfWeek = save.dayNames[days[i]-1];
 					rngFirst = new CSRandom(save.gameID + offset + days[i] + save.dayAdjust);
 					for (slot = 1; slot <= 10; slot++) {
-						item = save.cartItems[rngFirst.Next(2,790)];
-						price = Math.max(rngFirst.Next(1,11)*100, save.cartPrices[item]*rngFirst.Next(3,6));
-						qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
-						if (searchTerm.test(item)) {
+						item = getCartItem(rngFirst, seenItems);
+						if (searchTerm.test(item.name)) {
 							count++;
 							output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-								wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+								wikify(item.name) + "</td><td>" + item.qty + "</td><td>" + addCommas(item.price) + "g</td>";
 						}
 					}
 					slot = -1;
@@ -1837,7 +2797,7 @@ window.onload = function () {
 					if (searchTerm.test(item)) {
 						count++;
 						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-							wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+							wikify(item,'Furniture') + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 					}
 					if (month % 4 < 2) {
 						item = 'Rare Seed';
@@ -1855,7 +2815,7 @@ window.onload = function () {
 					if (searchTerm.test(item)) {
 						count++;
 						output += '<tr><td>'  + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-							wikify(item) + "</td><td>" + qty + "</td><td>" + price + "g</td>";
+							wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
 					}
 					if (rngFirst.NextDouble() < 0.25) {
 						item = 'Coffee Bean';
@@ -1876,7 +2836,7 @@ window.onload = function () {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
 			}
-			if (save.is1_3 && offset % 112 === 94) {
+			if (save.version >= 1.3 && offset % 112 === 94) {
 				isNightMarket = true;
 				$('#cart-next-week').val(offset + 4);
 				$('#cart-prev-week').val(offset - 3);
@@ -1884,11 +2844,11 @@ window.onload = function () {
 			} else {
 				isNightMarket = false;
 				startDay = 4;
-				if (save.is1_3 && offset % 112 === 91) {
+				if (save.version >= 1.3 && offset % 112 === 91) {
 					// weekend before night market
 					$('#cart-next-week').val(offset + 3);
 					$('#cart-prev-week').val(offset - 7);
-				} else if (save.is1_3 && offset % 112 === 98) {
+				} else if (save.version >= 1.3 && offset % 112 === 98) {
 					// weekend after night market
 					$('#cart-next-week').val(offset + 7);
 					$('#cart-prev-week').val(offset - 4);
@@ -1941,25 +2901,22 @@ window.onload = function () {
 				rngMid = new CSRandom(save.gameID + offset + 6 + save.dayAdjust);
 			}
 			rngLast = new CSRandom(save.gameID + offset + 7 + save.dayAdjust);
+			var seenItemsFirst = {};
+			var seenItemsMid = {};
+			var seenItemsLast = {};
 			for (slot = 1; slot <= 10; slot++) {
 				output += "<tr><td>Basic Item " + slot + "</td>";
-				item = save.cartItems[rngFirst.Next(2,790)];
-				price = Math.max(rngFirst.Next(1,11)*100, save.cartPrices[item]*rngFirst.Next(3,6));
-				qty = (rngFirst.NextDouble() < 0.1) ? 5 : 1;
-				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";
+				item = getCartItem(rngFirst, seenItemsFirst);
+				output += '<td class="item">' + wikify(item.name) + "</td><td>" + item.qty + "</td><td>" + addCommas(item.price) + "g</td>";
 				if (isNightMarket) {
-					item = save.cartItems[rngMid.Next(2,790)];
-					price = Math.max(rngMid.Next(1,11)*100, save.cartPrices[item]*rngMid.Next(3,6));
-					qty = (rngMid.NextDouble() < 0.1) ? 5 : 1;
-					output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td>";					
+					item = getCartItem(rngMid, seenItemsMid);
+					output += '<td class="item">' + wikify(item.name) + "</td><td>" + item.qty + "</td><td>" + addCommas(item.price) + "g</td>";
 				}
-				item = save.cartItems[rngLast.Next(2,790)];
-				price = Math.max(rngLast.Next(1,11)*100, save.cartPrices[item]*rngLast.Next(3,6));
-				qty = (rngLast.NextDouble() < 0.1) ? 5 : 1;
-				output += '<td class="item">' + wikify(item) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
+				item = getCartItem(rngLast, seenItemsLast);
+				output += '<td class="item">' + wikify(item.name) + "</td><td>" + item.qty + "</td><td>" + addCommas(item.price) + "g</td></tr>";
 			}
 			// Furniture uses StardewValley.Utility.getRandomFurniture() & StardewValley.Utility.isFurnitureOffLimitsForSale()
-			// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture() structure
+			// Rather than fully emulating both of those functions, we will simply make sure the save.cartFurniture structure
 			// only contains items which are valid for sale.
 			slot = -1;
 			while (!save.cartFurniture.hasOwnProperty(slot)) {
@@ -2004,8 +2961,8 @@ window.onload = function () {
 					price = '4000g';
 				} else {
 					item = '(None)';
-					qty = '(N/A)';
-					price = '(N/A)';
+					qty = '--';
+					price = '--';
 				}
 				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 				if (isNightMarket) {
@@ -2015,8 +2972,8 @@ window.onload = function () {
 						price = '4000g';
 					} else {
 						item = '(None)';
-						qty = '(N/A)';
-						price = '(N/A)';
+						qty = '--';
+						price = '--';
 					}
 					output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 				}
@@ -2026,8 +2983,8 @@ window.onload = function () {
 					price = '4000g';
 				} else {
 					item = '(None)';
-					qty = '(N/A)';
-					price = '(N/A)';
+					qty = '--';
+					price = '--';
 				}
 				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			}
@@ -2039,8 +2996,8 @@ window.onload = function () {
 				price = '2500g';
 			} else {
 				item = '(None)';
-				qty = '(N/A)';
-				price = '(N/A)';
+				qty = '--';
+				price = '--';
 			}
 			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 			if (isNightMarket) {
@@ -2050,8 +3007,8 @@ window.onload = function () {
 					price = '2500g';
 				} else {
 					item = '(None)';
-					qty = '(N/A)';
-					price = '(N/A)';
+					qty = '--';
+					price = '--';
 				}
 				output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td>";
 			}
@@ -2061,8 +3018,8 @@ window.onload = function () {
 				price = '2500g';
 			} else {
 				item = '(None)';
-				qty = '(N/A)';
-				price = '(N/A)';
+				qty = '--';
+				price = '--';
 			}
 			output += '<td class="item">' + item + "</td><td>" + qty + "</td><td>" + addCommas(price) + "</td></tr>";
 			output += '</tbody></table>\n';
@@ -2112,15 +3069,19 @@ window.onload = function () {
 				var days=[3,6];
 				for (var i = 0; i < days.length; i++) {
 					rngFirst = new CSRandom((save.gameID / 2) + offset + days[i] + save.dayAdjust);
+					// Note that we are using getCartItem which is a special filtered version of the object list.
+					// Since getCartItem has a built-in increment, we counter that with the -1 after rolling the
+					// random number. Luckily for us, neither of the ranges we care about has any disallowed items
+					// so we can get away with using the cart list for this situation.
 					if (days[i] === 3) {
 						// Wednesday Fish
-						item = save.cartItems[rngFirst.Next(698,709) - 1];
+						item = getCartItem(rngFirst.Next(698,709) - 1, {});
 						price = 200;
 					} else if (days[i] === 6) {
 						// Saturday Cooking
 						thisRoll = rngFirst.Next(194,245) - 1;
 						if (thisRoll === 216) { thisRoll = 215; }
-						item = save.cartItems[thisRoll];
+						item = getCartItem(thisRoll, {});
 						price = rngFirst.Next(5,51) * 10;
 					}
 					if (searchTerm.test(item)) {
@@ -2191,6 +3152,120 @@ window.onload = function () {
 		return output;
 	}
 
+	function predictSandy(isSearch, offset) {
+		// logic from StardewValley.GameLocation.sandyShopStock()
+		var output = '',
+			month,
+			monthName,
+			year,
+			day,
+			dayOfMonth,
+			dayOfWeek,
+			item,
+			searchTerm,
+			searchStart,
+			searchEnd,
+			count,
+			rng,
+			thisRoll,
+			tclass;
+		// Hitting search without an actual search term will fall through to the default browse function; we might want
+		// to add some sort of error message or other feedback.
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#sandy-prev-year').prop("disabled", true);
+			$('#sandy-prev-week').prop("disabled", true);
+			$('#sandy-next-week').prop("disabled", true);
+			$('#sandy-next-year').prop("disabled", true);
+			$('#sandy-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = ($('#sandy-search-all').prop('checked')) ? 0 : 7 * Math.floor((save.daysPlayed - 1) / 7);
+			searchEnd = 112 * $('#sandy-search-range').val();
+			output += '<table class="output"><thead><tr><th colspan="3">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#sandy-search-all').prop('checked')) ? 'first ' : 'next ') + $('#sandy-search-range').val() + ' year(s)</th></tr>\n';
+			output += '<tr><th class="day">Day</th><th class="shirt-item">Image</th><th class="item">Name</th></tr>\n<tbody>';
+			count = 0;
+			// Much of the logic here is duplicated from the browsing section, but comments related to it have been removed.
+			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
+				for (var i = 0; i < 7; i++) {
+					day = offset + i;
+					rng = new CSRandom((save.gameID / 2) + day + save.dayAdjust);
+					thisRoll = 1000 + rng.Next(127);
+					item = save.shirtItems[thisRoll];
+					if (searchTerm.test(item)) {
+						count++;
+						month = Math.floor(offset / 28);
+						monthName = save.seasonNames[month % 4];
+						year = 1 + Math.floor(offset / 112);
+						dayOfMonth = offset % 28 + i;
+						// Hack to fix day name problems
+						if (i === 0) { i = 7; }
+						dayOfWeek = save.dayNames[i-1];
+						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
+							'<img src="blank.png" class="shirt" id="shirt_' + (thisRoll - 999) + '"></td>' +
+							'<td clas="shirt-name">' + item + "</td>";
+					}
+				}
+			}
+			output += '<tr><td colspan="3" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
+		} else {
+			if (typeof(offset) === 'undefined' || offset === '') {
+				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
+			}
+			$('#sandy-prev-year').val(offset - 112);
+			$('#sandy-prev-week').val(offset - 7);
+			$('#sandy-next-week').val(offset + 7);
+			$('#sandy-next-year').val(offset + 112);
+			if (offset < 7) {
+				$('#sandy-prev-week').prop("disabled", true);
+			} else {
+				$('#sandy-prev-week').prop("disabled", false);
+			}			
+			if (offset < 112) {
+				$('#sandy-prev-year').prop("disabled", true);
+			} else {
+				$('#sandy-prev-year').prop("disabled", false);
+			}			
+			$('#sandy-reset').val('reset');
+			$('#sandy-reset').html("Reset Browsing");			
+			$('#sandy-next-week').prop("disabled", false);
+			$('#sandy-next-year').prop("disabled", false);
+			// Reset search fields too
+			$('#sandy-search-text').val('');
+			$('#sandy-search-range').val(2);
+			$('#sandy-search-all').prop('checked', false);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			dayOfMonth = offset % 28;
+
+			output += '<table class="output"><thead><tr><th class="day">Date</th>' +
+				'<th class="shirt-item">Image</th><th class="item">Name</th></tr></thead><tbody>';
+
+			for (dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
+				day = dayOfWeek + offset;
+				rng = new CSRandom((save.gameID / 2) + day + save.dayAdjust);
+				thisRoll = 1000 + rng.Next(127);
+				item = save.shirtItems[thisRoll];
+
+				if (day < save.daysPlayed) {
+					tclass = "past";
+				} else if (day === save.daysPlayed) {
+					tclass = "current";
+				} else {
+					tclass = "future";
+				}
+				output += '<tr><td class="' + tclass + '">' + save.dayNames[(day - 1) % 7] + '<br />' +
+					monthName + ' ' + ((day - 1) % 28 + 1) +', Year ' + year + '</td>' +
+					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (thisRoll - 999) + '"></td>' +  
+					'<td class="' + tclass + ' shirt-name">' + item + '</td></tr>';
+			}
+			output += '</tbody></table>\n';
+		}
+		return output;
+	}
+
 	function predictGeodes(isSearch, offset) {
 		// logic from StardewValley.Utility.getTreasureFromGeode()
 		var output = '',
@@ -2209,7 +3284,9 @@ window.onload = function () {
 			searchResults,
 			count,
 			pageSize = 20,
-			rng;
+			numColumns = (save.version >= 1.4) ? 5 : 4,
+			rng,
+			rngTrove;
 
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#geode-prev-100').prop("disabled", true);
@@ -2222,7 +3299,8 @@ window.onload = function () {
 			searchTerm = new RegExp(offset, "i");
 			searchStart = Math.max(1, ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0]);
 			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
-			output += '<table class="output"><thead><tr><th colspan="5">Search results for &quot;' + offset + '&quot; over the ' +
+			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) + 
+				'">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
 			output += '<tr><th class="item">Item</th>' +
 				'<th class="geode-result">Geode <a href="https://stardewvalleywiki.com/Geode">' +
@@ -2232,16 +3310,45 @@ window.onload = function () {
 				'<th class="geode-result">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
 				'<th class="geode-result">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
-				'<img src="blank.png" class="icon" id="geode_o"></a></th></tr>\n<tbody>';
+				'<img src="blank.png" class="icon" id="geode_o"></a></th>';
+			if (save.version >= 1.4) {
+				output += '<th class="geode-result">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
+				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
+			}
+			output += '</tr>\n<tbody>';
 			count = 0;
 			searchResults = {};
-			console.log('searching from ' + searchStart + ' to ' + searchEnd);
+			//console.log('searching from ' + searchStart + ' to ' + searchEnd);
 			for (numCracked = searchStart; numCracked < searchEnd; numCracked++) {
 				// Nearly an exact copy of the browsing code within the for loop. We don't use the qty stuff right now,
 				// but I'd rather leave it in place in case that gets added to the search results later.
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				rng = new CSRandom(numCracked + save.gameID / 2);
+				// Artifact Troves need their own RNG because the way the conditionals are set up means their content roll
+				// happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also means we have to
+				// do all the warmups on both RNGs.
+				rngTrove = new CSRandom(numCracked + save.gameID / 2);
+				if (save.version >= 1.4) {
+					// extending arrays to support artifact troves
+					item.push('Stone');
+					itemQty.push(1);
+					// 1.4 added a bunch of extra random calls to prime the RNG to counter repeating patterns
+					var i, j, prewarm_amount2 = rng.Next(1,10);
+					rngTrove.Next();
+					for (j = 0; j < prewarm_amount2; j++) {
+						rng.NextDouble();
+						rngTrove.NextDouble();
+					}
+					prewarm_amount2 = rng.Next(1,10);
+					rngTrove.Next();
+					for (i = 0; i < prewarm_amount2; i++) {
+						rng.NextDouble();
+						rngTrove.NextDouble();
+					}
+					// Might as well just roll the troves now since the separate RNGs mean the order doesn't matter.
+					item[4] = save.minerals[save.geodeContents[275][Math.floor(rngTrove.NextDouble()*save.geodeContents[275].length)]];
+				}
 				if (rng.NextDouble() < 0.5) {
 					qty = rng.Next(3)*2 + 1;
 					if (rng.NextDouble() < 0.1) { qty = 10; }
@@ -2268,7 +3375,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[(save.is1_3) ? (82 + rng.Next(3) * 2): 82];
+							item[3] = save.minerals[(save.version >= 1.3) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
@@ -2339,10 +3446,13 @@ window.onload = function () {
 						item[3] = save.minerals[save.geodeContents[749][Math.floor(next*save.geodeContents[749].length)]];
 					}
 				}
-				for (c = 0; c < 4; c++) {
+				for (c = 0; c < numColumns; c++) {
 					if (searchTerm.test(item[c])) {
 						if (!searchResults.hasOwnProperty(item[c])) {
 							searchResults[item[c]] = [ [], [], [], [] ];
+							if (save.version >= 1.4) {
+								searchResults[item[c]].push([]);
+							}
 						}
 						searchResults[item[c]][c].push(numCracked);
 						count++;
@@ -2356,9 +3466,9 @@ window.onload = function () {
 					itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
 				}
 				output += '<tr><td class="item">' + wikify(key) + itemIcon + '</td>';
-				for (c = 0; c < 4; c++) {
+				for (c = 0; c < numColumns; c++) {
 					if (searchResults[key][c].length > 0) {
-						// Limit to first 5 results actually showin in table with ellipsis & tooltip for others
+						// Limit to first 5 results actually shown in table with ellipsis & tooltip for others
 						output += '<td>' + searchResults[key][c].slice(0,5);
 						if (searchResults[key][c].length > 5) {
 							output += '<span tooltip="All results: ' + searchResults[key][c] + '">,...</span>';
@@ -2370,7 +3480,7 @@ window.onload = function () {
 				}
 				output += '</tr>';
 			});
-			output += '<tr><td colspan="5" class="count">Found ' + count + ' matching instance(s) of ' +
+			output += '<tr><td colspan="' + (numColumns + 1) + '" class="count">Found ' + count + ' matching instance(s) of ' +
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 		} else {
 			if (typeof(offset) === 'undefined') {
@@ -2398,7 +3508,7 @@ window.onload = function () {
 			$('#geode-search-text').val('');
 			$('#geode-search-range').val(200);
 			$('#geode-search-all').prop('checked', false);
-			output += '<table class="output"><thead><tr><th rowspan="2" class="index">Number Opened</th>' +
+			output += '<table class="output"><thead><tr><th rowspan="2" class="index">Num Open</th>' +
 				'<th colspan="2" class="multi">Geode <a href="https://stardewvalleywiki.com/Geode">' +
 				'<img src="blank.png" class="icon" id="geode_r"></a></th>' +
 				'<th colspan="2" class="multi">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode">' +
@@ -2406,16 +3516,45 @@ window.onload = function () {
 				'<th colspan="2" class="multi">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
 				'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
-				'<img src="blank.png" class="icon" id="geode_o"></a></th></tr>\n';
-			output += '<tr><th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th>' +
-				'<th class="item">Item</th><th class="qty">Qty</th><th class="item">Item</th><th class="qty">Qty</th></tr>\n<tbody>';
+				'<img src="blank.png" class="icon" id="geode_o"></a></th>';
+			if (save.version >= 1.4) {
+				output += '<th colspan="2" class="multi"">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
+				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
+			}
+			output += '</tr>\n<tr>';
+			for (c = 0; c < numColumns; c++) {
+				output += '<th class="item">Item</th><th class="qty">Qty</th>';
+			}
+			output += '</tr>\n<tbody>';
 			// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
 			// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
+			// Artifact Troves sill require special handling though due to the precedence of conditionals
 			for (g = 1; g <= pageSize; g++) {
 				numCracked = offset + g;
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				rng = new CSRandom(numCracked + save.gameID / 2);
+				rngTrove = new CSRandom(numCracked + save.gameID / 2);
+				if (save.version >= 1.4) {
+					// extending arrays to support artifact troves
+					item.push('Stone');
+					itemQty.push(1);
+					// 1.4 added a bunch of extra random calls to prime the RNG to counter repeating patterns
+					var i, j, prewarm_amount2 = rng.Next(1,10);
+					rngTrove.Next();
+					for (j = 0; j < prewarm_amount2; j++) {
+						rng.NextDouble();
+						rngTrove.NextDouble();
+					}
+					prewarm_amount2 = rng.Next(1,10);
+					rngTrove.Next();
+					for (i = 0; i < prewarm_amount2; i++) {
+						rng.NextDouble();
+						rngTrove.NextDouble();
+					}
+					// Might as well just roll the troves now since the separate RNGs mean the order doesn't matter.
+					item[4] = save.minerals[save.geodeContents[275][Math.floor(rngTrove.NextDouble()*save.geodeContents[275].length)]];					
+				}
 				if (rng.NextDouble() < 0.5) {
 					qty = rng.Next(3)*2 + 1;
 					if (rng.NextDouble() < 0.1) { qty = 10; }
@@ -2442,7 +3581,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[(save.is1_3) ? (82 + rng.Next(3) * 2): 82];
+							item[3] = save.minerals[(save.version >= 1.3) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
@@ -2521,7 +3660,7 @@ window.onload = function () {
 					tclass = "future";
 				}
 				output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td>';
-				for (c = 0; c < 4; c++) {
+				for (c = 0; c < numColumns; c++) {
 					itemIcon = '';
 					if (!save.donatedItems.hasOwnProperty(item[c])) {
 						itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
@@ -2531,7 +3670,8 @@ window.onload = function () {
 				output += '</tr>';
 			}
 		}
-		output += '<tr><td colspan="9" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' +
+		output += '<tr><td colspan="' + (1 + 2*numColumns) + 
+			'" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' +
 			'which need to be donated to the ' + wikify('Museum') + '</td></tr>';
 		output += '</tbody></table>';
 		return output;
@@ -2588,9 +3728,9 @@ window.onload = function () {
 					day = 7 * week + weekDay + offset;
 					rng = new CSRandom(save.gameID / 2 + day + save.dayAdjust);
 					if (day < 31) {
-						thisTrain = 'Railroad<br/>not yet<br/>accessible';
+						thisTrain = '<span class="none">Railroad<br/>not yet<br/>accessible</span>';
 					} else {
-						thisTrain = '&nbsp;<br />(No train)<br />&nbsp';
+						thisTrain = '<span class="none">&nbsp;<br />(No train)<br />&nbsp</span>';
 						if (rng.NextDouble() < 0.2) {
 							trainTime = rng.Next(900,1800);
 							trainTime -= trainTime % 10;
@@ -2680,7 +3820,7 @@ window.onload = function () {
 					rng = new CSRandom(save.gameID / 2 + day + 1 + save.dayAdjust);
 					if (day + save.dayAdjust === 30) {
 						thisEvent = '<img src="blank.png" class="event" id="train"><br />Earthquake';
-					} else if (!save.is1_3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
+					} else if (save.version < 1.3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
 						thisEvent = '<img src="blank.png" class="event" id="event_b"><br />"Want a Baby?"';
 					} else if (rng.NextDouble() < 0.01 && (month%4) < 3) {
 						thisEvent = '<img src="blank.png" class="event" id="event_f"><br />Fairy';
@@ -2693,7 +3833,7 @@ window.onload = function () {
 					} else if (rng.NextDouble() < 0.01) {
 						thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
 					} else {
-						thisEvent = '&nbsp;<br />(No event)<br />&nbsp';
+						thisEvent = '<span class="none">&nbsp;<br />(No event)<br />&nbsp</span>';
 					}
 
 					if (day < save.daysPlayed) {
@@ -2705,6 +3845,77 @@ window.onload = function () {
 					}
 					output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
 						'<span class="night cell">' + thisEvent+ '</span></td>';
+				}
+				output += "</tr>\n";
+			}
+			output += "</tbody></table>\n";
+		}
+		return output;
+	};
+
+	function predictCrane(isSearch, offset) {
+		// logic from StardewValley.Locations.MovieTheater.addRandomNPCs()
+		var output = '',
+			thisEvent,
+			day,
+			week,
+			weekDay,
+			monthName,
+			month,
+			year,
+			tclass,
+			rng;
+			
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#crane-prev').prop("disabled", true);
+			$('#crane-next').prop("disabled", true);
+			$('#crane-reset').html("Clear Search Results &amp; Reset Browsing");
+		} else {
+			if (typeof(offset) === 'undefined') {
+				offset = 28 * Math.floor(save.daysPlayed/28);
+			}
+			if (offset < 112) {
+				$('#crane-prev-year').prop("disabled", true);
+			} else {
+				$('#crane-prev-year').val(offset - 112);
+				$('#crane-prev-year').prop("disabled", false);
+			}
+			if (offset < 28) {
+				$('#crane-prev-month').prop("disabled", true);
+			} else {
+				$('#crane-prev-month').val(offset - 28);
+				$('#crane-prev-month').prop("disabled", false);
+			}
+			$('#crane-reset').val('reset');
+			$('#crane-next-month').val(offset + 28);
+			$('#crane-next-year').val(offset + 112);
+			month = Math.floor(offset / 28);
+			monthName = save.seasonNames[month % 4];
+			year = 1 + Math.floor(offset / 112);
+			output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
+			output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
+			for (week = 0; week < 4; week++) {
+				output += "<tr>";
+				for (weekDay = 1; weekDay < 8; weekDay++) {
+					day = 7 * week + weekDay + offset;
+					// Game1.Date.TotalDays does not does not include today, so the RNG seed must be offset by 1
+					rng = new CSRandom(save.gameID + day + save.dayAdjust - 1);
+					//var TEMP = "" + (day + save.dayAdjust -1) + "<br />";
+					if (save.version >= 1.4 && rng.NextDouble() < 0.25) {
+						thisEvent = '<img src="blank.png" class="event" id="movie_gs"><br />Crane In Use';
+					} else {
+						thisEvent = '&nbsp;<br />(Crane Free)<br />&nbsp';
+					}
+
+					if (day < save.daysPlayed) {
+						tclass = "past";
+					} else if (day === save.daysPlayed) {
+						tclass = "current";
+					} else {
+						tclass = "future";
+					}
+					output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+						'<span class="crane cell">' + thisEvent+ '</span></td>';
 				}
 				output += "</tr>\n";
 			}
@@ -2755,9 +3966,10 @@ window.onload = function () {
 
 		if (typeof save.names !== "undefined") {
 			numPlayers = save.names.length;
+			$('#winterstar-note').html('');
 		} else {
 			forceOldLogic = true;
-			$('#winterstar-intro').after('<p class="note">Note: No players found; predictions may be wrong in game version 1.3</p>');
+			$('#winterstar-note').html('Note: No players found; predictions will not be reliable for game version > 1.2');
 		}
 		
 		output += '<table class="output"><thead><tr><th colspan = "4">Year ' + year + '</th></tr>';
@@ -2767,7 +3979,7 @@ window.onload = function () {
 			// While it looks like the gift itself might be predictable from StardewValley.Utility.getGiftFromNPC(), the RNG there gets seeded
 			// by an expression that includes the NPC's X coordinate, and (based on in-game testing) that seems to be from a pre-festival
 			// position which is not easily predictable.
-			if (forceOldLogic || !save.is1_3) {
+			if (forceOldLogic || save.version < 1.3) {
 				rng = new CSRandom(save.gameID / 2 - year);
 			} else {
 				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage
@@ -2818,8 +4030,12 @@ window.onload = function () {
 			output = predictTrains(isSearch, extra);
 		} else if (tabID === 'night') {
 			output = predictNight(isSearch, extra);
+		} else if (tabID === 'crane') {
+			output = predictCrane(isSearch, extra);
 		} else if (tabID === 'krobus') {
 			output = predictKrobus(isSearch, extra);
+		} else if (tabID === 'sandy') {
+			output = predictSandy(isSearch, extra);
 		} else if (tabID === 'wallpaper') {
 			output = predictWallpaper(isSearch, extra);
 		} else if (tabID === 'winterstar') {

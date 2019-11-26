@@ -58,6 +58,10 @@ h3 {
 .pts, .strong {
 	font-weight: bold;
 }
+.none {
+	font-style: italic;
+	opacity: 0.5;
+}
 .ach_yes,.ms_yes,.pt_yes {
 	color: #004000;
 }
@@ -159,7 +163,9 @@ h3 {
 .tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
 .tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6),
 .tabset > input:nth-child(13):checked ~ .tab-panels > .tab-panel:nth-child(7),
-.tabset > input:nth-child(15):checked ~ .tab-panels > .tab-panel:nth-child(8) {
+.tabset > input:nth-child(15):checked ~ .tab-panels > .tab-panel:nth-child(8),
+.tabset > input:nth-child(17):checked ~ .tab-panels > .tab-panel:nth-child(9),
+.tabset > input:nth-child(19):checked ~ .tab-panels > .tab-panel:nth-child(10) {
     display: block;
 }
 .tabset > label {
@@ -216,7 +222,8 @@ table.output th, table.output td {
 .calendar td {
 	text-align: left;
 	padding: 0;
-	width: 8.5em;
+	min-width: 8.5em;
+	white-space: nowrap;
 }
 tr.past > td, td.past, td.count {
 	background-color: #ccc;
@@ -238,7 +245,7 @@ tr.current > td, td.current {
 	display: inline-block;
 	padding: 3px;
 }
-td .train, td .night {
+td .train, td .night, td .crane {
 	text-align: center;
 	width: 100%;
 }
@@ -252,14 +259,23 @@ th.day {
 th.item {
 	width: 10em;
 }
+th.shirt-item {
+	min-width: 36px;
+}
+.shirt-name {
+	white-space: nowrap;
+}
 th.multi, th.item, td.item {
 	border-left-width: 2px;
 }
 th.qty {
-	width: 2.5em;
+	width: 1.5em;
 }
-th.price, th.index {
-	width: 4em;
+th.price {
+	width: 3em;
+}
+th.index {
+	width: 2em;
 }
 th.geode-result, th.wp-result {
 	width: 12.25em;
@@ -278,7 +294,7 @@ fieldset {
 	display: flex;
 	justify-content: space-between;
 }
-#mines-buttons, #train-buttons, #night-buttons, #winterstar-buttons {
+#mines-buttons, #train-buttons, #night-buttons, #crane-buttons, #winterstar-buttons {
 	max-width: 57em;
 }
 #cart-buttons, #cart-search, #krobus-buttons, #krobus-search, #wallpaper-buttons, #wallpaper-search {
@@ -330,6 +346,10 @@ img#event_w {
     background-position: -64px 0px;
 	width: 36px;
 }
+img#movie_gs {
+	background-position: 0px -64px;
+	height: 32px;
+}
 img#geode_r {
     background-position: 0px -96px;
 }
@@ -341,6 +361,9 @@ img#geode_m {
 }
 img#geode_o {
     background-position: -48px -96px;
+}
+img#geode_t {
+    background-position: -32px -112px;
 }
 img#gunther {
     background-position: -64px -96px;
@@ -359,6 +382,9 @@ img#icon_s {
 }
 img#icon_i {
     background-position: -112px -96px;
+}
+img#icon_q {
+    background-position: -48px -112px;
 }
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
