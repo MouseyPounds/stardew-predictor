@@ -2293,10 +2293,14 @@ window.onload = function () {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
 			save.version = 1.2;
-			if ($(xmlDoc).find('hasApplied1_4_UpdateChanges').text() === 'true') {
-				save.version = 1.4;
-			} else if ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true') {
-				save.version = 1.3;
+			if (Number($(xmlDoc).find('gameVersion').first().text()) > 0) {
+				save.version = $(xmlDoc).find('gameVersion').first().text();
+			} else {
+				if ($(xmlDoc).find('hasApplied1_4_UpdateChanges').text() === 'true') {
+					save.version = 1.4;
+				} else if ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true') {
+					save.version = 1.3;
+				}
 			}
 			
 			output += '<span class="result">Save is from version ' + save.version + '</span><br />\n';
