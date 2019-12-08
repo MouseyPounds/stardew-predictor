@@ -2253,6 +2253,21 @@ window.onload = function () {
 		return s && s[0].toUpperCase() + s.slice(1);
 	}
 
+	function compareSemVer(a, b) {
+		// semver-compare by James Halliday ("substack") @ https://github.com/substack/semver-compare
+		var pa = a.split('.');
+		var pb = b.split('.');
+		for (var i = 0; i < 3; i++) {
+			var na = Number(pa[i]);
+			var nb = Number(pb[i]);
+			if (na > nb) return 1;
+			if (nb > na) return -1;
+			if (!isNaN(na) && isNaN(nb)) return 1;
+			if (isNaN(na) && !isNaN(nb)) return -1;
+		}
+		return 0;
+	}
+	
 	function wikify(item, page) {
 		// removing egg colors & quantity amounts; changing spaces to underscores
 		var trimmed = item.replace(' (White)', '');
@@ -2292,14 +2307,13 @@ window.onload = function () {
 		if (typeof xmlDoc !== 'undefined') {
 			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
-			save.version = 1.2;
-			if (Number($(xmlDoc).find('gameVersion').first().text()) > 0) {
-				save.version = $(xmlDoc).find('gameVersion').first().text();
-			} else {
+			save.version = $(xmlDoc).find('gameVersion').first().text();
+			if (save.version === "") {
+				save.version = "1.2";
 				if ($(xmlDoc).find('hasApplied1_4_UpdateChanges').text() === 'true') {
-					save.version = 1.4;
+					save.version = "1.4";
 				} else if ($(xmlDoc).find('hasApplied1_3_UpdateChanges').text() === 'true') {
-					save.version = 1.3;
+					save.version = "1.3";
 				}
 			}
 			
@@ -2320,7 +2334,7 @@ window.onload = function () {
 				$(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
 			// In 1.2, stats are under SaveGame, but in 1.3 they are under SaveGame > player and the farmhand elements.
-			if (save.version >= 1.3) {
+			if (compareSemVer(save.version, "1.3") >= 0) {
 				save.mp_ids.push($(xmlDoc).find('SaveGame > player > UniqueMultiplayerID').text());
 				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > player > stats > geodesCracked').text()));
 				$(xmlDoc).find('farmhand').each(function(i) {
@@ -2362,7 +2376,7 @@ window.onload = function () {
 			});
 			// Need to know if the baby question is possible. For now, only doing for 1.2
 			save.canHaveChildren = false;
-			if (save.version < 1.3) {
+			if (compareSemVer(save.version, "1.3") < 0) {
 				var spouse = $(xmlDoc).find('player > spouse').text();
 				var child_count = 0;
 				if (typeof(spouse) !== 'undefined' && spouse !== '') {
@@ -2394,7 +2408,7 @@ window.onload = function () {
 			save.deepestMineLevel = 0;
 			save.canHaveChildren = false;
 			save.quarryUnlocked = false;
-			save.version = 1.4;
+			save.version = "1.4";
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
 				'<span class="result">Newest version features will be included where possible.</span><br />\n';
@@ -2407,7 +2421,7 @@ window.onload = function () {
 		}			
 		return output;
 	}
-
+	
 	function buttonHandler(button) {
 		var tab = button.id.split('-')[0];
 		if (typeof(button.value) === 'undefined' || button.value === 'reset') {
@@ -2475,7 +2489,7 @@ window.onload = function () {
 				day = 7 * week + weekDay + offset;
 				// This is unlike other pages because there is no search capability. Instead, we just have separate logic
 				// based on different versions since RNG seeding was changed in 1.4
-				if (save.version <= 1.3) {
+				if (compareSemVer(save.version, "1.4") < 0) {
 					for (mineLevel = 1; mineLevel < 120; mineLevel++) {
 						if (mineLevel % 5 === 0) {
 							// skip elevator floors for everything
@@ -2694,7 +2708,7 @@ window.onload = function () {
 		 */
 		var theItem = {};
 		var itemID = rng.Next(2,790);
-		if (save.version >= 1.4) {
+		if (compareSemVer(save.version, "1.4") >= 0) {
 			var keepGoing = true;
 			while (keepGoing) {
 				itemID++;
@@ -2727,7 +2741,7 @@ window.onload = function () {
 		/* Another helper function for cart prediction which basically just looks up the given itemName
 		 * in the appropriate dictionary for the save version.
 		 */
-		 return (save.version >= 1.4) ? save.cartPrices_1_4[itemName] : save.cartPrices[itemName];
+		 return (compareSemVer(save.version, "1.4") >= 0) ? save.cartPrices_1_4[itemName] : save.cartPrices[itemName];
 	}
 
 	function predictCart(isSearch, offset) {
@@ -2773,7 +2787,7 @@ window.onload = function () {
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				// It might make more sense to only bother with the date stuff when matches are found.
 				var days=[5,7];
-				if (save.version >= 1.3 && offset % 112 === 98) {
+				if (compareSemVer(save.version, "1.3") >= 0 && offset % 112 === 98) {
 					days = [1,2,3,5,7];
 				}
 				month = Math.floor(offset / 28);
@@ -2840,7 +2854,7 @@ window.onload = function () {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
 			}
-			if (save.version >= 1.3 && offset % 112 === 94) {
+			if (compareSemVer(save.version, "1.3") >= 0 && offset % 112 === 94) {
 				isNightMarket = true;
 				$('#cart-next-week').val(offset + 4);
 				$('#cart-prev-week').val(offset - 3);
@@ -2848,11 +2862,11 @@ window.onload = function () {
 			} else {
 				isNightMarket = false;
 				startDay = 4;
-				if (save.version >= 1.3 && offset % 112 === 91) {
+				if (compareSemVer(save.version, "1.3") >= 0 && offset % 112 === 91) {
 					// weekend before night market
 					$('#cart-next-week').val(offset + 3);
 					$('#cart-prev-week').val(offset - 7);
-				} else if (save.version >= 1.3 && offset % 112 === 98) {
+				} else if (compareSemVer(save.version, "1.3") >= 0 && offset % 112 === 98) {
 					// weekend after night market
 					$('#cart-next-week').val(offset + 7);
 					$('#cart-prev-week').val(offset - 4);
@@ -3288,7 +3302,7 @@ window.onload = function () {
 			searchResults,
 			count,
 			pageSize = 20,
-			numColumns = (save.version >= 1.4) ? 5 : 4,
+			numColumns = (compareSemVer(save.version, "1.4") >= 0) ? 5 : 4,
 			rng,
 			rngTrove;
 
@@ -3333,7 +3347,7 @@ window.onload = function () {
 				// happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also means we have to
 				// do all the warmups on both RNGs.
 				rngTrove = new CSRandom(numCracked + save.gameID / 2);
-				if (save.version >= 1.4) {
+				if (compareSemVer(save.version, "1.4") >= 0) {
 					// extending arrays to support artifact troves
 					item.push('Stone');
 					itemQty.push(1);
@@ -3379,7 +3393,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[(save.version >= 1.3) ? (82 + rng.Next(3) * 2): 82];
+							item[3] = save.minerals[(compareSemVer(save.version, "1.3") >= 0) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
@@ -3454,7 +3468,7 @@ window.onload = function () {
 					if (searchTerm.test(item[c])) {
 						if (!searchResults.hasOwnProperty(item[c])) {
 							searchResults[item[c]] = [ [], [], [], [] ];
-							if (save.version >= 1.4) {
+							if (compareSemVer(save.version, "1.4") >= 0) {
 								searchResults[item[c]].push([]);
 							}
 						}
@@ -3521,7 +3535,7 @@ window.onload = function () {
 				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
 				'<th colspan="2" class="multi">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_o"></a></th>';
-			if (save.version >= 1.4) {
+			if (compareSemVer(save.version, "1.4") >= 0) {
 				output += '<th colspan="2" class="multi"">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
 				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
 			}
@@ -3539,7 +3553,7 @@ window.onload = function () {
 				itemQty = [1, 1, 1, 1];
 				rng = new CSRandom(numCracked + save.gameID / 2);
 				rngTrove = new CSRandom(numCracked + save.gameID / 2);
-				if (save.version >= 1.4) {
+				if (compareSemVer(save.version, "1.4") >= 0) {
 					// extending arrays to support artifact troves
 					item.push('Stone');
 					itemQty.push(1);
@@ -3585,7 +3599,7 @@ window.onload = function () {
 							itemQty[0] = 1;
 							item[1] = save.minerals[84];
 							item[2] = save.minerals[82];
-							item[3] = save.minerals[(save.version >= 1.3) ? (82 + rng.Next(3) * 2): 82];
+							item[3] = save.minerals[(compareSemVer(save.version, "1.3") >= 0) ? (82 + rng.Next(3) * 2): 82];
 						}
 					} else {
 						next = rng.NextDouble();
@@ -3824,7 +3838,7 @@ window.onload = function () {
 					rng = new CSRandom(save.gameID / 2 + day + 1 + save.dayAdjust);
 					if (day + save.dayAdjust === 30) {
 						thisEvent = '<img src="blank.png" class="event" id="train"><br />Earthquake';
-					} else if (save.version < 1.3 && save.canHaveChildren && rng.NextDouble() < 0.05) {
+					} else if (compareSemVer(save.version, "1.3") < 0 && save.canHaveChildren && rng.NextDouble() < 0.05) {
 						thisEvent = '<img src="blank.png" class="event" id="event_b"><br />"Want a Baby?"';
 					} else if (rng.NextDouble() < 0.01 && (month%4) < 3) {
 						thisEvent = '<img src="blank.png" class="event" id="event_f"><br />Fairy';
@@ -3905,7 +3919,7 @@ window.onload = function () {
 					// Game1.Date.TotalDays does not does not include today, so the RNG seed must be offset by 1
 					rng = new CSRandom(save.gameID + day + save.dayAdjust - 1);
 					//var TEMP = "" + (day + save.dayAdjust -1) + "<br />";
-					if (save.version >= 1.4 && rng.NextDouble() < 0.25) {
+					if (compareSemVer(save.version, "1.4") >= 0 && rng.NextDouble() < 0.25) {
 						thisEvent = '<img src="blank.png" class="event" id="movie_gs"><br />Crane In Use';
 					} else {
 						thisEvent = '&nbsp;<br />(Crane Free)<br />&nbsp';
@@ -3983,7 +3997,7 @@ window.onload = function () {
 			// While it looks like the gift itself might be predictable from StardewValley.Utility.getGiftFromNPC(), the RNG there gets seeded
 			// by an expression that includes the NPC's X coordinate, and (based on in-game testing) that seems to be from a pre-festival
 			// position which is not easily predictable.
-			if (forceOldLogic || save.version < 1.3) {
+			if (forceOldLogic || compareSemVer(save.version, "1.3") < 0) {
 				rng = new CSRandom(save.gameID / 2 - year);
 			} else {
 				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage

@@ -20,7 +20,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js"></script>
+<script src="./stardew-predictor.js?v=3.0.2"></script>
 <script src="./BigInteger.min.js"></script>
 
 </head>
@@ -39,7 +39,7 @@ the game after reading the save file. The information predicted includes special
 (e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.</p>
 <p>Most changed &amp; added content from version 1.4 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
-<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a> and <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
+<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
 Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
 </div>
 
@@ -299,6 +299,7 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li> 7 Dec  2019 - v3.0.2 - Version detection changed again to handle semver like 1.4.2</li>
 <li>30 Nov  2019 - v3.0.1 - Version detection should now properly identify day one 1.4 saves</li>
 <li>26 Nov  2019 - v3.0   - Support for Stardew Valley 1.4</li>
 <li> 5 July 2019 - v2.2.1 - Fixed a wiki link error.</li>

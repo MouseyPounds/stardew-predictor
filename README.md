@@ -10,6 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
+*  7 Dec  2019 - v3.0.2 - Version detection changed again to handle semver like 1.4.2
 * 30 Nov  2019 - v3.0.1 - Version detection should now properly identify day one 1.4 saves
 * 26 Nov  2019 - v3.0   - Support for Stardew Valley 1.4
 *  5 July 2019 - v2.2.1 - Fixed a wiki link error.
