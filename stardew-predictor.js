@@ -2280,7 +2280,7 @@ window.onload = function () {
 
 	function parseSummary(xmlDoc) {
 		var output = '',
-			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'NEW ONE'];
+			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'Four Corners'];
 		// This app doesn't actually need a whole lot from the save file, and can be run from just the gameID number.
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
