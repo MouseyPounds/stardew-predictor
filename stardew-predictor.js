@@ -3329,7 +3329,7 @@ window.onload = function () {
 				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
 				'<th class="geode-result">Omni Geode <a href="https://stardewvalleywiki.com/Omni_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_o"></a></th>';
-			if (save.version >= 1.4) {
+			if (compareSemVer(save.version, "1.4") >= 0) {
 				output += '<th class="geode-result">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
 				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
 			}
