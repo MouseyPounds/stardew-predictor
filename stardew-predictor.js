@@ -2730,13 +2730,7 @@ window.onload = function () {
 		}
 		return theItem;
 	}
-	/*
-	if (split[3].Contains('-') && Convert.ToInt32(split[1]) > 0 && !split[3].Contains("-13") && !split[3].Equals("Quest") && !split[0].Equals("Weeds") && !split[3].Contains("Minerals") && !split[3].Contains("Arch") && Utility.addToStock(stock, stockIndices, new Object(index, 1, false, -1, 0), new int[]
-				{
-					Math.Max(r.Next(1, 11) * 100, Convert.ToInt32(split[1]) * r.Next(3, 6)),
-					(r.NextDouble() < 0.1) ? 5 : 1
-				}))
-			*/
+
 	function getCartPrice(itemName) {
 		/* Another helper function for cart prediction which basically just looks up the given itemName
 		 * in the appropriate dictionary for the save version.
