@@ -156,6 +156,7 @@ h3 {
 .tabset .tab-panel {
 	display: none;
 }
+/* This needs new entries every time we add a new tab */
 .tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
 .tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
 .tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
@@ -165,13 +166,14 @@ h3 {
 .tabset > input:nth-child(13):checked ~ .tab-panels > .tab-panel:nth-child(7),
 .tabset > input:nth-child(15):checked ~ .tab-panels > .tab-panel:nth-child(8),
 .tabset > input:nth-child(17):checked ~ .tab-panels > .tab-panel:nth-child(9),
-.tabset > input:nth-child(19):checked ~ .tab-panels > .tab-panel:nth-child(10) {
+.tabset > input:nth-child(19):checked ~ .tab-panels > .tab-panel:nth-child(10),
+.tabset > input:nth-child(21):checked ~ .tab-panels > .tab-panel:nth-child(11) {
     display: block;
 }
 .tabset > label {
 	position: relative;
 	display: inline-block;
-	padding: 15px;
+	padding: 8px 12px;
 	border: 1px solid #906030;
 	border-bottom: 0;
 	cursor: pointer;
@@ -180,6 +182,7 @@ h3 {
 	background-color: #ffe0b0;
 	border-radius: 8px 8px 0 0;
 	color: #906030;
+	text-align: center;
 }
 .tabset > label:hover,
 .tabset > input:focus + label {
@@ -221,6 +224,7 @@ table.output th, table.output td {
 }
 .calendar td {
 	text-align: left;
+	vertical-align: top;
 	padding: 0;
 	min-width: 8.5em;
 	white-space: nowrap;
@@ -241,6 +245,13 @@ tr.current > td, td.current {
 	padding: 0 3px 0 0;
 	width: 1.25em;
 }
+td hr {
+	border-style: dashed;
+	border-color: black;
+	border-width: 1px 0 0 0;
+	width: 90%;
+	text-align: center;
+}
 .cell {
 	display: inline-block;
 	padding: 3px;
@@ -254,10 +265,10 @@ td.legend {
 	text-align: center;
 }
 th.day {
-	width: 12em;
+	min-width: 12em;
 }
 th.item {
-	width: 10em;
+	min-width: 10em;
 }
 th.shirt-item {
 	min-width: 36px;
@@ -319,6 +330,12 @@ img.small-icon {
 img.event {
 	vertical-align: -1px;
 	width: 32px;
+	height: 32px;
+	background-image:url("./all_icons.png")
+}
+img.tall {
+	vertical-align: -1px;
+	width: 16px;
 	height: 32px;
 	background-image:url("./all_icons.png")
 }
@@ -386,11 +403,14 @@ img#icon_i {
 img#icon_q {
     background-position: -48px -112px;
 }
+img#icon_d {
+    background-position: -64px -112px;
+}
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
    http://jsfiddle.net/AndreaLigios/jtLbpy62/
  */
-[tooltip]:before {            
+[tooltip]:before {
 	position: absolute;
 	content: attr(tooltip);
 	opacity: 0;
@@ -399,10 +419,11 @@ img#icon_q {
 	color: #603000;
 }
 [tooltip]:hover:before {        
-	opacity: .9;
+	opacity: 0.9;
 	background: #ffe0b0;
 	margin-top: -1.5em;
 	margin-left: .5em;
+	z-index: 2;
 }
 [tooltip]:not([tooltip-persistent]):before {
 	pointer-events: none;

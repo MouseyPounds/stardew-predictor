@@ -2299,7 +2299,7 @@ window.onload = function () {
 			'Pearl': 1,
 		};
 		// Large multiplayer games will sometimes get out of synch between the actual number of days played and the current date
-		// The URL parameter 'days' lets this offset be defined.
+		// The URL parameter 'days' lets this offset be defined. This isn't actually documented anywhere but here though.
 		save.dayAdjust = 0;
 		if ($.QueryString.hasOwnProperty("days")) {
 			save.dayAdjust = parseInt($.QueryString.days);
@@ -2392,14 +2392,31 @@ window.onload = function () {
 					}
 				}
 			}
-			// Check if Quarry is unlocked for mine level predictions.
+			// Quarry unlock needed for mine predictions and desert for Garbage Can.
 			save.quarryUnlocked = false;
+			save.desertUnlocked = false;
 			$(xmlDoc).find('player > mailReceived > string').each(function () {
 				var id = $(this).text();
 				if (id === 'ccCraftsRoom') {
 					save.quarryUnlocked = true;
+				} else if (id === 'ccVault') {
+					save.desertUnlocked = true;
 				}
 			});
+			// The furnace unlock is necessary for Garbage Can predictions. As this
+			// is player-specific, we will just check the host.
+			save.hasFurnaceRecipe = false;
+			$(xmlDoc).find('player > craftingRecipes > item').each(function () {
+				var id = $(this).find('key > string').text();
+				if (id === 'Furnace') {
+					save.hasFurnaceRecipe = true;
+				}
+			});
+			save.hasSpecialCharm = false;
+			if ($(xmlDoc).find('player > hasSpecialCharm').text() === "true") {
+				save.hasSpecialCharm = true;
+			}
+			
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
 			save.daysPlayed = 1;
@@ -2408,6 +2425,9 @@ window.onload = function () {
 			save.deepestMineLevel = 0;
 			save.canHaveChildren = false;
 			save.quarryUnlocked = false;
+			save.desertUnlocked = false;
+			save.hasFurnaceRecipe = false;
+			save.hasSpecialCharm = false;
 			save.version = "1.4";
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
@@ -2447,6 +2467,7 @@ window.onload = function () {
 			infestedMonster,
 			infestedSlime,
 			quarryLevel,
+			dinoLevel,
 			infestedQuarryLevel,
 			mineLevel,
 			day,
@@ -2486,9 +2507,11 @@ window.onload = function () {
 				infestedMonster = [];
 				infestedSlime = [];
 				quarryLevel = [];
+				dinoLevel = [];
 				day = 7 * week + weekDay + offset;
 				// This is unlike other pages because there is no search capability. Instead, we just have separate logic
 				// based on different versions since RNG seeding was changed in 1.4
+				// Start with logic for 1.3 & earlier
 				if (compareSemVer(save.version, "1.4") < 0) {
 					for (mineLevel = 1; mineLevel < 120; mineLevel++) {
 						if (mineLevel % 5 === 0) {
@@ -2533,25 +2556,22 @@ window.onload = function () {
 							continue;
 						}
 						// Monster infestation seems to override mushroom spawns so that is checked first
-							rng = new CSRandom(day + save.dayAdjust + mineLevel*100 + save.gameID / 2);
-						if (mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
-							if (rng.NextDouble() < 0.044) {
-								if (rng.NextDouble() < 0.5) {
-									infestedMonster.push(mineLevel);
-								} else {
-									infestedSlime.push(mineLevel);
-								}
-								skipMushroomCheck = true;
-							} else if (save.quarryUnlocked) {
-								if (mineLevel % 40 > 1 && rng.NextDouble() < 0.044) {
-									if (rng.NextDouble() < 0.25) {
-										quarryLevel.push(mineLevel + '*');
-									} else {
-										quarryLevel.push(mineLevel);
-									}
-									skipMushroomCheck = true;
-								}
+						rng = new CSRandom(day + save.dayAdjust + mineLevel*100 + save.gameID / 2);
+						if (rng.NextDouble() < 0.044 && mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
+							
+							if (rng.NextDouble() < 0.5) {
+								infestedMonster.push(mineLevel);
+							} else {
+								infestedSlime.push(mineLevel);
 							}
+							skipMushroomCheck = true;
+						} else if (rng.NextDouble() < 0.044 && save.quarryUnlocked && mineLevel % 40 > 1 ) {
+							if (rng.NextDouble() < 0.25) {
+								quarryLevel.push(mineLevel + '*');
+							} else {
+								quarryLevel.push(mineLevel);
+							}
+							skipMushroomCheck = true;
 						}
 						if (skipMushroomCheck) {
 							continue;
@@ -2567,6 +2587,25 @@ window.onload = function () {
 							rainbowLights.push(mineLevel);
 						}
 					}
+					// We are now checking Skull Cavern for Dino levels too. I am arbitrarily choosing 500 Skull Cavern
+					// levels as the cutoff point, and duplicating some of the similar code checks here.
+					// The game's Dino check has a >126 component, so we just start at 127.
+					// Unfortunately, the game chooses a map to use first, and that choice is not predictable. We are
+					// assuming that that check always passes so that we get a list of *potential* dino levels.
+					for (mineLevel = 127; mineLevel < 621; mineLevel++) {
+						rng = new CSRandom(day + save.dayAdjust + mineLevel*100 + save.gameID / 2);
+						if (rng.NextDouble() < 0.044) {
+							if (rng.NextDouble() < 0.5) {
+								//infestedMonster.push(mineLevel);
+							} else {
+								//infestedSlime.push(mineLevel);
+							}
+							if (rng.NextDouble() < 0.5) {
+								dinoLevel.push(mineLevel-120);
+							}
+						}
+					}
+
 					if (day < save.daysPlayed) {
 						tclass = "past";
 					} else if (day === save.daysPlayed) {
@@ -2575,39 +2614,244 @@ window.onload = function () {
 						tclass = "future";
 					}
 				}
-				var mushroomText = "";
+				var mushroomText = '<img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;';
 				if (rainbowLights.length === 0) {
-					mushroomText = '<span class="none"><img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;None</span>';
+					mushroomText = '<span class="none">' + mushroomText + 'None</span>';
 				} else {
-					mushroomText = '<img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m">&nbsp;' + rainbowLights.join(',&nbsp;');
+					mushroomText += rainbowLights.join(',&nbsp;');
 				}
-				var infestedText = "";
+				var infestedText = '<img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;';
 				if (infestedMonster.length === 0) {
-					infestedText = '<span class="none"><img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;None</span>';
+					infestedText = '<span class="none">' + infestedText + 'None</span>';
 				} else {
-					infestedText = '<img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;' + infestedMonster.join(',&nbsp;');
+					infestedText += infestedMonster.join(',&nbsp;');
 				}
-				var slimeText = "";
+				var slimeText = '<img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;';
 				if (infestedSlime.length === 0) {
-					slimeText = '<span class="none"><img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;None</span>';
+					slimeText = '<span class="none">' + slimeText + 'None</span>';
 				} else {
-					slimeText = '<img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;' + infestedSlime.join(',&nbsp;');
+					slimeText += infestedSlime.join(',&nbsp;');
 				}
-				var quarryText = "";
+				var quarryText = '<img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;';
 				if (quarryLevel.length === 0) {
-					quarryText = '<span class="none"><img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;None</span>';
+					quarryText = '<span class="none">' + quarryText + 'None</span>';
 				} else {
-					quarryText = '<img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;' + quarryLevel.join(',&nbsp;');
+					quarryText += quarryLevel.join(',&nbsp;');
+				}
+				var dinoText = '<img src="blank.png" class="small-icon" alt="Dino" id="icon_d">&nbsp;';
+				if (dinoLevel.length === 0) {
+					dinoText = '<span class="none">' + dinoText + 'None</span>';
+				} else {
+					if (dinoLevel.length > 4) {
+						dinoText = '<span tooltip="All results (level 1-500): ' + dinoLevel + '">' + dinoText + 
+							dinoLevel.slice(0,4).join(',&nbsp;') + ',...</span>';
+					} else {
+						dinoText += dinoLevel.join(',&nbsp;');
+					}
 				}
 				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
 					'<span class="cell">' + mushroomText +
 					'<br />' + infestedText + 
 					'<br />' + slimeText + 
-					'<br />' + quarryText + '</span></td>';
+					'<br />' + quarryText +
+					'<hr />' + dinoText + '</span></td>';
 			}
 			output += "</tr>\n";
 		}
-		output += '<tr><td colspan="7" class="legend">Legend: <img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m"> Mushroom Level | <img src="blank.png" class="small-icon" alt="Sword" id="icon_i"> Monster Infestation | <img src="blank.png" class="small-icon" alt="Slime" id="icon_s"> Slime Infestation | <img src="blank.png" class="small-icon" alt="Skull" id="icon_q"> Quarry Level (* = Infested)</td></tr>';
+		output += '<tr><td colspan="7" class="legend">Regular Mine: <img src="blank.png" class="small-icon" alt="Mushroom" id="icon_m"> Mushroom Level | <img src="blank.png" class="small-icon" alt="Sword" id="icon_i"> Monster Infestation | <img src="blank.png" class="small-icon" alt="Slime" id="icon_s"> Slime Infestation | <img src="blank.png" class="small-icon" alt="Skull" id="icon_q"> Quarry Level (* = Infested)<br/>Skull Cavern: <img src="blank.png" class="small-icon" alt="Dino" id="icon_d"> Potential Dinosaur Level (not guaranteed)</td></tr>';
+		output += "</tbody></table>\n";
+		return output;
+	}
+
+	function getSeasonalItem(whichCan, season, daysPlayed) {
+		// This is a version of StardewValley.Utility.getRandomItemFromSeason() as it is used in
+		// the Garbage Can item determination. We are hardcoding garbage can coordinates.
+		var tileX = [13,19,56,108,97,47,52,110],
+			tileY = [86,89,85,91,80,70,63,56],
+			possibleItems = ["Topaz","Amethyst","Cave Carrot","Quartz","Earth Crystal","Seaweed","Joja Cola","Green Algae","Red Mushroom"],
+			rng = new CSRandom(save.gameID + daysPlayed + save.dayAdjust + tileX[whichCan]*653 + tileY[whichCan]*777);
+		if (save.deepestMineLevel > 40) {
+			possibleItems.push("Aquamarine","Jade","Diamond","Frozen Tear","Purple Mushroom");
+		}
+		if (save.deepestMineLevel > 80) {
+			possibleItems.push("Ruby","Emerald","Fire Quartz");
+		}
+		if (save.desertUnlocked) {
+			possibleItems.push("Coconut","Cactus Fruit","Sandfish","Scorpion Carp");
+		}
+		if (save.hasFurnaceRecipe) {
+			possibleItems.push("Copper Bar","Iron Bar","Gold Bar","Refined Quartz");
+		}
+		switch(season) {
+			case 0:
+				possibleItems.push("Wild Horseradish","Daffodil","Leek","Dandelion","Anchovy","Sardine","Bream","Largemouth Bass",
+					"Smallmouth Bass","Carp","Catfish","Sunfish","Herring","Eel","Seaweed","Joja Cola","Flounder");
+				break;
+			case 1:
+				possibleItems.push("Pufferfish","Tuna","Bream","Largemouth Bass","Rainbow Trout","Carp","Pike","Sunfish",
+					"Red Mullet","Octopus","Red Snapper","Super Cucumber","Spice Berry","Grape","Sweet Pea","Flounder");
+				break;
+			case 2:
+				possibleItems.push("Common Mushroom","Wild Plum","Hazelnut","Blackberry","Anchovy","Sardine","Bream","Largemouth Bass",
+					"Smallmouth Bass","Salmon","Walleye","Carp","Catfish","Eel","Red Snapper","Sea Cucumber","Super Cucumber","Midnight Carp");
+				break;
+			case 3:
+				possibleItems.push("Winter Root","Crystal Fruit","Snow Yam","Crocus","Tuna","Sardine","Bream","Largemouth Bass",
+					"Walleye","Perch","Pike","Red Mullet","Herring","Red Snapper","Squid","Sea Cucumber","Midnight Carp");
+				break;
+		}
+		return possibleItems[rng.Next(possibleItems.length)];
+	}
+	
+	function predictTrash(isSearch, offset) {
+		// ref StardewValley.Locations.Town.checkAction()
+		var output = "",
+			rng,
+			prewarm,
+			i,
+			mega,
+			doubleMega,
+			luckCheck,
+			whichCan,
+			canList = ["Jodi", "Emily", "Mayor", "Museum", "Clint", "Saloon", "George", "Joja"],
+			trashItem,
+			goodStuff,
+			day,
+			weekDay,
+			week,
+			monthName,
+			month,
+			year,
+			tclass;
+		if (typeof(offset) === 'undefined') {
+			offset = 28 * Math.floor(save.daysPlayed/28);
+		}
+		if (offset < 112) {
+			$('#trash-prev-year').prop("disabled", true);
+		} else {
+			$('#trash-prev-year').val(offset - 112);
+			$('#trash-prev-year').prop("disabled", false);
+		}
+		if (offset < 28) {
+			$('#trash-prev-month').prop("disabled", true);
+		} else {
+			$('#trash-prev-month').val(offset - 28);
+			$('#trash-prev-month').prop("disabled", false);
+		}
+		$('#trash-reset').val('reset');
+		$('#trash-next-month').val(offset + 28);
+		$('#trash-next-year').val(offset + 112);
+		month = Math.floor(offset / 28);
+		monthName = save.seasonNames[month % 4];
+		year = 1 + Math.floor(offset / 112);
+		output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
+		output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
+		// When checking for mega, the game code does the following check: else if (mega || garbageRandom.NextDouble() < 0.2 + who.DailyLuck)
+		// Since luck in the vanilla game ranges between +/- .1, we are going to assume a roll below 0.1 is also guaranteed. 
+		// We can bump this by .025 if the player has the special charm.
+		luckCheck = (save.hasSpecialCharm) ? 0.125 : 0.1;
+		
+		for (week = 0; week < 4; week++) {
+			output += "<tr>";
+			for (weekDay = 1; weekDay < 8; weekDay++) {
+				goodStuff = [];
+				day = 7 * week + weekDay + offset;
+				for (whichCan = 0; whichCan < 8; whichCan++) {
+					rng = new CSRandom(save.gameID / 2 + day + save.dayAdjust + 777 + whichCan * 77);
+					// Code runs the prewarm routine twice
+					prewarm = rng.Next(0,100);
+					for (i = 0; i < prewarm; i++) {
+						rng.NextDouble();
+					}
+					prewarm = rng.Next(0,100);
+					for (i = 0; i < prewarm; i++) {
+						rng.NextDouble();
+					}
+					mega = (rng.NextDouble() < 0.01) ? true : false;
+					doubleMega = (rng.NextDouble() < 0.002) ? true : false;
+					trashItem = "";
+					if (doubleMega) {
+						trashItem = wikify("Garbage Hat");
+					} else if (mega || rng.NextDouble() < luckCheck) {
+						switch(rng.Next(10)) {
+							case 0:	trashItem = wikify("Trash (item)"); break;
+							case 1: trashItem = wikify("Joja Cola"); break;
+							case 2: trashItem = wikify("Broken Glasses"); break;
+							case 3: trashItem = wikify("Broken CD"); break;
+							case 4: trashItem = wikify("Soggy Newspaper"); break;
+							case 5: trashItem = wikify("Bread"); break;
+							case 6: trashItem = wikify(getSeasonalItem(whichCan, month % 4, day)); break;
+							case 7: trashItem = wikify("Field Snack"); break;
+							case 8:
+								switch(rng.Next(3)) {
+									case 0: trashItem = wikify("Acorn"); break;
+									case 1: trashItem = wikify("Maple Seed"); break;
+									case 2: trashItem = wikify("Pine Cone"); break;
+								}
+								break;
+							case 9: trashItem = wikify("Green Algae"); break;
+						}
+						// Here is where the game checks for location-specific loot. Again this is luck based and checked against
+						// 0.2, so we will check 0.1 for the presence of a "guarantee".
+						if (whichCan === 3 && rng.NextDouble() < luckCheck) {
+							trashItem = wikify("Geode");
+							if (rng.NextDouble() < 0.05) {
+								trashItem = wikify("Omni Geode");
+							}
+						}
+						if (whichCan === 4 && rng.NextDouble() < luckCheck) {
+							switch(rng.Next(3)) {
+								case 0:	trashItem = wikify("Copper Ore"); break;
+								case 1: trashItem = wikify("Iron Ore"); break;
+								case 2: trashItem = wikify("Coal"); break;
+							}
+							rng.Next(1,5); // This seems a dead roll, but the game does it so we will too.
+						}
+						if (whichCan === 5 && rng.NextDouble() < luckCheck) {
+							// can't wikify this one, so just hardcoding the URL
+							trashItem = '<a href="https://stardewvalleywiki.com/The_Stardrop_Saloon#Rotating_Stock">Dish of the Day</a>';
+						}
+						if (whichCan === 6 && rng.NextDouble() < luckCheck) {
+							trashItem = wikify("Cookie");
+						}
+						if (whichCan === 7 && rng.NextDouble() < 0.2) {
+							trashItem = wikify("Joja Cola");
+							if (rng.NextDouble() < 0.25) {
+								trashItem += " or " + wikify("Movie Ticket");
+							} else {
+								trashItem += " or " + wikify("Corn");
+							}
+						}
+					}
+					if (trashItem !== "") {
+						var trashText = "<em>" + canList[whichCan] + ":</em> " + trashItem;
+						if (doubleMega) {
+							trashText = '<span class="strong">' + trashText + '</span>';
+						}
+						goodStuff.push(trashText);
+					}
+				}
+
+				if (day < save.daysPlayed) {
+					tclass = "past";
+				} else if (day === save.daysPlayed) {
+					tclass = "current";
+				} else {
+					tclass = "future";
+				}
+
+				var results = "";
+				if (goodStuff.length === 0) {
+					results = '<span class="none">None</span>';
+				} else {
+					results = goodStuff.sort().join(',<br/>');
+				}
+				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+					'<span class="cell">' + results + '</span></td>';
+			}
+			output += "</tr>\n";
+		}
+		//output += '<tr><td colspan="7" class="legend"></td></tr>';
 		output += "</tbody></table>\n";
 		return output;
 	}
@@ -3192,13 +3436,14 @@ window.onload = function () {
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
 			searchTerm = new RegExp(offset, "i");
-			searchStart = ($('#sandy-search-all').prop('checked')) ? 0 : 7 * Math.floor((save.daysPlayed - 1) / 7);
+			searchStart = ($('#sandy-search-all').prop('checked')) ? 1 : 7 * Math.floor((save.daysPlayed - 1) / 7);
 			searchEnd = 112 * $('#sandy-search-range').val();
 			output += '<table class="output"><thead><tr><th colspan="3">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#sandy-search-all').prop('checked')) ? 'first ' : 'next ') + $('#sandy-search-range').val() + ' year(s)</th></tr>\n';
 			output += '<tr><th class="day">Day</th><th class="shirt-item">Image</th><th class="item">Name</th></tr>\n<tbody>';
 			count = 0;
 			// Much of the logic here is duplicated from the browsing section, but comments related to it have been removed.
+			console.log("Searching from " + searchStart + " to " + (searchStart + searchEnd));
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				for (var i = 0; i < 7; i++) {
 					day = offset + i;
@@ -3207,13 +3452,16 @@ window.onload = function () {
 					item = save.shirtItems[thisRoll];
 					if (searchTerm.test(item)) {
 						count++;
-						month = Math.floor(offset / 28);
+						month = Math.floor(day / 28);
+						year = 1 + Math.floor(day / 112);
+						dayOfMonth = day % 28;
+						dayOfWeek = day % 7 - 1; // This is an int now, will be a string later
+						// Our date calculations have trouble with last day of week/month/year, so here we compensate for that.
+						if (day % 112 === 0) { year -= 1; }
+						if (day % 28 === 0) { month -= 1; dayOfMonth = 28;}
+						if (dayOfWeek < 0) { dayOfWeek += 7; }
 						monthName = save.seasonNames[month % 4];
-						year = 1 + Math.floor(offset / 112);
-						dayOfMonth = offset % 28 + i;
-						// Hack to fix day name problems
-						if (i === 0) { i = 7; }
-						dayOfWeek = save.dayNames[i-1];
+						dayOfWeek = save.dayNames[dayOfWeek];
 						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							'<img src="blank.png" class="shirt" id="shirt_' + (thisRoll - 999) + '"></td>' +
 							'<td clas="shirt-name">' + item + "</td>";
@@ -3914,9 +4162,9 @@ window.onload = function () {
 					rng = new CSRandom(save.gameID + day + save.dayAdjust - 1);
 					//var TEMP = "" + (day + save.dayAdjust -1) + "<br />";
 					if (compareSemVer(save.version, "1.4") >= 0 && rng.NextDouble() < 0.25) {
-						thisEvent = '<img src="blank.png" class="event" id="movie_gs"><br />Crane In Use';
+						thisEvent = '<span class="none"><img src="blank.png" class="tall" id="movie_gs"><br />(Game In Use)</span>';
 					} else {
-						thisEvent = '&nbsp;<br />(Crane Free)<br />&nbsp';
+						thisEvent = 'Game Can<br />Be Played<br>&nbsp;';
 					}
 
 					if (day < save.daysPlayed) {
@@ -4050,6 +4298,8 @@ window.onload = function () {
 			output = predictSandy(isSearch, extra);
 		} else if (tabID === 'wallpaper') {
 			output = predictWallpaper(isSearch, extra);
+		} else if (tabID === 'trash') {
+			output = predictTrash(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

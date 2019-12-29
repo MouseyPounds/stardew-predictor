@@ -10,6 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
+* 29 Dec  2019 - v3.1.0 - Added Skull Cave Dino levels to Mine info and a new tab for Garbage Can loot; also some fixes and formatting changes
 * 13 Dec  2019 - v3.0.3 - Another small version error regarding artifact troves in search results
 *  7 Dec  2019 - v3.0.2 - Version detection changed again to handle semver like 1.4.2
 * 30 Nov  2019 - v3.0.1 - Version detection should now properly identify day one 1.4 saves
