@@ -1196,7 +1196,7 @@ window.onload = function () {
 		165: 'Scorpion Carp',
 		167: 'Joja Cola',
 		174: 'Large Egg (White)',
-		176: 'Egg (Brown)',
+		176: 'Egg (White)',
 		180: 'Egg (Brown)',
 		182: 'Large Egg (Brown)',
 		184: 'Milk',
