@@ -3331,13 +3331,13 @@ window.onload = function () {
 					// so we can get away with using the cart list for this situation.
 					if (days[i] === 3) {
 						// Wednesday Fish
-						item = getCartItem(rngFirst.Next(698,709) - 1, {});
+						item = save.cartItems[rngFirst.Next(698,709) - 1];
 						price = 200;
 					} else if (days[i] === 6) {
 						// Saturday Cooking
 						thisRoll = rngFirst.Next(194,245) - 1;
 						if (thisRoll === 216) { thisRoll = 215; }
-						item = getCartItem(thisRoll, {});
+						item = save.cartItems[thisRoll];
 						price = rngFirst.Next(5,51) * 10;
 					}
 					if (searchTerm.test(item)) {
