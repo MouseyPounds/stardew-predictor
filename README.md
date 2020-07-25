@@ -10,6 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
+* 24 Jul  2020 - v3.1.3 - Updated forum link in footer
 *  6 Mar  2020 - v3.1.2 - Fixed Krobus search
 *  1 Feb  2020 - v3.1.1 - Fixed one of the white eggs in the cart prediction being incorrectly listed as brown. (Thanks rickselby)
 * 29 Dec  2019 - v3.1.0 - Added Skull Cave Dino levels to Mine info and a new tab for Garbage Can loot; also some fixes and formatting changes
