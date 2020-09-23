@@ -2419,19 +2419,73 @@ window.onload = function () {
 			
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
-			save.daysPlayed = 1;
-			save.year = 1;
-			save.geodesCracked = [0];
-			save.deepestMineLevel = 0;
-			save.canHaveChildren = false;
-			save.quarryUnlocked = false;
-			save.desertUnlocked = false;
-			save.hasFurnaceRecipe = false;
-			save.hasSpecialCharm = false;
-			save.version = "1.4";
-			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
-				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
-				'<span class="result">Newest version features will be included where possible.</span><br />\n';
+
+			var providedVariables = [];
+			providedVariables.push("gameID: " + save.gameID);
+			if ($.QueryString.hasOwnProperty("daysPlayed")) {
+				save.daysPlayed = parseInt($.QueryString.id).min(1);
+				save.year = Math.trunc(save.daysPlayed - 1 / 112); 
+			} else {
+				save.daysPlayed = 1;
+				save.year = 1;
+			}
+			if ($.QueryString.hasOwnProperty("geodesCracked")) {
+				save.geodesCracked = [parseInt($.QueryString.geodesCracked)];
+				providedVariables.push("geodesCracked: " + save.geodesCracked[0]);
+			} else {
+				save.geodesCracked = [0];
+			}
+			if ($.QueryString.hasOwnProperty("deepestMineLevel")) {
+				save.deepestMineLevel = parseInt($.QueryString.deepestMineLevel);
+				providedVariables.push("deepestMineLevel: " + save.deepestMineLevel);
+			} else {
+				save.deepestMineLevel = 0;
+			}
+			if ($.QueryString.hasOwnProperty("canHaveChildren")) {
+				save.canHaveChildren = $.QueryString.canHaveChildren == "true";
+				providedVariables.push("canHaveChildren: " + save.canHaveChildren);
+			} else {
+				save.canHaveChildren = false;
+			}
+			if ($.QueryString.hasOwnProperty("quarryUnlocked")) {
+				save.quarryUnlocked = $.QueryString.quarryUnlocked == "true";
+				providedVariables.push("quarryUnlocked: " + save.quarryUnlocked);
+			} else {
+				save.quarryUnlocked = false;
+			}
+			if ($.QueryString.hasOwnProperty("desertUnlocked")) {
+				save.desertUnlocked = $.QueryString.desertUnlocked == "true";
+				providedVariables.push("desertUnlocked: " + save.desertUnlocked);
+			} else {
+				save.desertUnlocked = false;
+			}
+			if ($.QueryString.hasOwnProperty("hasFurnaceRecipe")) {
+				save.hasFurnaceRecipe = $.QueryString.hasFurnaceRecipe == "true";
+				providedVariables.push("hasFurnaceRecipe: " + save.hasFurnaceRecipe);
+			} else {
+				save.hasFurnaceRecipe = false;
+			}
+			if ($.QueryString.hasOwnProperty("hasSpecialCharm")) {
+				save.hasSpecialCharm = $.QueryString.hasSpecialCharm == "true";
+				providedVariables.push("hasSpecialCharm: " + save.hasSpecialCharm);
+			} else {
+				save.hasSpecialCharm = false;
+			}
+			if ($.QueryString.hasOwnProperty("version")) {
+				save.version = $.QueryString.version;
+				providedVariables.push("version: " + save.version);
+			} else {
+				save.version = "1.4";
+			}
+			output += '<span class="result">App run using supplied variables.</span><br />';
+			for (var i = 0; i < providedVariables.length; i++) {
+				output += '<span class="result">' + providedVariables[i] + '</span><br />';
+			}
+			output +=	'<span class="result">No save information available so minimal progress assumed.</span><br />' +
+						'<span class="result">Newest version features will be included where possible.</span><br />\n';
+			//output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
+			//	'<span class="result">No save information available so minimal progress assumed.</span><br />' +
+			//	'<span class="result">Newest version features will be included where possible.</span><br />\n';
 		} else {
 			return '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
