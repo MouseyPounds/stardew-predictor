@@ -2416,6 +2416,16 @@ window.onload = function () {
 			if ($(xmlDoc).find('player > hasSpecialCharm').text() === "true") {
 				save.hasSpecialCharm = true;
 			}
+
+			// Garbage can results are different depending if more than 20 cans have been checked
+			$(xmlDoc).find('stats > stat_dictionary > item').each(function () {
+				var id = $(this).find('key > string').text();
+				if (id === 'trashCansChecked') {
+					var cans = Number($(this).find('value > unsignedInt').text());
+					save.garbageCansCheckedMoreThan20 = cans > 20;
+                }
+			});
+
 			
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = parseInt($.QueryString.id);
@@ -2477,15 +2487,20 @@ window.onload = function () {
 			} else {
 				save.version = "1.4";
 			}
+			if ($.QueryString.hasOwnProperty("garbageCans")) {
+				save.garbageCansCheckedMoreThan20 = parseInt($.QueryString.garbageCans) > 20;
+				providedVariables.push("garbageCansCheckedMoreThan20: " + save.garbageCansCheckedMoreThan20);
+			} else {
+				save.garbageCansCheckedMoreThan20 = false;
+			}
+
+
 			output += '<span class="result">App run using supplied variables.</span><br />';
 			for (var i = 0; i < providedVariables.length; i++) {
 				output += '<span class="result">' + providedVariables[i] + '</span><br />';
 			}
 			output +=	'<span class="result">No save information available so minimal progress assumed.</span><br />' +
 						'<span class="result">Newest version features will be included where possible.</span><br />\n';
-			//output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
-			//	'<span class="result">No save information available so minimal progress assumed.</span><br />' +
-			//	'<span class="result">Newest version features will be included where possible.</span><br />\n';
 		} else {
 			return '<span class="error">Fatal Error: Problem reading save file and no ID passed via query string.</span>';
 		}
@@ -2717,13 +2732,10 @@ window.onload = function () {
 		return output;
 	}
 
-	function getSeasonalItem(whichCan, season, daysPlayed) {
-		// This is a version of StardewValley.Utility.getRandomItemFromSeason() as it is used in
-		// the Garbage Can item determination. We are hardcoding garbage can coordinates.
-		var tileX = [13,19,56,108,97,47,52,110],
-			tileY = [86,89,85,91,80,70,63,56],
-			possibleItems = ["Topaz","Amethyst","Cave Carrot","Quartz","Earth Crystal","Seaweed","Joja Cola","Green Algae","Red Mushroom"],
-			rng = new CSRandom(save.gameID + daysPlayed + save.dayAdjust + tileX[whichCan]*653 + tileY[whichCan]*777);
+	function getSeasonalItem(seedAdjustment, season, daysPlayed) {
+		// This is a version of StardewValley.Utility.getRandomItemFromSeason()
+		var possibleItems = ["Topaz","Amethyst","Cave Carrot","Quartz","Earth Crystal","Seaweed","Joja Cola","Green Algae","Red Mushroom"],
+			rng = new CSRandom(save.gameID + daysPlayed + save.dayAdjust + seedAdjustment);
 		if (save.deepestMineLevel > 40) {
 			possibleItems.push("Aquamarine","Jade","Diamond","Frozen Tear","Purple Mushroom");
 		}
@@ -2804,6 +2816,12 @@ window.onload = function () {
 		// Since luck in the vanilla game ranges between +/- .1, we are going to assume a roll below 0.1 is also guaranteed. 
 		// We can bump this by .025 if the player has the special charm.
 		luckCheck = (save.hasSpecialCharm) ? 0.125 : 0.1;
+		luckCheck += 0.2;
+
+		// We are hardcoding garbage can coordinates.
+		var tileX = [13, 19, 56, 108, 97, 47, 52, 110],
+			tileY = [86, 89, 85, 91, 80, 70, 63, 56];
+
 		
 		for (week = 0; week < 4; week++) {
 			output += "<tr>";
@@ -2821,8 +2839,12 @@ window.onload = function () {
 					for (i = 0; i < prewarm; i++) {
 						rng.NextDouble();
 					}
-					mega = (rng.NextDouble() < 0.01) ? true : false;
-					doubleMega = (rng.NextDouble() < 0.002) ? true : false;
+					mega = false;
+					doubleMega = false;
+					if (save.garbageCansCheckedMoreThan20) {
+						mega = (rng.NextDouble() < 0.01) ? true : false;
+						doubleMega = (rng.NextDouble() < 0.002) ? true : false;
+					}
 					trashItem = "";
 					if (doubleMega) {
 						trashItem = wikify("Garbage Hat");
@@ -2834,7 +2856,7 @@ window.onload = function () {
 							case 3: trashItem = wikify("Broken CD"); break;
 							case 4: trashItem = wikify("Soggy Newspaper"); break;
 							case 5: trashItem = wikify("Bread"); break;
-							case 6: trashItem = wikify(getSeasonalItem(whichCan, month % 4, day)); break;
+							case 6: trashItem = wikify(getSeasonalItem(tileX[whichCan] * 653 + tileY[whichCan] * 777, month % 4, day)); break;
 							case 7: trashItem = wikify("Field Snack"); break;
 							case 8:
 								switch(rng.Next(3)) {
