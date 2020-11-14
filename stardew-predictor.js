@@ -2305,7 +2305,31 @@ window.onload = function () {
 			save.dayAdjust = parseInt($.QueryString.days);
 		}
 		if (typeof xmlDoc !== 'undefined') {
-			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
+			console.log("here");
+			var gameID = $(xmlDoc).find('uniqueIDForThisGame').text();
+			var id;
+			//const s2 = gameID.slice(-10);
+			//console.log(s2);
+			//console.log(gameID);
+			const maxInt32 = (2 ** 30) - 1;
+			debugger;
+			if (gameID > maxInt32) {
+				var uInt64;
+				var lo;
+				uInt64 = new UInt64(gameID, lo, null);
+				id = uInt64.lo;
+				if (id > maxInt32) {
+					id = ~id;
+					id = id * -1 - 1;
+				}
+			} else {
+				id = gameID;
+            }
+			console.log(uInt64);
+			save.gameID = Number(id);
+			console.log(save.gameID);
+			console.log("here2");
+			//save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
 			save.version = $(xmlDoc).find('gameVersion').first().text();
 			if (save.version === "") {
