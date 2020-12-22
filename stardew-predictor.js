@@ -1596,6 +1596,7 @@ window.onload = function () {
 		'Duck Mayonnaise': 375,
 		'Eel': 85,
 		'Egg (Brown)': 50,
+		'Egg (White)': 50,
 		'Eggplant': 60,
 		'Eggplant Parmesan': 200,
 		'Eggplant Seeds': 10,
@@ -1984,9 +1985,11 @@ window.onload = function () {
 		537: [539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 122],
 		749: [538, 542, 548, 549, 552, 555, 556, 557, 558, 566, 568, 569, 571, 574, 576, 541, 544, 545, 546, 550, 551, 559,
 			560, 561, 564, 567, 572, 573, 577, 539, 540, 543, 547, 553, 554, 562, 563, 565, 570, 575, 578, 121, 122, 123],
-		275: [100, 101, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 166, 373, 797]
+		275: [100, 101, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 166, 373, 797],
+		791: [69, 835, 833, 831, 820, 292, 386]
 	};
 	save.minerals = {
+		69: 'Banana Sapling',
 		74: 'Prismatic Shard',
 		82: 'Fire Quartz',
 		84: 'Frozen Tear',
@@ -2016,6 +2019,7 @@ window.onload = function () {
 		124: 'Golden Mask',
 		125: 'Golden Relic',
 		166: 'Treasure Chest',
+		292: 'Mahogany Seed',
 		330: 'Clay',
 		373: 'Golden Pumpkin',
 		378: 'Copper Ore',
@@ -2066,6 +2070,10 @@ window.onload = function () {
 		577: 'Fairy Stone',
 		578: 'Star Shards',
 		797: 'Pearl',
+		820: 'Fossilized Skull',
+		831: 'Taro Tuber',
+		833: 'Pineapple Seeds',
+		835: 'Mango Sapling',
 	};
 	save.wallpaperEquiv = {
 		16: 'Wild Horseradish',
@@ -2238,6 +2246,98 @@ window.onload = function () {
 		1125: 'Shirt (ID 126)',
 		1126: 'Shirt (ID 127)',
 	};
+	save.weapons = {
+		0: "Rusty Sword",
+		1: "Silver Saber",
+		2: "Dark Sword",
+		3: "Holy Blade",
+		4: "Galaxy Sword",
+		5: "Bone Sword",
+		6: "Iron Edge",
+		7: "Templar's Blade",
+		8: "Obsidian Edge",
+		9: "Lava Katana",
+		10: "Claymore",
+		11: "Steel Smallsword",
+		12: "Wooden Blade",
+		13: "Insect Head",
+		14: "Neptune's Glaive",
+		15: "Forest Sword",
+		16: "Carving Knife",
+		17: "Iron Dirk",
+		18: "Burglar's Shank",
+		19: "Shadow Dagger",
+		20: "Elf Blade",
+		21: "Crystal Dagger",
+		22: "Wind Spire",
+		23: "Galaxy Dagger",
+		24: "Wood Club",
+		25: "Alex's Bat",
+		26: "Lead Rod",
+		27: "Wood Mallet",
+		28: "The Slammer",
+		29: "Galaxy Hammer",
+		30: "Sam's Old Guitar",
+		31: "Femur",
+		32: "Slingshot",
+		33: "Master Slingshot",
+		34: "Galaxy Slingshot",
+		35: "Elliott's Pencil",
+		36: "Maru's Wrench",
+		37: "Harvey's Mallet",
+		38: "Penny's Fryer",
+		39: "Leah's Whittler",
+		40: "Abby's Planchette",
+		41: "Seb's Lost Mace",
+		42: "Haley's Iron",
+		43: "Pirate's Sword",
+		44: "Cutlass",
+		45: "Wicked Kris",
+		46: "Kudgel",
+		47: "Scythe",
+		48: "Yeti Tooth",
+		49: "Rapier",
+		50: "Steel Falchion",
+		51: "Broken Trident",
+		52: "Tempered Broadsword",
+		53: "Golden Scythe",
+		54: "Dwarf Sword",
+		55: "Dwarf Hammer",
+		56: "Dwarf Dagger",
+		57: "Dragontooth Cutlass",
+		58: "Dragontooth Club",
+		59: "Dragontooth Shiv",
+		60: "Ossified Blade",
+		61: "Iridium Needle",
+		62: "Infinity Blade",
+		63: "Infinity Gavel",
+		64: "Infinity Dagger",
+	};
+	save.boots = {
+		504: "Sneakers",
+		505: "Rubber Boots",
+		506: "Leather Boots",
+		507: "Work Boots",
+		508: "Combat Boots",
+		509: "Tundra Boots",
+		510: "Thermal Boots",
+		511: "Dark Boots",
+		512: "Firewalker Boots",
+		513: "Genie Shoes",
+		514: "Space Boots",
+		515: "Cowboy Boots",
+		804: "Emily's Magic Boots",
+		806: "Leprechaun Shoes",
+		853: "Cinderclown Shoes",
+		854: "Mermaid Boots",
+		855: "Dragonscale Boots",
+		878: "Crystal Shoes"
+	};
+	// These are just the ones that can be random mine chest loot
+	save.rings = {
+		517: 'Glow Ring',
+		519: 'Magnet Ring',
+	};
 	
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
@@ -2270,12 +2370,19 @@ window.onload = function () {
 	
 	function wikify(item, page) {
 		// removing egg colors & quantity amounts; changing spaces to underscores
+		if (typeof(item) == "undefined") { return "undefined"; }
 		var trimmed = item.replace(' (White)', '');
 		trimmed = trimmed.replace(' (Brown)', '');
 		trimmed = trimmed.replace(/ \(\d+\)/, '');
 		trimmed = trimmed.replace(/ /g, '_');
 		return (page) ? ('<a href="http://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>') :
 					('<a href="http://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
+	}
+	
+	function handleBigInt(big) {
+		// Convert given value into an integer that JS can handle using the BigInteger library.
+		// This is needed because of the use of UniqueMultiplayerIDs in some rng seeding
+		return parseInt(bigInt(big).and(0xffffffff));
 	}
 
 	function parseSummary(xmlDoc) {
@@ -2285,7 +2392,8 @@ window.onload = function () {
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
 		// important information (or reasonable defaults) into the save structure and all other functions will use that.
-		// Initialize donatedItems with stuff that actually can't be donated.
+		// Initialize donatedItems with stuff that actually can't be donated to Gunther.
+		// Note that Fossilized Skull can be donated to Prof Snail but we don't currently support that.
 		save.donatedItems = {
 			'Coal': 1,
 			'Clay': 1,
@@ -2297,6 +2405,12 @@ window.onload = function () {
 			'Golden Pumpkin': 1,
 			'Treasure Chest': 1,
 			'Pearl': 1,
+			'Banana Sapling': 1,
+			'Mango Sapling': 1,
+			'Pineapple Seeds': 1,
+			'Taro Tuber': 1,
+			'Mahogany Seed': 1,
+			'Fossilized Skull': 1
 		};
 		// Large multiplayer games will sometimes get out of synch between the actual number of days played and the current date
 		// The URL parameter 'days' lets this offset be defined. This isn't actually documented anywhere but here though.
@@ -2305,7 +2419,7 @@ window.onload = function () {
 			save.dayAdjust = parseInt($.QueryString.days);
 		}
 		if (typeof xmlDoc !== 'undefined') {
-			save.gameID = Number($(xmlDoc).find('uniqueIDForThisGame').text());
+			save.gameID = Number(handleBigInt($(xmlDoc).find('uniqueIDForThisGame').text()));
 			output += '<span class="result">Game ID: ' + save.gameID + '</span><br />\n';
 			save.version = $(xmlDoc).find('gameVersion').first().text();
 			if (save.version === "") {
@@ -2318,7 +2432,7 @@ window.onload = function () {
 			}
 			
 			output += '<span class="result">Save is from version ' + save.version + '</span><br />\n';
-			if (save.version >= 1.3) {
+			if (compareSemVer(save.version, "1.3") >= 0) {
 				$('#cart-title').html('Traveling Merchant Cart and Night Market Boat');
 			} else {
 				$('#cart-title').html('Traveling Merchant Cart');
@@ -2329,19 +2443,40 @@ window.onload = function () {
 			save.names = [];
 			save.mp_ids = [];
 			save.geodesCracked = [];
+			save.timesEnchanted = [];
 			save.names.push($(xmlDoc).find('SaveGame > player > name').html());
 			output += '<span class="result">' + save.names[0] + ' of ' +
 				$(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
+			if (compareSemVer(save.version, "1.5") >= 0) {
+				$(xmlDoc).find('SaveGame > player > stats > stat_dictionary > item').each(function() {
+					var v = $(this).find('key > string').text();
+					if (v === "timesEnchanted") {
+						save.timesEnchanted.push(Number($(this).find('value > unsignedInt').text()));
+						return false;
+					}
+				});
+				$(xmlDoc).find('farmhand').each(function() {
+					$(this).find('stats > stat_dictionary > item').each(function() {
+						var v = $(this).find('key > string').text();
+						if (v === "timesEnchanted") {
+							save.timesEnchanted.push(Number($(this).find('value > unsignedInt').text()));
+							return false;
+						}
+					});
+				});
+			} else {
+				save.timesEnchanted.push(0);
+			}
 			// In 1.2, stats are under SaveGame, but in 1.3 they are under SaveGame > player and the farmhand elements.
 			if (compareSemVer(save.version, "1.3") >= 0) {
 				save.mp_ids.push($(xmlDoc).find('SaveGame > player > UniqueMultiplayerID').text());
 				save.geodesCracked.push(Number($(xmlDoc).find('SaveGame > player > stats > geodesCracked').text()));
-				$(xmlDoc).find('farmhand').each(function(i) {
+				$(xmlDoc).find('farmhand').each(function() {
 					save.names.push($(this).find('name').html());
 					save.mp_ids.push($(this).find('UniqueMultiplayerID').text());
 					save.geodesCracked.push(Number($(this).find('stats > geodesCracked').text()));
-					});
+				});
 				if (save.names.length > 1) {
 					output += '<span class="result">Farmhands: ' + save.names.slice(1).join(', ') + '</span><br />\n';
 				}
@@ -2359,6 +2494,13 @@ window.onload = function () {
 				output += save.geodesCracked[i] + ' (' + save.names[i] + ') ';
 			}
 			output += '</span><br />\n';
+			if (compareSemVer(save.version, "1.5") >= 0) {
+				output += '<span class="result">Times enchanted: ';
+				for (var i = 0; i < save.names.length; i++) {
+					output += save.timesEnchanted[i] + ' (' + save.names[i] + ') ';
+				}
+				output += '</span><br />\n';
+			}
 			save.deepestMineLevel = Number($(xmlDoc).find('player > deepestMineLevel').text());
 			output += '<span class="result">Deepest mine level: ' + Math.min(120, save.deepestMineLevel) + '</span><br />\n';
 			// Currently, the only reason we care about museum donations is because of geode contents. save.minerals actually
@@ -2417,18 +2559,85 @@ window.onload = function () {
 				save.hasSpecialCharm = true;
 			}
 			
+			// Let's try to build a list of NPCs. This sorta follows the logic of Utility.getAllCharacters() and we
+			//  also need to filter out monsterss and such now since the later logic that follows CanVisitIslandToday() will
+			//  not have access to those fields. Reusing some code from Stardew Checkup to do this.
+			// We also use this opportunity to see if we've met Leo since that is important for Winter Star predictions
+			var includeKrobus = false;
+			var ignore = {
+				'Horse': 1,
+				'Cat': 1,
+				'Dog': 1,
+				'Fly': 1,
+				'Grub': 1,
+				'GreenSlime': 1,
+				'Gunther': 1,
+				'Marlon': 1,
+				'Bouncer': 1,
+				'Mister Qi': 1,
+				'Henchman': 1,
+				'Birdie': 1,
+				'Child': 1
+			};
+			save.hasMetLeo = false;
+			$(xmlDoc).find('player > friendshipData > item').each(function () {
+				var who = $(this).find('key > string').html();
+				if (who === 'Leo') {
+					var status = $(this).find('value > Friendship > Status').html();
+					if (status !== 'Unmet') {
+						save.hasMetLeo = true;
+					}
+				} else if (who === 'Krobus') {
+					var status = $(this).find('value > Friendship > Status').html();
+					if (status !== 'Unmet') {
+						includeKrobus = true;
+					}					
+				}
+			});
+			save.characters = [];
+			$(xmlDoc).find('locations > GameLocation').each(function () {
+				$(this).find('characters').each(function () {
+					$(this).find('NPC').each(function () {
+						var who = $(this).find('name').html();
+						var type = $(this).attr(save.ns_prefix + ':type');
+						// Filter out animals and monsters and other undesirables
+						if (ignore.hasOwnProperty(type) || ignore.hasOwnProperty(who)) {
+							return true;
+						}
+						if (who === 'Leo') {
+							if (save.hasMetLeo) {
+								save.characters.push(who);
+							}
+						} else if (who === 'Krobus') {
+							if (includeKrobus) {
+								save.characters.push(who);
+							}
+						} else if (who === 'Sandy') {
+							if (save.desertUnlocked) {
+								save.characters.push(who);
+							}
+						} else {
+							save.characters.push(who);
+						}
+					});
+				});
+			});
+			
 		} else if ($.QueryString.hasOwnProperty("id")) {
-			save.gameID = parseInt($.QueryString.id);
+			save.gameID = handleBigInt($.QueryString.id);
 			save.daysPlayed = 1;
 			save.year = 1;
 			save.geodesCracked = [0];
+			save.timesEnchanted = [0];
 			save.deepestMineLevel = 0;
 			save.canHaveChildren = false;
 			save.quarryUnlocked = false;
 			save.desertUnlocked = false;
 			save.hasFurnaceRecipe = false;
 			save.hasSpecialCharm = false;
-			save.version = "1.4";
+			save.hasMetLeo = false;
+			save.characters = [ 'George', 'Evelyn', 'Alex', 'Haley', 'Emily', 'Jodi', 'Sam', 'Vincent', 'Kent', 'Clint', 'Lewis', 'Pierre', 'Caroline', 'Abigail', 'Gus', 'Penny',  'Pam', 'Harvey', 'Willy', 'Elliott', 'Maru', 'Demetrius', 'Robin', 'Sebastian', 'Linus', 'Wizard', 'Jas', 'Marnie', 'Shane', 'Leah', 'Krobus', 'Sandy', 'Leo'];
+			save.version = "1.5";
 			output += '<span class="result">App run using supplied gameID ' + save.gameID + '.</span><br />' +
 				'<span class="result">No save information available so minimal progress assumed.</span><br />' +
 				'<span class="result">Newest version features will be included where possible.</span><br />\n';
@@ -2618,32 +2827,52 @@ window.onload = function () {
 				if (rainbowLights.length === 0) {
 					mushroomText = '<span class="none">' + mushroomText + 'None</span>';
 				} else {
-					mushroomText += rainbowLights.join(',&nbsp;');
+					if (rainbowLights.length > 5) {
+						mushroomText = '<span data-tooltip="All results: ' + rainbowLights + '">' + mushroomText + 
+							rainbowLights.slice(0,4).join(',&nbsp;') + ',...</span>';
+					} else {
+						mushroomText += rainbowLights.join(',&nbsp;');
+					}
 				}
 				var infestedText = '<img src="blank.png" class="small-icon" alt="Sword" id="icon_i">&nbsp;';
 				if (infestedMonster.length === 0) {
 					infestedText = '<span class="none">' + infestedText + 'None</span>';
 				} else {
-					infestedText += infestedMonster.join(',&nbsp;');
+					if (infestedMonster.length > 5) {
+						infestedText = '<span data-tooltip="All results: ' + infestedMonster + '">' + infestedText + 
+							infestedMonster.slice(0,4).join(',&nbsp;') + ',...</span>';
+					} else {
+						infestedText += infestedMonster.join(',&nbsp;');
+					}
 				}
 				var slimeText = '<img src="blank.png" class="small-icon" alt="Slime" id="icon_s">&nbsp;';
 				if (infestedSlime.length === 0) {
 					slimeText = '<span class="none">' + slimeText + 'None</span>';
 				} else {
-					slimeText += infestedSlime.join(',&nbsp;');
+					if (infestedSlime.length > 5) {
+						slimeText = '<span data-tooltip="All results: ' + infestedSlime + '">' + slimeText + 
+							infestedSlime.slice(0,4).join(',&nbsp;') + ',...</span>';
+					} else {
+						slimeText += infestedSlime.join(',&nbsp;');
+					}
 				}
 				var quarryText = '<img src="blank.png" class="small-icon" alt="Skull" id="icon_q">&nbsp;';
 				if (quarryLevel.length === 0) {
 					quarryText = '<span class="none">' + quarryText + 'None</span>';
 				} else {
-					quarryText += quarryLevel.join(',&nbsp;');
+					if (quarryLevel.length > 5) {
+						quarryText = '<span data-tooltip="All results: ' + quarryLevel + '">' + quarryText + 
+							quarryLevel.slice(0,4).join(',&nbsp;') + ',...</span>';
+					} else {
+						quarryText += quarryLevel.join(',&nbsp;');
+					}
 				}
 				var dinoText = '<img src="blank.png" class="small-icon" alt="Dino" id="icon_d">&nbsp;';
 				if (dinoLevel.length === 0) {
 					dinoText = '<span class="none">' + dinoText + 'None</span>';
 				} else {
-					if (dinoLevel.length > 4) {
-						dinoText = '<span tooltip="All results (level 1-500): ' + dinoLevel + '">' + dinoText + 
+					if (dinoLevel.length > 5) {
+						dinoText = '<span data-tooltip="All results (level 1-500): ' + dinoLevel + '">' + dinoText + 
 							dinoLevel.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						dinoText += dinoLevel.join(',&nbsp;');
@@ -3003,6 +3232,10 @@ window.onload = function () {
 			rngLast,
 			isNightMarket = false,
 			startDay;
+		// Price adjustments for later versions
+		if (compareSemVer(save.version, "1.5") >= 0) {
+			save.cartPrices_1_4["Duck Feather"] = 250;
+		}
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
@@ -3536,6 +3769,8 @@ window.onload = function () {
 			qty,
 			g,
 			c,
+			couldBeHat,
+			roll,
 			next,
 			tclass,
 			searchTerm,
@@ -3544,10 +3779,16 @@ window.onload = function () {
 			searchResults,
 			count,
 			pageSize = 20,
-			numColumns = (compareSemVer(save.version, "1.4") >= 0) ? 5 : 4,
+			numColumns = 4,
 			rng,
 			rngTrove;
 
+		if (compareSemVer(save.version, "1.4") >= 0) {
+			numColumns++;
+		}
+		if (compareSemVer(save.version, "1.5") >= 0) {
+			numColumns++;
+		}
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#geode-prev-100').prop("disabled", true);
 			$('#geode-prev').prop("disabled", true);
@@ -3575,6 +3816,10 @@ window.onload = function () {
 				output += '<th class="geode-result">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
 				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
 			}
+			if (compareSemVer(save.version, "1.5") >= 0) {
+				output += '<th class="geode-result">Golden Coconut <a href="https://stardewvalleywiki.com/Golden_Coconut">' +
+				'<img src="blank.png" class="icon" id="geode_c"></a></th>';
+			}
 			output += '</tr>\n<tbody>';
 			count = 0;
 			searchResults = {};
@@ -3585,14 +3830,11 @@ window.onload = function () {
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				rng = new CSRandom(numCracked + save.gameID / 2);
-				// Artifact Troves need their own RNG because the way the conditionals are set up means their content roll
-				// happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also means we have to
-				// do all the warmups on both RNGs.
+				// Golden Coconuts & Artifact Troves need their own RNG because the way the conditionals are set up means
+				// their content roll happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also
+				// means we have to do all the warmups on both RNGs.
 				rngTrove = new CSRandom(numCracked + save.gameID / 2);
 				if (compareSemVer(save.version, "1.4") >= 0) {
-					// extending arrays to support artifact troves
-					item.push('Stone');
-					itemQty.push(1);
 					// 1.4 added a bunch of extra random calls to prime the RNG to counter repeating patterns
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					rngTrove.Next();
@@ -3606,8 +3848,20 @@ window.onload = function () {
 						rng.NextDouble();
 						rngTrove.NextDouble();
 					}
-					// Might as well just roll the troves now since the separate RNGs mean the order doesn't matter.
-					item[4] = save.minerals[save.geodeContents[275][Math.floor(rngTrove.NextDouble()*save.geodeContents[275].length)]];
+					// Rolling troves and coconuts now
+					c = rngTrove.NextDouble();
+					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
+					itemQty.push(1);
+
+					if (compareSemVer(save.version, "1.5") >= 0) {
+						// note that we don't actually use couldBeHat when searching but it still needs to roll
+						couldBeHat = (c < 0.05);
+						roll = Math.floor(c*save.geodeContents[791].length);
+						qty = (roll === 2 || roll == 3 || roll == 6) ? 5 : 1;
+						
+						item.push(save.minerals[save.geodeContents[791][roll]]);
+						itemQty.push(qty);
+					}					
 				}
 				if (rng.NextDouble() < 0.5) {
 					qty = rng.Next(3)*2 + 1;
@@ -3713,6 +3967,9 @@ window.onload = function () {
 							if (compareSemVer(save.version, "1.4") >= 0) {
 								searchResults[item[c]].push([]);
 							}
+							if (compareSemVer(save.version, "1.5") >= 0) {
+								searchResults[item[c]].push([]);
+							}
 						}
 						searchResults[item[c]][c].push(numCracked);
 						count++;
@@ -3723,7 +3980,7 @@ window.onload = function () {
 				itemIcon = '';
 				//count++;
 				if (!save.donatedItems.hasOwnProperty(key)) {
-					itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
+					itemIcon = ' <span data-tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
 				}
 				output += '<tr><td class="item">' + wikify(key) + itemIcon + '</td>';
 				for (c = 0; c < numColumns; c++) {
@@ -3731,7 +3988,7 @@ window.onload = function () {
 						// Limit to first 5 results actually shown in table with ellipsis & tooltip for others
 						output += '<td>' + searchResults[key][c].slice(0,5);
 						if (searchResults[key][c].length > 5) {
-							output += '<span tooltip="All results: ' + searchResults[key][c] + '">,...</span>';
+							output += '<span data-tooltip="All results: ' + searchResults[key][c] + '">,...</span>';
 						}
 						output += '</td>';
 					} else {
@@ -3781,6 +4038,10 @@ window.onload = function () {
 				output += '<th colspan="2" class="multi"">Artifact Trove <a href="https://stardewvalleywiki.com/Artifact_Trove">' +
 				'<img src="blank.png" class="icon" id="geode_t"></a></th>';
 			}
+			if (compareSemVer(save.version, "1.5") >= 0) {
+				output += '<th colspan="2" class="multi"">Golden Coconut <a href="https://stardewvalleywiki.com/Golden_Coconut">' +
+				'<img src="blank.png" class="icon" id="geode_c"></a></th>';
+			}
 			output += '</tr>\n<tr>';
 			for (c = 0; c < numColumns; c++) {
 				output += '<th class="item">Item</th><th class="qty">Qty</th>';
@@ -3788,17 +4049,15 @@ window.onload = function () {
 			output += '</tr>\n<tbody>';
 			// We are going to predict all 4 types of geodes at once, so we have multiple variables and in several cases will
 			// use rng.Double() & scale things ourselves where the source does rng.Next() with various different integers.
-			// Artifact Troves sill require special handling though due to the precedence of conditionals
+			// Artifact Troves & Golden Coconuts sill require special handling
 			for (g = 1; g <= pageSize; g++) {
 				numCracked = offset + g;
+				couldBeHat = false;
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				rng = new CSRandom(numCracked + save.gameID / 2);
 				rngTrove = new CSRandom(numCracked + save.gameID / 2);
 				if (compareSemVer(save.version, "1.4") >= 0) {
-					// extending arrays to support artifact troves
-					item.push('Stone');
-					itemQty.push(1);
 					// 1.4 added a bunch of extra random calls to prime the RNG to counter repeating patterns
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					rngTrove.Next();
@@ -3812,8 +4071,19 @@ window.onload = function () {
 						rng.NextDouble();
 						rngTrove.NextDouble();
 					}
-					// Might as well just roll the troves now since the separate RNGs mean the order doesn't matter.
-					item[4] = save.minerals[save.geodeContents[275][Math.floor(rngTrove.NextDouble()*save.geodeContents[275].length)]];					
+					// Rolling troves and coconuts now
+					c = rngTrove.NextDouble();
+					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
+					itemQty.push(1);
+
+					if (compareSemVer(save.version, "1.5") >= 0) {
+						couldBeHat = (c < 0.05);
+						roll = Math.floor(rngTrove.NextDouble()*save.geodeContents[791].length);
+						qty = (roll === 2 || roll == 3 || roll == 6) ? 5 : 1;
+						
+						item.push(save.minerals[save.geodeContents[791][roll]]);
+						itemQty.push(qty);
+					}
 				}
 				if (rng.NextDouble() < 0.5) {
 					qty = rng.Next(3)*2 + 1;
@@ -3922,17 +4192,25 @@ window.onload = function () {
 				output += '<tr class="' + tclass + '"><td>' + addCommas(numCracked) + '</td>';
 				for (c = 0; c < numColumns; c++) {
 					itemIcon = '';
-					if (!save.donatedItems.hasOwnProperty(item[c])) {
-						itemIcon = ' <span tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
+					// Golden Coconut items never contain items eligible for museum donation (although the Fossilized Skull
+					//  could be donatable to the field office and we may support that later) and they have the hat possibility
+					//  instead.
+					if (c === 5) {
+						if (couldBeHat) {
+							itemIcon = ' <span data-tooltip="Could be Golden Helmet"><img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Helmet"></span>';
+						}
+						
+					} else {
+						if (!save.donatedItems.hasOwnProperty(item[c])) {
+							itemIcon = ' <span data-tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
+						}						
 					}
 					output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
 				}
 				output += '</tr>';
 			}
 		}
-		output += '<tr><td colspan="' + (1 + 2*numColumns) + 
-			'" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' +
-			'which need to be donated to the ' + wikify('Museum') + '</td></tr>';
+		output += '<tr><td colspan="' + (1 + 2*numColumns) + '" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' + 'which need to be donated to the ' + wikify('Museum') + ' and <img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Coconut Hat"> denotes items which will be replaced by the ' + wikify('Golden Helmet') + ' if applicable.</td></tr>';
 		output += '</tbody></table>';
 		return output;
 	}
@@ -4184,6 +4462,421 @@ window.onload = function () {
 		return output;
 	};
 
+	function predictResortVisitors(isSearch, offset) {
+		// StardewValley.Locations.IslandSouth.SetupIslandSchedules() and some helper functions
+		// Currently disabled because the NPC list seems too volatile to predict
+		var output = "",
+			rng,
+			validVisitors,
+			visitors,
+			children = { 'Jas': 1, 'Vincent': 1, 'Leo': 1 },
+			groups = [["Sebastian","Sam","Abigail"],["Jodi","Kent","Vincent","Sam"],["Jodi","Vincent","Sam"],["Pierre","Caroline","Abigail"],["Robin","Demetrius","Maru","Sebastian"],["Lewis","Marnie"],["Marnie","Shane","Jas"],["Penny","Jas","Vincent"],["Pam","Penny"],["Caroline","Marnie","Robin","Jodi"],["Haley","Penny","Leah","Emily","Maru","Abigail"],["Alex","Sam","Sebastian","Elliott","Shane","Harvey"]],
+			i,
+			day,
+			weekDay,
+			week,
+			monthName,
+			month,
+			year,
+			festival,
+			thisEvent,
+			tclass;
+		if (typeof(offset) === 'undefined') {
+			offset = 28 * Math.floor(save.daysPlayed/28);
+		}
+		if (offset < 112) {
+			$('#resort-prev-year').prop("disabled", true);
+		} else {
+			$('#resort-prev-year').val(offset - 112);
+			$('#resort-prev-year').prop("disabled", false);
+		}
+		if (offset < 28) {
+			$('#resort-prev-month').prop("disabled", true);
+		} else {
+			$('#resort-prev-month').val(offset - 28);
+			$('#resort-prev-month').prop("disabled", false);
+		}
+		$('#resort-reset').val('reset');
+		$('#resort-next-month').val(offset + 28);
+		$('#resort-next-year').val(offset + 112);
+		month = Math.floor(offset / 28);
+		monthName = save.seasonNames[month % 4];
+		year = 1 + Math.floor(offset / 112);
+		output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
+		output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
+		for (week = 0; week < 4; week++) {
+			output += "<tr>";
+			for (weekDay = 1; weekDay < 8; weekDay++) {
+				visitors = [];
+				day = 7 * week + weekDay + offset;
+				// Immediately exclude festival days. We are approaching them weirdly via day counter
+				festival = '';
+				switch (day % 112) {
+					case 13: festival = "Egg Festival"; break;
+					case 24: festival = "Flower Dance"; break;
+					case 39: festival = "Luau"; break;
+					case 56: festival = "Moonlight Jellies"; break;
+					case 72: festival = "Valley Fair"; break;
+					case 83: festival = "Spirit's Eve"; break;
+					case 92: festival = "Ice Festival"; break;
+					case 109: festival = "Winter Star"; break;
+				}
+				
+				if (festival !== '') {
+					thisEvent = '<span class="none">Closed for<br />' + festival + '</span>';
+				} else {
+					// Next are checks we either can't or don't want to do -- resort not built, raining, resort closed
+					rng = new CSRandom(1.21*save.gameID + 2.5*(day + save.dayAdjust));
+					// Game populates this dynamically; we did our best to mimic that from reading the save earlier and we
+					// will now further process the list.
+					validVisitors = { };
+					visitors = [];
+					for (var i = 0; i < save.characters.length; i++) {
+						// Trying to emulate StardewValley.Locations.IslandSouth.CanVisitIslandToday()
+						// Note that we can't check for invisibility since that is a temporary condition.
+						var who = save.characters[i];
+						var valid = true;
+						if ((who === "Penny" || who === "Jas" || who === "Vincent") &&
+							(weekDay === 2 || weekDay === 3 || weekDay === 5)) {
+							valid = false;
+						} else if ((who === "Harvey" || who === "Maru") && (weekDay === 2 || weekDay === 4)) {
+							valid = false;
+						} else if (who === "Clint" && weekDay !== 5) {
+							valid = false;
+						} else if (who === "Robin" && weekDay !== 2) {
+							valid = false;
+						} else if (who === "Marnie" && (weekDay !== 1 || weekDay !== 2)) {
+							valid = false;
+						} else if (who === "Sandy" || who === "Dwarf" || who === "Krobus" || who === "Wizard" || who === "Linus" || who === "Willy" || who === "Evelyn" || who === "George") {
+							valid = false;
+						} else {
+							// Mimicing Utility.IsHospitalVisitDay but ignoring those already excluded
+							var dayOfYear = day % 112;
+							if (who === "Abigail" && dayOfYear === 4) {
+								valid = false;
+							} else if (who === "Alex" && dayOfYear === 44) {
+								valid = false;
+							} else if (who === "Caroline" && dayOfYear === 81) {
+								valid = false;
+							} else if (who === "Clint" && dayOfYear === 100) {
+								valid = false;
+							} else if (who === "Demetrius" && dayOfYear === 53) {
+								valid = false;
+							} else if (who === "Elliott" && dayOfYear === 37) {
+								valid = false;
+							} else if (who === "Emily" && dayOfYear === 95) {
+								valid = false;
+							} else if (who === "Gus" && dayOfYear === 60) {
+								valid = false;
+							} else if (who === "Haley" && dayOfYear === 93) {
+								valid = false;
+							} else if (who === "Harvey" && dayOfYear === 99) {
+								valid = false;
+							} else if (who === "Jas" && dayOfYear === 102) {
+								valid = false;
+							} else if (who === "Jodi" && (dayOfYear === 11 || dayOfYear === 18)) {
+								valid = false;
+							} else if (who === "Leah" && dayOfYear === 16) {
+								valid = false;
+							} else if (who === "Lewis" && dayOfYear === 65) {
+								valid = false;
+							} else if (who === "Marnie" && (dayOfYear === 102 || dayOfYear === 74)) {
+								valid = false;
+							} else if (who === "Pam" && dayOfYear === 25) {
+								valid = false;
+							} else if (who === "Penny" && dayOfYear === 88) {
+								valid = false;
+							} else if (who === "Robin" && dayOfYear === 44) {
+								valid = false;
+							} else if (who === "Sam" && dayOfYear === 67) {
+								valid = false;
+							} else if (who === "Sebastian" && dayOfYear === 32) {
+								valid = false;
+							} else if (who === "Vincent" && dayOfYear === 11) {
+								valid = false;
+							}
+						}
+						if (valid) {
+							validVisitors[who] = 1;
+						}
+					}
+					if (rng.NextDouble() < 0.4) {
+						for (i = 0; i < 5 - visitors.length; i++) {
+							var keys = Object.keys(validVisitors);
+							var who = keys[rng.Next(keys.length)];
+							if (!children.hasOwnProperty(who)) {
+								delete validVisitors[who];
+								visitors.push(who);
+							}
+						}
+					} else {
+						var group = groups[rng.Next(groups.length)];
+						var failed = false;
+						for (i = 0; i < group.length; i++) {
+							if (!validVisitors.hasOwnProperty(group[i])) {
+								failed = true;
+								break;
+							}
+						}
+						if (!failed) {
+							for (i = 0; i < group.length; i++) {
+								delete validVisitors[group[i]];
+								visitors.push(group[i]);
+							}
+						}
+						for (i = 0; i < 5 - visitors.length; i++) {
+							var keys = Object.keys(validVisitors);
+							var who = keys[rng.Next(keys.length)];
+							if (!children.hasOwnProperty(who)) {
+								delete validVisitors[who];
+								visitors.push(who);
+							}
+						}
+					}
+						
+					thisEvent = visitors.join(',<br />');
+				}
+
+				if (day < save.daysPlayed) {
+					tclass = "past";
+				} else if (day === save.daysPlayed) {
+					tclass = "current";
+				} else {
+					tclass = "future";
+				}
+
+				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
+					'<span class="resort cell">' + thisEvent+ '</span></td>';
+
+			}
+			output += "</tr>\n";
+		}
+		output += "</tbody></table>\n";
+		return output;
+	}
+
+	function predictEnchantments(isSearch, offset) {
+		// logic from StardewValley.BaseEnchantment.GetEnchantmentFromItem()
+		var output = '',
+			timesEnchanted,
+			item,
+			g,
+			c,
+			e,
+			next,
+			tclass,
+			searchTerm,
+			searchStart,
+			searchEnd,
+			searchResults,
+			count,
+			pageSize = 20,
+			bigPageSize = 100,
+			numColumns = 6,
+			labels = ['Weapon', 'Pickaxe', 'Axe', 'Hoe', 'Watering Can', 'Fishing Rod'],
+			validEnchants = [
+				['Artful', 'Bug Killer', 'Vampiric', 'Crusader', 'Haymaker'],
+				['Powerful', 'Efficient', 'Swift'],
+				['Powerful', 'Shaving', 'Efficient', 'Swift'],
+				['Reaching', 'Generous', 'Archaeologist', 'Efficient', 'Swift'],
+				['Reaching', 'Bottomless', 'Efficient'],
+				['Master', 'Auto Hook', 'Preserving', 'Efficient'],
+			],
+			roll,
+			randRoll,
+			tooltip,
+			result,
+			result2,
+			rng;
+
+		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
+			$('#enchant-prev-big').prop("disabled", true);
+			$('#enchant-prev').prop("disabled", true);
+			$('#enchant-next').prop("disabled", true);
+			$('#enchant-next-big').prop("disabled", true);
+			$('#enchant-reset').html("Clear Search Results &amp; Reset Browsing");
+			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
+			// so that it appears exactly as was typed in by the user.
+			searchTerm = new RegExp(offset, "i");
+			searchStart = Math.max(1, ($('#enchant-search-all').prop('checked')) ? 1 : save.timesEnchanted[0]);
+			searchEnd = parseInt($('#enchant-search-range').val()) + searchStart;
+			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) + 
+				'">Search results for &quot;' + offset + '&quot; over the ' +
+				(($('#enchant-search-all').prop('checked')) ? 'first ' : 'next ') + $('#enchant-search-range').val() + ' enchants</th></tr>\n';
+			output += '<tr><th class="item">Enchantment</th>' +
+				'<th class="enchant-result">Weapon <a href="https://stardewvalleywiki.com/Weapons">' +
+				'<img src="blank.png" class="icon" id="enchant_w"></a></th>' +
+				'<th class="enchant-result">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' + 
+				'<img src="blank.png" class="icon" id="enchant_p"></a></th>' +
+				'<th class="enchant-result">Axe <a href="https://stardewvalleywiki.com/Axes">' +
+				'<img src="blank.png" class="icon" id="enchant_a"></a></th>' +
+				'<th class="enchant-result">Hoe <a href="https://stardewvalleywiki.com/Hoes">' +
+				'<img src="blank.png" class="icon" id="enchant_h"></a></th>' +
+				'<th class="enchant-result">Watering Can <a href="https://stardewvalleywiki.com/Watering_Cans">' +
+				'<img src="blank.png" class="icon" id="enchant_c"></a></th>' +
+				'<th class="enchant-result">Fishing Rod <a href="https://stardewvalleywiki.com/Fishing_Rods">' +
+				'<img src="blank.png" class="icon" id="enchant_f"></a></th>';
+			output += '</tr>\n<tbody>';
+			count = 0;
+			searchResults = {};
+			for (timesEnchanted = searchStart; timesEnchanted < searchEnd; timesEnchanted++) {
+				// Will do this later
+			}
+
+			output += '<tr><td colspan="' + (numColumns + 1) + '" class="count">Found ' + count + ' matching instance(s) of ' +
+				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
+		} else {
+			if (typeof(offset) === 'undefined') {
+				offset = pageSize * Math.floor(save.timesEnchanted[0] / pageSize);
+			}
+			if (offset < pageSize) {
+				$('#enchant-prev').prop("disabled", true);
+			} else {
+				$('#enchant-prev').val(offset - pageSize);
+				$('#enchant-prev').prop("disabled", false);
+			}
+			if (offset < bigPageSize) {
+				$('#enchant-prev-big').prop("disabled", true);
+			} else {
+				$('#enchant-prev-big').val(offset - bigPageSize);
+				$('#enchant-prev-big').prop("disabled", false);
+			}
+			$('#enchant-reset').val('reset');
+			$('#enchant-reset').html("Reset Browsing");
+			$('#enchant-next').val(offset + pageSize);
+			$('#enchant-next').prop("disabled", false);
+			$('#enchant-next-big').val(offset + bigPageSize);
+			$('#enchant-next-big').prop("disabled", false);
+			// Reset search fields too
+			$('#enchant-search-text').val('');
+			$('#enchant-search-range').val(200);
+			$('#enchant-search-all').prop('checked', false);
+			output += '<table class="output"><thead><tr><th class="index">Num Ench.</th>' +
+				'<th class="enchant-result item">Weapon <a href="https://stardewvalleywiki.com/Weapons">' +
+				'<img src="blank.png" class="icon" id="enchant_w"></a></th>' +
+				'<th class="enchant-result item">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' + 
+				'<img src="blank.png" class="icon" id="enchant_p"></a></th>' +
+				'<th class="enchant-result item">Axe <a href="https://stardewvalleywiki.com/Axes">' +
+				'<img src="blank.png" class="icon" id="enchant_a"></a></th>' +
+				'<th class="enchant-result item">Hoe <a href="https://stardewvalleywiki.com/Hoes">' +
+				'<img src="blank.png" class="icon" id="enchant_h"></a></th>' +
+				'<th class="enchant-result item">Watering Can <a href="https://stardewvalleywiki.com/Watering_Cans">' +
+				'<img src="blank.png" class="icon" id="enchant_c"></a></th>' +
+				'<th class="enchant-result">Fishing Rod <a href="https://stardewvalleywiki.com/Fishing_Rods">' +
+				'<img src="blank.png" class="icon" id="enchant_f"></a></th>';
+			output += '</tr>\n<tbody>';
+			for (g = 1; g <= pageSize; g++) {
+				timesEnchanted = offset + g;
+				item = ['', '', '', '', ''];
+				rng = new CSRandom(timesEnchanted + save.gameID -1);
+				
+				randRoll = rng.NextDouble();
+				for (c = 0; c < numColumns; c++) {
+					roll = Math.floor(randRoll*validEnchants[c].length);
+					result = validEnchants[c][roll];
+					item[c] = wikify(result);
+					tooltip = labels[c] + " enchant (" + g + ")\n\nNone &#x2192; " + result + "\n";
+					roll = Math.floor(randRoll*(validEnchants[c].length-1));
+					var haveBoth = false;
+					for (e = 0; e < validEnchants[c].length; e++) {
+						result2 = (e <= roll ? result2 = validEnchants[c][roll + 1] : result2 = validEnchants[c][roll]);
+						if (!haveBoth && result !== result2) {
+							item[c] += " or " + wikify(result2);
+							haveBoth = true;
+						}
+						tooltip += validEnchants[c][e] + " &#x2192; " + result2 + "\n";
+					}
+					item[c] += ' <span class="note" data-tooltip="' + tooltip + '">(...)</span>';
+				}
+				if (timesEnchanted === save.timesEnchanted[0] + 1) {
+					tclass = "current";
+				} else if (timesEnchanted <= save.timesEnchanted[0]) {
+					tclass = "past";
+				} else {
+					tclass = "future";
+				}
+				output += '<tr class="' + tclass + '"><td>' + addCommas(timesEnchanted) + '</td>';
+				for (c = 0; c < numColumns; c++) {
+					output += '<td class="item">' + item[c] + '</td>';
+				}
+				output += '</tr>';
+			}
+		}
+		output += '</tbody></table>';
+		return output;
+	}
+
+	function predictMineChests(isSearch, offset) {
+		var output = "",
+			floor,
+			rng,
+			item,
+			choices = {
+				10: [save.boots[506], save.boots[507], save.weapons[12], save.weapons[17], save.weapons[22], save.weapons[31]],
+				20: [save.weapons[11], save.weapons[24], save.weapons[20], save.rings[517], save.rings[519]],
+				30: ["(No chest)"],
+				40: [save.weapons[32]],
+				50: [save.boots[509], save.boots[510], save.boots[508], save.weapons[1], save.weapons[43]],
+				60: [save.weapons[21], save.weapons[44], save.weapons[6], save.weapons[18], save.weapons[27]],
+				70: [save.weapons[33]],
+				80: [save.boots[512], save.boots[511], save.weapons[10], save.weapons[7], save.weapons[46], save.weapons[19]],
+				90: [save.weapons[8], save.weapons[52], save.weapons[45], save.weapons[5], save.weapons[60]],
+				100: ["Stardrop"],
+				110: [save.boots[514], save.boots[878], save.weapons[50], save.weapons[28]],
+				120: ["Skull Key"]
+			};
+
+		output += '<table class="output"><thead><tr><th>Floor</th><th>Item in Chest</th></tr>';
+		
+		for (floor = 10; floor < 121; floor += 10) {
+			// From StardewValley.Locations.MineShaft.GetReplacementChestItem()
+			rng = new CSRandom(handleBigInt(save.gameID * 512 + floor));
+			item = choices[floor][rng.Next(choices[floor].length)];
+			if (floor !== 30) {
+				item = wikify(item);
+			}
+			
+			output += '<tr><td>' + floor + '</td><td>' + item + '</tr></tr>';
+		}
+		output += "</tbody></table>\n";
+		return output;
+	}
+	
+	function predictGemBirds(isSearch, offset) {
+		var output = "",
+			// StardewValley.IslandGemBird.GemBirdType
+			birds = ["Green", "Blue", "Red", "Purple", "Brown"],
+			gems = { "Green": "Emerald", "Blue": "Aquamarine", "Red": "Ruby", "Purple": "Amethyst", "Brown": "Topaz" },
+			locs = ["North (Dig Site / Volcano)", "South (Docks / Resort)", "East (Jungle)", "West (Farm)"],
+			i,
+			j,
+			temp,
+			rng;
+
+		if (compareSemVer(save.version, "1.5") < 0) {
+			$('#gembirds-note').html("This is meaningless in pre-1.5 games since the Island and birds don't exist.");
+		} else {
+			$('#gembirds-note').html('');
+		}
+		
+		output += '<table class="output"><thead><tr><th colspan>Direction (Location)</th><th>Bird Type</th></tr>';
+		// StardewValley.IslandGemBird.GetBirdTypeForLocation() and StardewValley.Utility.Shuffle()
+		rng = new CSRandom(save.gameID);
+		i = birds.length;
+		while (i > 1) {
+			j = rng.Next(i--);
+			temp = birds[i];
+			birds[i] = birds[j];
+			birds[j] = temp;
+		}
+		
+		for (i = 0; i < locs.length; i++) {
+			output += '<tr><td>' + locs[i] + "</td><td>" + birds[i] + " (" + wikify(gems[birds[i]])+ ")</td></tr>";
+		}
+		output += "</tbody></table>\n";
+		return output;
+	}
+
 	function predictWinterStar(isSearch, offset) {
 		var output = "",
 			// NPC list from Data\NPCDispositions
@@ -4199,6 +4892,7 @@ window.onload = function () {
 							'Evelyn': ['Cookie'],
 							'Jas': ['Clay', 'Ancient Doll', 'Rainbow Shell', 'Geode', 'Frozen Geode', 'Magma Geode'],
 							'Vincent': ['Clay', 'Ancient Doll', 'Rainbow Shell', 'Geode', 'Frozen Geode', 'Magma Geode'],
+							'Leo': ['Clay', 'Ancient Doll', 'Rainbow Shell', 'Geode', 'Frozen Geode', 'Magma Geode'],
 							'DEFAULT': ['Pumpkin Pie', 'Poppyseed Muffin', 'Blackberry Cobbler', 'Glow Ring', 'Deluxe Speed-Gro (10)', 'Purple Mushroom', 'Nautilus Shell', 'Wine', 'Beer', 'Tea Set', 'Pink Cake', 'Ruby', 'Emerald', 'Jade'] },
 			gifts = '',
 			excluded = {'Wizard': 1, 'Krobus': 1, 'Sandy': 1, 'Dwarf': 1, 'Marlon': 1},
@@ -4211,6 +4905,12 @@ window.onload = function () {
 			playerName = "Farmer",
 			forceOldLogic = false,
 			tclass;
+		if (compareSemVer(save.version, "1.5") >= 0) {
+			npcs.push("Leo");
+			if (!save.hasMetLeo) {
+				excluded['Leo'] = 1;
+			}
+		}
 		if (typeof(offset) === 'undefined') {
 			offset = save.year - 1;
 		}
@@ -4242,8 +4942,7 @@ window.onload = function () {
 			if (forceOldLogic || compareSemVer(save.version, "1.3") < 0) {
 				rng = new CSRandom(save.gameID / 2 - year);
 			} else {
-				// Using BigInteger Library to convert the UniqueMultiplayerID to integer since these IDs can exceed JS' integer storage
-				var UMP_ID = parseInt(bigInt(save.mp_ids[player]).and(0xffffffff));
+				var UMP_ID = handleBigInt(save.mp_ids[player]);
 				var seed = parseInt(save.gameID / 2) ^ year ^ UMP_ID;
 				rng = new CSRandom( seed );
 				playerName = save.names[player];
@@ -4252,6 +4951,7 @@ window.onload = function () {
 			secretSantaGetFrom = '';
 			// In addition to 5 hardcoded exclusions, NPCs are not eligible if they haven't been met yet; technically we should probably be
 			// searching the save to make sure the target has been met, but for now we simply exclude year 1 Kent and assume the rest are fine.
+			// The exception is Leo who we explicitly check for.
 			while (excluded.hasOwnProperty(secretSantaGiveTo) || (year === 1 && secretSantaGiveTo === 'Kent')) {
 				secretSantaGiveTo = npcs[rng.Next(npcs.length)];
 			}
@@ -4300,6 +5000,14 @@ window.onload = function () {
 			output = predictWallpaper(isSearch, extra);
 		} else if (tabID === 'trash') {
 			output = predictTrash(isSearch, extra);
+		//} else if (tabID === 'resort') {
+		//	output = predictResortVisitors(isSearch, extra);
+		} else if (tabID === 'enchant') {
+			output = predictEnchantments(isSearch, extra);
+		} else if (tabID === 'minechest') {
+			output = predictMineChests(isSearch, extra);
+		} else if (tabID === 'gembirds') {
+			output = predictGemBirds(isSearch, extra);
 		} else if (tabID === 'winterstar') {
 			output = predictWinterStar(isSearch, extra);
 		} else {

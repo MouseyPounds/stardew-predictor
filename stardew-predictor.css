@@ -167,7 +167,10 @@ h3 {
 .tabset > input:nth-child(15):checked ~ .tab-panels > .tab-panel:nth-child(8),
 .tabset > input:nth-child(17):checked ~ .tab-panels > .tab-panel:nth-child(9),
 .tabset > input:nth-child(19):checked ~ .tab-panels > .tab-panel:nth-child(10),
-.tabset > input:nth-child(21):checked ~ .tab-panels > .tab-panel:nth-child(11) {
+.tabset > input:nth-child(21):checked ~ .tab-panels > .tab-panel:nth-child(11),
+.tabset > input:nth-child(23):checked ~ .tab-panels > .tab-panel:nth-child(12),
+.tabset > input:nth-child(25):checked ~ .tab-panels > .tab-panel:nth-child(13),
+.tabset > input:nth-child(27):checked ~ .tab-panels > .tab-panel:nth-child(14) {
     display: block;
 }
 .tabset > label {
@@ -256,7 +259,7 @@ td hr {
 	display: inline-block;
 	padding: 3px;
 }
-td .train, td .night, td .crane {
+td .train, td .night, td .crane, td .resort {
 	text-align: center;
 	width: 100%;
 }
@@ -268,7 +271,7 @@ th.day {
 	min-width: 12em;
 }
 th.item {
-	min-width: 10em;
+	min-width: 8em;
 }
 th.shirt-item {
 	min-width: 36px;
@@ -289,7 +292,7 @@ th.index {
 	width: 2em;
 }
 th.geode-result, th.wp-result {
-	width: 12.25em;
+	width: 8em;
 }
 th.long_list {
 	width: 36em;
@@ -311,8 +314,8 @@ fieldset {
 #cart-buttons, #cart-search, #krobus-buttons, #krobus-search, #wallpaper-buttons, #wallpaper-search {
 	max-width: 45em;
 }
-#geode-buttons, #geode-search {
-	max-width: 62em;
+#geode-buttons, #geode-search, #enchant-buttons {
+	max-width: 67em;
 }
 /* Icon images */
 img.icon {
@@ -382,6 +385,9 @@ img#geode_o {
 img#geode_t {
     background-position: -32px -112px;
 }
+img#geode_c {
+    background-position: -80px -112px;
+}
 img#gunther {
     background-position: -64px -96px;
 }
@@ -406,25 +412,47 @@ img#icon_q {
 img#icon_d {
     background-position: -64px -112px;
 }
+img#icon_h {
+    background-position: -96px -112px;
+}
+img#enchant_w {
+    background-position: 0px -128px;
+}
+img#enchant_p {
+    background-position: -16px -128px;
+}
+img#enchant_a {
+    background-position: -32px -128px;
+}
+img#enchant_h {
+    background-position: -48px -128px;
+}
+img#enchant_c {
+    background-position: -64px -128px;
+}
+img#enchant_f {
+    background-position: -80px -128px;
+}
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
    http://jsfiddle.net/AndreaLigios/jtLbpy62/
  */
-[tooltip]:before {
+[data-tooltip]:before {
 	position: absolute;
-	content: attr(tooltip);
+	content: attr(data-tooltip);
 	opacity: 0;
 	box-shadow: 2px 2px 1px #603000;
 	padding: .5em;
 	color: #603000;
+	white-space: pre;
 }
-[tooltip]:hover:before {        
+[data-tooltip]:hover:before {        
 	opacity: 0.9;
 	background: #ffe0b0;
 	margin-top: -1.5em;
 	margin-left: .5em;
 	z-index: 2;
 }
-[tooltip]:not([tooltip-persistent]):before {
+[data-tooltip]:not([data-tooltip-persistent]):before {
 	pointer-events: none;
 }

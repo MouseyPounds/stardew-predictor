@@ -20,7 +20,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=3.1.2"></script>
+<script src="./stardew-predictor.js?v=4.0"></script>
 <script src="./BigInteger.min.js"></script>
 
 </head>
@@ -37,7 +37,7 @@
 <p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about 
 the game after reading the save file. The information predicted includes special mine levels 
 (e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.</p>
-<p>Most changed &amp; added content from version 1.4 is supported. <span class="strong note">While the app tries to detect the version in the save and use
+<p>Most changed &amp; added content from version 1.5 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
 Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
@@ -46,7 +46,7 @@ Please report any bugs, suggestions, or other feedback to <a href="https://commu
 <div id="input-container" class="panel">
 <h2 id="sec_save_file">Save File</h2>
 <p>Select a save file to check: <input type="file" id="file_select" /></p>
-<p>Please use the full save file named with your farmer's name and a 9-digit ID number (e.g. <span class="path">Fred_148093307</span>); do not use the <span class="path">SaveGameInfo</span> file as it does not contain all the necessary information.
+<p>Please use the full save file named with your farmer's name (or farm name) and an ID number (e.g. <span class="path">Fred_148093307</span>); do not use the <span class="path">SaveGameInfo</span> file as it does not contain all the necessary information.
 <p>Default save file locations are:
 <ul><li>Windows: <span class="path">%AppData%\StardewValley\Saves\</span></li>
 <li>Mac OSX &amp; Linux: <span class="path">~/.config/StardewValley/Saves/</span></li>
@@ -82,6 +82,14 @@ Please report any bugs, suggestions, or other feedback to <a href="https://commu
 <label for="tab-crane">Crane<br/>Game</label>
 <input type="radio" name="tabset" id="tab-trash" >
 <label for="tab-trash">Garbage<br/>Cans</label>
+<!--<input type="radio" name="tabset" id="tab-resort" >
+<label for="tab-resort">Resort<br/>Visitors</label> -->
+<input type="radio" name="tabset" id="tab-enchant" >
+<label for="tab-enchant">Enchants<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-minechest" >
+<label for="tab-minechest">Mine<br/>Chests</label>
+<input type="radio" name="tabset" id="tab-gembirds" >
+<label for="tab-gembirds">Gem<br/>Birds</label>
 <input type="radio" name="tabset" id="tab-winterstar" >
 <label for="tab-winterstar">Winter<br/>Star</label>
 <div class="tab-panels">
@@ -89,10 +97,10 @@ Please report any bugs, suggestions, or other feedback to <a href="https://commu
 <h3>Special Mine Floors</h3>
 <p class="intro" id="mine-intro">This calendar showss the prediction of various special levels in 
 <a href="https://stardewvalleywiki.com/The_Mines">the Mines</a> and <a href="https://stardewvalleywiki.com/Skull_Cavern">Skull Cavern.</a></p>
-<ul><li>Mushroom levels respawn in version 1.3 and earlier, but in 1.4, mushrooms will only appear on your first visit.</li>
+<ul><li>Mushroom levels respawn in version 1.3 and earlier, but starting in 1.4, mushrooms will only appear on your first visit.</li>
 <li>Monster and slime infestations are persistent in all versions and can be revisited multiple times per day.</li>
-<li>Quarry levels are new in 1.4; this is when the level uses the gray quarry mine tileset and spawns grey &amp; brown slimes as well as <a href="https://stardewvalleywiki.com/Haunted_Skull">Haunted Skulls</a>. These can only happen if the quarry itself has been unlocked and will override other types of infestations, so the predictor only calculates them if the save has quarry access.</li>
-<li>Dinosaur levels are also new in 1.4; these have a grassy tileset and are primarily inhabited by <a href="https://stardewvalleywiki.com/Pepper_Rex">Pepper Rex</a>. They can only occur in the Skull Cavern, and the predictor will check up to level 500 for them. Note that this prediction is not 100% accurate because the logic the game uses to determine which map to use for a particular level in the skull cavern uses a different (unpredictable) RNG and certain maps are not allowed to be Dinosaur levels.</li>
+<li>Quarry levels were added in 1.4; this is when the level uses the gray quarry mine tileset and spawns grey &amp; brown slimes as well as <a href="https://stardewvalleywiki.com/Haunted_Skull">Haunted Skulls</a>. These can only happen if the quarry itself has been unlocked and will override other types of infestations, so the predictor only calculates them if the save has quarry access.</li>
+<li>Dinosaur levels were also added in 1.4; these have a grassy tileset and are primarily inhabited by <a href="https://stardewvalleywiki.com/Pepper_Rex">Pepper Rex</a>. They can only occur in the Skull Cavern, and the predictor will check up to level 500 for them. Note that this prediction is not 100% accurate because the logic the game uses to determine which map to use for a particular level in the skull cavern uses a different (unpredictable) RNG and certain maps are not allowed to be Dinosaur levels.</li>
 </ul>
 <!-- divs inside of fieldsets because of Chrome bugs with flex display -->
 <fieldset id="mines-buttons"><div class="buttons">
@@ -208,11 +216,12 @@ wall/floor without buying the <a href="https://stardewvalleywiki.com/Catalogue">
 <h3>Geode Processing</h3>
 <p class="intro" id="geode-intro">Predicted results from cracking open all types of
 <a href="https://stardewvalleywiki.com/Minerals#Geodes">geodes</a> at Clint's
-<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The "number opened" is a cumulative count across all types. Results can
+<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The number of geodes opened is a cumulative count across all types. Results can
 be browsed twenty at a time or searched using a case-insensitive substring (regular expression wildcards are allowed.)
 Note that in multiplayer, each player's geode count is tracked separately; the browse results are initially set and highlighted
 based on the host's count.</p>
-<p class="note">Note: If you play with the <a href="https://www.nexusmods.com/stardewvalley/mods/2761">Artifact System Fixed</a> mod and enable its geode changes, the predictions listed here may not be accurate.</p>
+<p>In 1.5, the Golden Coconut is a new geode-type item with its own item pool. There is a small chance for a rolled item to be replaced with the Golden Helmet; browsing results will show this potential replacement, but the player will only actually receive the hat if they have not previously gotten one. Note that potential donations for the new Field Office are not currently checked, although only one donatable item (the Fossilized Skull) can be found this way.</p>
+<p class="note">Mod note: If you play with the <a href="https://www.nexusmods.com/stardewvalley/mods/2761">Artifact System Fixed</a> mod and enable its geode changes, the predictions listed here may not be accurate.</p>
 <fieldset id="geode-search">
 <input type="text" id="geode-search-text" class="search">
 <button id="geode-search-button" type="button" class="search">Search</button><br />
@@ -259,7 +268,7 @@ Most of these events also have other checks they must pass to actually trigger (
 so <span class="strong">they are not 100% guaranteed</span>; in particular the 
 <a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events are still 
 <a href="https://www.reddit.com/r/StardewValley/comments/5aj878/the_last_mystery_and_a_technical_explanation/">extremely rare</a>
-even when the calendar shows them to be possible.</p>
+in versions before 1.5 even when the calendar shows them to be possible.</p>
 <p class="note">Note: The app may misidentify the type of event in version 1.2 if the farmer has the possibility of
 having more children.</p>
 <fieldset id="night-buttons"><div class="buttons">
@@ -308,11 +317,68 @@ will only be listed if that progress is found in the save.</li>
 </div></fieldset>
 <output id="out-trash"> </output>
 </section>
+<!--
+<section id="sec-resort" class="tab-panel">
+<h3>Resort Visitors</h3>
+<p class="intro" id="resort-intro">This attempts to predict which NPCs will visit the Island Resort on a given day. These are not 100% guaranteed as they won't visit when it is raining on the Island or if some other unpredictable things have happened (such as being "invisible" due to a heart event.) And obviously it is meaningless until the player visits the Island and builds the resort itself.</p>
+<fieldset id="resort-buttons"><div class="buttons">
+<button id="resort-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="resort-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="resort-reset" type="button" class="browse">Reset Calendar</button>
+<button id="resort-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="resort-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-resort"> </output>
+</section>
+-->
+<section id="sec-enchant" class="tab-panel">
+<h3>Enchantments</h3>
+<p class="intro" id="enchant-intro">Predicted results from enchanting tools and weapons at the
+Forge in the Volcano. The number of times enchanted is a cumulative count across all items. 
+Note that in multiplayer, each player's enchant count is tracked separately; the browse results are initially set and highlighted
+based on the host's count. Searching is not currently supported.</p>
+<p>Since the current enchantment is excluded from the pool of possible outcomes, there can be two possible results; the first result listed assumes no current enchantment and the tooltip that displays when you hover over the "..." will give more details. Additionally, hoes and watering cans are assumed to be Iridium level so that the "Expansive" enchantment is available.</p>
+<!--
+<fieldset id="enchant-search">
+<input type="text" id="enchant-search-text" class="search">
+<button id="enchant-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="enchant-search-range">
+<option value="100">100 enchants</option>
+<option value="200" selected>200 enchants</option>
+<option value="500">500 enchants</option>
+<option value="1000">1000 enchants</option>
+</select><br />
+<input type="checkbox" id="enchant-search-all"> Start search from first enchant instead of current enchant
+</fieldset>
+-->
+<fieldset id="enchant-buttons"><div class="buttons">
+<button id="enchant-prev-big" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="enchant-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="enchant-reset" type="button" class="browse">Reset Browsing</button>
+<button id="enchant-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="enchant-next-big" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-enchant"> </output>
+</section>
+<section id="sec-minechest" class="tab-panel">
+<h3>Mine Chests</h3>
+<p class="intro" id="minechest-intro">Starting in version 1.5, one of the advanced startup options allows for randomized
+loot in the mine reward chests. This loot can be predicted and is listed below. Note that even when this option is used, some of the chests still only have one possible reward.</p>
+<output id="out-minechest"> </output>
+</section>
+<section id="sec-gembirds" class="tab-panel">
+<h3>Gem Bird Types</h3>
+<p class="intro" id="gembirds-intro">This shows which types of Gem Birds will appear in each Island location; this could be used to complete the jungle gem shrine puzzle before all birds are encountered in-game.</p>
+<p class="note" id="gembirds-note"></p>
+<output id="out-gembirds"> </output>
+</section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
 <p class="intro" id="winterstar-intro">This shows the secret gift assignments for the
 <a href="https://stardewvalleywiki.com/Feast_of_the_Winter_Star">Winter Star festival</a>. The actual gift(s) the player(s) will receive
-cannot be reliably predicted, but a list of all the possibilities is provided.</p>
+cannot be reliably predicted, but a list of all the possibilities is provided. In a version 1.5 save, the presence of 
+<a href="https://stardewvalleywiki.com/Leo">Leo</a> may affect the outcome; the app will predict based upon Leo's current
+status.</p>
 <p class="note" id="winterstar-note"></p>
 <fieldset id="winterstar-buttons"><div class="buttons">
 <button id="winterstar-prev" type="button" class="browse">&lt; Previous Year</button>
@@ -329,6 +395,7 @@ cannot be reliably predicted, but a list of all the possibilities is provided.</
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>22 Dec  2020 - v4.0   - Initial support for Stardew Valley 1.5</li>
 <li>24 Jul  2020 - v3.1.3 - Updated forum link in footer</li>
 <li> 6 Mar  2020 - v3.1.2 - Fixed Krobus search</li>
 <li> 1 Feb  2020 - v3.1.1 - Fixed one of the white eggs in the cart prediction being incorrectly listed as brown. (Thanks rickselby)</li>
