@@ -4,12 +4,13 @@
 
 This app simulates the random number generator used in [Stardew Valley](http://stardewvalley.net/) and makes "predictions" about the game either from the Game ID or by reading the save file. Currently, the information predicted includes special mine levels  (mushroom floor & infestations), items sold by the traveling merchant & Krobus, results from cracking geodes, the train schedule, and the gift exchange of the Feast of the Winter Star.
 
-All changed & added content from version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to the [topic in the official forums](https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/).
+All changed & added content from version 1.3 should be supported; 1.3-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to the [topic in the Chucklefish  forums](https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/).
 
 The app is written in Javascript and uses [jQuery](https://jquery.com/) and [BigInteger.js](https://github.com/peterolson/BigInteger.js); it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 ## Changelog
 
+* 28 Dec  2020 - v4.0.1 - Fixed geode predictions
 * 22 Dec  2020 - v4.0   - Initial support for Stardew Valley 1.5
 * 24 Jul  2020 - v3.1.3 - Updated forum link in footer
 *  6 Mar  2020 - v3.1.2 - Fixed Krobus search

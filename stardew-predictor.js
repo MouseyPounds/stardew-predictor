@@ -3770,6 +3770,8 @@ window.onload = function () {
 			g,
 			c,
 			couldBeHat,
+			couldBeBeans,
+			couldBeBeansTrove,
 			roll,
 			next,
 			tclass,
@@ -3848,6 +3850,9 @@ window.onload = function () {
 						rng.NextDouble();
 						rngTrove.NextDouble();
 					}
+					// The Qi Bean check.
+					couldBeBeans = (rng.NextDouble() < 0.1);
+					couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
 					// Rolling troves and coconuts now
 					c = rngTrove.NextDouble();
 					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
@@ -4071,6 +4076,9 @@ window.onload = function () {
 						rng.NextDouble();
 						rngTrove.NextDouble();
 					}
+					// The Qi Bean check.
+					couldBeBeans = (rng.NextDouble() < 0.1);
+					couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
 					// Rolling troves and coconuts now
 					c = rngTrove.NextDouble();
 					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
@@ -4199,18 +4207,29 @@ window.onload = function () {
 						if (couldBeHat) {
 							itemIcon = ' <span data-tooltip="Could be Golden Helmet"><img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Helmet"></span>';
 						}
-						
+						if (couldBeBeansTrove) {
+							itemIcon += ' <span data-tooltip="Could be Qi Beans"><img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"></span>';
+						}
 					} else {
 						if (!save.donatedItems.hasOwnProperty(item[c])) {
 							itemIcon = ' <span data-tooltip="Need to Donate"><img src="blank.png" class="icon" id="gunther" alt="Need to Donate"></span>';
-						}						
+						}
+						if (c === 4) {
+							if (couldBeBeansTrove) {
+								itemIcon += ' <span data-tooltip="Could be Qi Beans"><img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"></span>';
+							}
+						} else {
+							if (couldBeBeans) {
+								itemIcon += ' <span data-tooltip="Could be Qi Beans"><img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"></span>';
+							}
+						}
 					}
 					output += '<td class="item">' + wikify(item[c]) + itemIcon + '</td><td>' + itemQty[c] + '</td>';
 				}
 				output += '</tr>';
 			}
 		}
-		output += '<tr><td colspan="' + (1 + 2*numColumns) + '" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' + 'which need to be donated to the ' + wikify('Museum') + ' and <img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Coconut Hat"> denotes items which will be replaced by the ' + wikify('Golden Helmet') + ' if applicable.</td></tr>';
+		output += '<tr><td colspan="' + (1 + 2*numColumns) + '" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' + 'which need to be donated to the ' + wikify('Museum') + '<br /> <img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"> denotes items which will be replaced ' + wikify('Qi Beans') + ' and <img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Coconut Hat"> denotes items which will be replaced by the ' + wikify('Golden Helmet') + ' if applicable.</td></tr>';
 		output += '</tbody></table>';
 		return output;
 	}

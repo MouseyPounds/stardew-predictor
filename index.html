@@ -20,7 +20,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=4.0"></script>
+<script src="./stardew-predictor.js?v=4.0.1"></script>
 <script src="./BigInteger.min.js"></script>
 
 </head>
@@ -40,7 +40,7 @@ the game after reading the save file. The information predicted includes special
 <p>Most changed &amp; added content from version 1.5 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
-Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the official forums.</a></p>
+Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the Chucklefish forums.</a></p>
 </div>
 
 <div id="input-container" class="panel">
@@ -221,6 +221,7 @@ be browsed twenty at a time or searched using a case-insensitive substring (regu
 Note that in multiplayer, each player's geode count is tracked separately; the browse results are initially set and highlighted
 based on the host's count.</p>
 <p>In 1.5, the Golden Coconut is a new geode-type item with its own item pool. There is a small chance for a rolled item to be replaced with the Golden Helmet; browsing results will show this potential replacement, but the player will only actually receive the hat if they have not previously gotten one. Note that potential donations for the new Field Office are not currently checked, although only one donatable item (the Fossilized Skull) can be found this way.</p>
+<p>Also in 1.5, if the Qi's Crop Challenge is active, all geode types may drop either 1 or 5 Qi Beans instead of their normal items. This situation is also shown on browsing results.</p>
 <p class="note">Mod note: If you play with the <a href="https://www.nexusmods.com/stardewvalley/mods/2761">Artifact System Fixed</a> mod and enable its geode changes, the predictions listed here may not be accurate.</p>
 <fieldset id="geode-search">
 <input type="text" id="geode-search-text" class="search">
@@ -395,6 +396,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>28 Dec  2020 - v4.0.1 - Fixed geode predictions</li>
 <li>22 Dec  2020 - v4.0   - Initial support for Stardew Valley 1.5</li>
 <li>24 Jul  2020 - v3.1.3 - Updated forum link in footer</li>
 <li> 6 Mar  2020 - v3.1.2 - Fixed Krobus search</li>
