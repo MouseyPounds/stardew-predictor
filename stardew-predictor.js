@@ -2387,7 +2387,7 @@ window.onload = function () {
 
 	function parseSummary(xmlDoc) {
 		var output = '',
-			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'Four Corners'];
+			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'Four Corners', 'Beach'];
 		// This app doesn't actually need a whole lot from the save file, and can be run from just the gameID number.
 		// Right now, that functionality is "secret" and accessed by adding "?id=123456789" (or similar) to the URL.
 		// As a result, this is the only function that actually reads anything from the save file; it will store the
@@ -2448,15 +2448,19 @@ window.onload = function () {
 			output += '<span class="result">' + save.names[0] + ' of ' +
 				$(xmlDoc).find('SaveGame > player > farmName').html() + ' Farm (' +
 				farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />\n';
+			var foundEnchantStat = false;
 			if (compareSemVer(save.version, "1.5") >= 0) {
 				$(xmlDoc).find('SaveGame > player > stats > stat_dictionary > item').each(function() {
 					var v = $(this).find('key > string').text();
 					if (v === "timesEnchanted") {
 						save.timesEnchanted.push(Number($(this).find('value > unsignedInt').text()));
+						foundEnchantStat = true;
 						return false;
 					}
 				});
+				if (!foundEnchantStat) { save.timesEnchanted.push(0); }
 				$(xmlDoc).find('farmhand').each(function() {
+					foundEnchantStat = false;
 					$(this).find('stats > stat_dictionary > item').each(function() {
 						var v = $(this).find('key > string').text();
 						if (v === "timesEnchanted") {
@@ -2464,6 +2468,7 @@ window.onload = function () {
 							return false;
 						}
 					});
+					if (!foundEnchantStat) { save.timesEnchanted.push(0); }
 				});
 			} else {
 				save.timesEnchanted.push(0);
@@ -3851,8 +3856,12 @@ window.onload = function () {
 						rngTrove.NextDouble();
 					}
 					// The Qi Bean check.
-					couldBeBeans = (rng.NextDouble() < 0.1);
-					couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
+					couldBeBeans = false;
+					couldBeBeansTrove = false;
+					if (compareSemVer(save.version, "1.5") >= 0) {
+						couldBeBeans = (rng.NextDouble() < 0.1);
+						couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
+					}
 					// Rolling troves and coconuts now
 					c = rngTrove.NextDouble();
 					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
@@ -4077,8 +4086,12 @@ window.onload = function () {
 						rngTrove.NextDouble();
 					}
 					// The Qi Bean check.
-					couldBeBeans = (rng.NextDouble() < 0.1);
-					couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
+					couldBeBeans = false;
+					couldBeBeansTrove = false;
+					if (compareSemVer(save.version, "1.5") >= 0) {
+						couldBeBeans = (rng.NextDouble() < 0.1);
+						couldBeBeansTrove = (rngTrove.NextDouble() < 0.1);
+					}
 					// Rolling troves and coconuts now
 					c = rngTrove.NextDouble();
 					item.push(save.minerals[save.geodeContents[275][Math.floor(c*save.geodeContents[275].length)]]);
@@ -4229,7 +4242,7 @@ window.onload = function () {
 				output += '</tr>';
 			}
 		}
-		output += '<tr><td colspan="' + (1 + 2*numColumns) + '" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' + 'which need to be donated to the ' + wikify('Museum') + '<br /> <img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"> denotes items which will be replaced ' + wikify('Qi Beans') + ' and <img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Coconut Hat"> denotes items which will be replaced by the ' + wikify('Golden Helmet') + ' if applicable.</td></tr>';
+		output += '<tr><td colspan="' + (1 + 2*numColumns) + '" class="legend">Note: <img src="blank.png" class="icon" id="gunther" alt="Need to Donate"> denotes items ' + 'which need to be donated to the ' + wikify('Museum') + '<br /> <img src="blank.png" class="icon" id="icon_b" alt="Could be Qi Beans"> denotes items which will be replaced by ' + wikify('Qi Beans') + ' and <img src="blank.png" class="icon" id="icon_h" alt="Could be Golden Coconut Hat"> denotes items which will be replaced by the ' + wikify('Golden Helmet') + ' if applicable.</td></tr>';
 		output += '</tbody></table>';
 		return output;
 	}

@@ -10,6 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
+* 30 Dec  2020 - v4.0.2 - Made geode fix only apply to 1.5 saves
 * 28 Dec  2020 - v4.0.1 - Fixed geode predictions
 * 22 Dec  2020 - v4.0   - Initial support for Stardew Valley 1.5
 * 24 Jul  2020 - v3.1.3 - Updated forum link in footer
