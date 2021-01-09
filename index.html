@@ -119,6 +119,7 @@ merchant</a>. The merchant operates a cart in <a href="https://stardewvalleywiki
 every Friday and Sunday (6am - 8pm) and also a boat during the winter <a href="https://stardewvalleywiki.com/Night_Market">Night
 Market.</a> Results can be browsed by week (the Night Market is treated as a separate week) or searched using a case-insensitive
 substring (regular expression wildcards are allowed.)</p>
+<p class="note">Stardew 1.5 added a "year 1 guarantee" option which adds an extra Red Cabbage Seeds item to the cart sometime during year 1. The Predictor does not currently handle this option so search results do not yet include it.</p>
 <fieldset id="cart-search">
 <input type="text" id="cart-search-text" class="search">
 <button id="cart-search-button" type="button" class="search">Search</button><br />
@@ -222,7 +223,7 @@ Note that in multiplayer, each player's geode count is tracked separately; the b
 based on the host's count.</p>
 <p>In 1.5, the Golden Coconut is a new geode-type item with its own item pool. There is a small chance for a rolled item to be replaced with the Golden Helmet; browsing results will show this potential replacement, but the player will only actually receive the hat if they have not previously gotten one. Note that potential donations for the new Field Office are not currently checked, although only one donatable item (the Fossilized Skull) can be found this way.</p>
 <p>Also in 1.5, if the Qi's Crop Challenge is active, all geode types may drop either 1 or 5 Qi Beans instead of their normal items. This situation is also shown on browsing results.</p>
-<p class="note">Mod note: If you play with the <a href="https://www.nexusmods.com/stardewvalley/mods/2761">Artifact System Fixed</a> mod and enable its geode changes, the predictions listed here may not be accurate.</p>
+<p class="note">Finally, the Geode Crusher item from 1.5 uses the same RNG but the count is offset by 1. For example if you have already crushed 12 geodes, the next geode cracked by Clint will use the results from line 13, but the next geode cracked by the Crusher will use the results from line 12.</p>
 <fieldset id="geode-search">
 <input type="text" id="geode-search-text" class="search">
 <button id="geode-search-button" type="button" class="search">Search</button><br />
@@ -339,6 +340,7 @@ Forge in the Volcano. The number of times enchanted is a cumulative count across
 Note that in multiplayer, each player's enchant count is tracked separately; the browse results are initially set and highlighted
 based on the host's count. Searching is not currently supported.</p>
 <p>Since the current enchantment is excluded from the pool of possible outcomes, there can be two possible results; the first result listed assumes no current enchantment and the tooltip that displays when you hover over the "..." will give more details. Additionally, hoes and watering cans are assumed to be Iridium level so that the "Expansive" enchantment is available.</p>
+<p class="note">The version 1.5.2 patch changed the mechanics to exclude the last two enchantments on an item from the possible results rather than just the current enchantment. The predictor has not yet been updated for this change and it might be complicated enough that enchantment predictions wind up being removed in a later version.</p>
 <!--
 <fieldset id="enchant-search">
 <input type="text" id="enchant-search-text" class="search">
@@ -396,6 +398,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li> 9 Jan  2021 - v4.0.3 - No code changes, only clarifications on some mechanics.</li>
 <li>30 Dec  2020 - v4.0.2 - Made geode fix only apply to 1.5 saves</li>
 <li>28 Dec  2020 - v4.0.1 - Fixed geode predictions</li>
 <li>22 Dec  2020 - v4.0   - Initial support for Stardew Valley 1.5</li>

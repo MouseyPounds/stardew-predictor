@@ -3218,6 +3218,7 @@ window.onload = function () {
 
 	function predictCart(isSearch, offset) {
 		// logic from StardewValley.Utility.getTravelingMerchantStock()
+		// TODO: Y1 Guarantee. RNG seed is gameID * 12, Visit value is Next(2,31). Save location is visitsUntilY1Guarantee world state
 		var output = '',
 			month,
 			monthName,
