@@ -10,6 +10,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/) and [Big
 
 ## Changelog
 
+* 15 Jan  2021 - v4.0.4 - Updating Night event chances for Stardew Valley 1.5.3
 *  9 Jan  2021 - v4.0.3 - No code changes, only clarifications on some mechanics.
 * 30 Dec  2020 - v4.0.2 - Made geode fix only apply to 1.5 saves
 * 28 Dec  2020 - v4.0.1 - Fixed geode predictions

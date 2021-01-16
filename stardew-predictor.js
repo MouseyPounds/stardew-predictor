@@ -2116,7 +2116,7 @@ window.onload = function () {
 		109: 'Ancient Sword',
 		110: 'Rusty Spoon',
 		111: 'Rusty Spur',
-	};		
+	};
 	save.shirtItems = {
 		1000: 'Classic Overalls (ID 1)',
 		1001: 'Shirt (ID 2)',
@@ -2338,7 +2338,7 @@ window.onload = function () {
 		517: 'Glow Ring',
 		519: 'Magnet Ring',
 	};
-	
+
 	// Show input field immediately
 	$(document.getElementById('input-container')).show();
 
@@ -2367,7 +2367,7 @@ window.onload = function () {
 		}
 		return 0;
 	}
-	
+
 	function wikify(item, page) {
 		// removing egg colors & quantity amounts; changing spaces to underscores
 		if (typeof(item) == "undefined") { return "undefined"; }
@@ -2378,7 +2378,7 @@ window.onload = function () {
 		return (page) ? ('<a href="http://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>') :
 					('<a href="http://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
 	}
-	
+
 	function handleBigInt(big) {
 		// Convert given value into an integer that JS can handle using the BigInteger library.
 		// This is needed because of the use of UniqueMultiplayerIDs in some rng seeding
@@ -2430,7 +2430,7 @@ window.onload = function () {
 					save.version = "1.3";
 				}
 			}
-			
+
 			output += '<span class="result">Save is from version ' + save.version + '</span><br />\n';
 			if (compareSemVer(save.version, "1.3") >= 0) {
 				$('#cart-title').html('Traveling Merchant Cart and Night Market Boat');
@@ -2563,7 +2563,7 @@ window.onload = function () {
 			if ($(xmlDoc).find('player > hasSpecialCharm').text() === "true") {
 				save.hasSpecialCharm = true;
 			}
-			
+
 			// Let's try to build a list of NPCs. This sorta follows the logic of Utility.getAllCharacters() and we
 			//  also need to filter out monsterss and such now since the later logic that follows CanVisitIslandToday() will
 			//  not have access to those fields. Reusing some code from Stardew Checkup to do this.
@@ -2596,7 +2596,7 @@ window.onload = function () {
 					var status = $(this).find('value > Friendship > Status').html();
 					if (status !== 'Unmet') {
 						includeKrobus = true;
-					}					
+					}
 				}
 			});
 			save.characters = [];
@@ -2627,7 +2627,7 @@ window.onload = function () {
 					});
 				});
 			});
-			
+
 		} else if ($.QueryString.hasOwnProperty("id")) {
 			save.gameID = handleBigInt($.QueryString.id);
 			save.daysPlayed = 1;
@@ -2652,10 +2652,10 @@ window.onload = function () {
 
 		if (save.dayAdjust !== 0) {
 			output += '<span class="result">Day adjustment found in URL; will offset days played by ' + save.dayAdjust + '</span><br />\n';
-		}			
+		}
 		return output;
 	}
-	
+
 	function buttonHandler(button) {
 		var tab = button.id.split('-')[0];
 		if (typeof(button.value) === 'undefined' || button.value === 'reset') {
@@ -2772,7 +2772,7 @@ window.onload = function () {
 						// Monster infestation seems to override mushroom spawns so that is checked first
 						rng = new CSRandom(day + save.dayAdjust + mineLevel*100 + save.gameID / 2);
 						if (rng.NextDouble() < 0.044 && mineLevel % 40 > 5 && mineLevel % 40 < 30 && mineLevel % 40 !== 19) {
-							
+
 							if (rng.NextDouble() < 0.5) {
 								infestedMonster.push(mineLevel);
 							} else {
@@ -2833,7 +2833,7 @@ window.onload = function () {
 					mushroomText = '<span class="none">' + mushroomText + 'None</span>';
 				} else {
 					if (rainbowLights.length > 5) {
-						mushroomText = '<span data-tooltip="All results: ' + rainbowLights + '">' + mushroomText + 
+						mushroomText = '<span data-tooltip="All results: ' + rainbowLights + '">' + mushroomText +
 							rainbowLights.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						mushroomText += rainbowLights.join(',&nbsp;');
@@ -2844,7 +2844,7 @@ window.onload = function () {
 					infestedText = '<span class="none">' + infestedText + 'None</span>';
 				} else {
 					if (infestedMonster.length > 5) {
-						infestedText = '<span data-tooltip="All results: ' + infestedMonster + '">' + infestedText + 
+						infestedText = '<span data-tooltip="All results: ' + infestedMonster + '">' + infestedText +
 							infestedMonster.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						infestedText += infestedMonster.join(',&nbsp;');
@@ -2855,7 +2855,7 @@ window.onload = function () {
 					slimeText = '<span class="none">' + slimeText + 'None</span>';
 				} else {
 					if (infestedSlime.length > 5) {
-						slimeText = '<span data-tooltip="All results: ' + infestedSlime + '">' + slimeText + 
+						slimeText = '<span data-tooltip="All results: ' + infestedSlime + '">' + slimeText +
 							infestedSlime.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						slimeText += infestedSlime.join(',&nbsp;');
@@ -2866,7 +2866,7 @@ window.onload = function () {
 					quarryText = '<span class="none">' + quarryText + 'None</span>';
 				} else {
 					if (quarryLevel.length > 5) {
-						quarryText = '<span data-tooltip="All results: ' + quarryLevel + '">' + quarryText + 
+						quarryText = '<span data-tooltip="All results: ' + quarryLevel + '">' + quarryText +
 							quarryLevel.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						quarryText += quarryLevel.join(',&nbsp;');
@@ -2877,7 +2877,7 @@ window.onload = function () {
 					dinoText = '<span class="none">' + dinoText + 'None</span>';
 				} else {
 					if (dinoLevel.length > 5) {
-						dinoText = '<span data-tooltip="All results (level 1-500): ' + dinoLevel + '">' + dinoText + 
+						dinoText = '<span data-tooltip="All results (level 1-500): ' + dinoLevel + '">' + dinoText +
 							dinoLevel.slice(0,4).join(',&nbsp;') + ',...</span>';
 					} else {
 						dinoText += dinoLevel.join(',&nbsp;');
@@ -2885,8 +2885,8 @@ window.onload = function () {
 				}
 				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br />' +
 					'<span class="cell">' + mushroomText +
-					'<br />' + infestedText + 
-					'<br />' + slimeText + 
+					'<br />' + infestedText +
+					'<br />' + slimeText +
 					'<br />' + quarryText +
 					'<hr />' + dinoText + '</span></td>';
 			}
@@ -2936,7 +2936,7 @@ window.onload = function () {
 		}
 		return possibleItems[rng.Next(possibleItems.length)];
 	}
-	
+
 	function predictTrash(isSearch, offset) {
 		// ref StardewValley.Locations.Town.checkAction()
 		var output = "",
@@ -2981,10 +2981,10 @@ window.onload = function () {
 		output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
 		output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
 		// When checking for mega, the game code does the following check: else if (mega || garbageRandom.NextDouble() < 0.2 + who.DailyLuck)
-		// Since luck in the vanilla game ranges between +/- .1, we are going to assume a roll below 0.1 is also guaranteed. 
+		// Since luck in the vanilla game ranges between +/- .1, we are going to assume a roll below 0.1 is also guaranteed.
 		// We can bump this by .025 if the player has the special charm.
 		luckCheck = (save.hasSpecialCharm) ? 0.125 : 0.1;
-		
+
 		for (week = 0; week < 4; week++) {
 			output += "<tr>";
 			for (weekDay = 1; weekDay < 8; weekDay++) {
@@ -3178,7 +3178,7 @@ window.onload = function () {
 	}
 
 	function getCartItem(rng, seenItems) {
-		/* Helper function for cart prediction that rolls the itemID, price, and quantity and 
+		/* Helper function for cart prediction that rolls the itemID, price, and quantity and
 		 * (depending on version) makes sure this item does not duplicate something already seen.
 		 * To save on the processing done by this script, the valid item lists were pre-calculated
 		 * and listed as save.cartItems and save.cartItems_1_4; so this function doesn't necessarily
@@ -3358,14 +3358,14 @@ window.onload = function () {
 				$('#cart-prev-week').prop("disabled", true);
 			} else {
 				$('#cart-prev-week').prop("disabled", false);
-			}			
+			}
 			if (offset < 112) {
 				$('#cart-prev-year').prop("disabled", true);
 			} else {
 				$('#cart-prev-year').prop("disabled", false);
-			}			
+			}
 			$('#cart-reset').val('reset');
-			$('#cart-reset').html("Reset Browsing");			
+			$('#cart-reset').html("Reset Browsing");
 			$('#cart-next-week').prop("disabled", false);
 			$('#cart-next-year').prop("disabled", false);
 			// Reset search fields too
@@ -3521,7 +3521,7 @@ window.onload = function () {
 		}
 		return output;
 	}
-	
+
 	function predictKrobus(isSearch, offset) {
 		// logic from StardewValley.Locations.Sewer.getShadowShopStock()
 		var output = '',
@@ -3604,14 +3604,14 @@ window.onload = function () {
 				$('#krobus-prev-week').prop("disabled", true);
 			} else {
 				$('#krobus-prev-week').prop("disabled", false);
-			}			
+			}
 			if (offset < 112) {
 				$('#krobus-prev-year').prop("disabled", true);
 			} else {
 				$('#krobus-prev-year').prop("disabled", false);
-			}			
+			}
 			$('#krobus-reset').val('reset');
-			$('#krobus-reset').html("Reset Browsing");			
+			$('#krobus-reset').html("Reset Browsing");
 			$('#krobus-next-week').prop("disabled", false);
 			$('#krobus-next-year').prop("disabled", false);
 			// Reset search fields too
@@ -3720,14 +3720,14 @@ window.onload = function () {
 				$('#sandy-prev-week').prop("disabled", true);
 			} else {
 				$('#sandy-prev-week').prop("disabled", false);
-			}			
+			}
 			if (offset < 112) {
 				$('#sandy-prev-year').prop("disabled", true);
 			} else {
 				$('#sandy-prev-year').prop("disabled", false);
-			}			
+			}
 			$('#sandy-reset').val('reset');
-			$('#sandy-reset').html("Reset Browsing");			
+			$('#sandy-reset').html("Reset Browsing");
 			$('#sandy-next-week').prop("disabled", false);
 			$('#sandy-next-year').prop("disabled", false);
 			// Reset search fields too
@@ -3757,7 +3757,7 @@ window.onload = function () {
 				}
 				output += '<tr><td class="' + tclass + '">' + save.dayNames[(day - 1) % 7] + '<br />' +
 					monthName + ' ' + ((day - 1) % 28 + 1) +', Year ' + year + '</td>' +
-					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (thisRoll - 999) + '"></td>' +  
+					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (thisRoll - 999) + '"></td>' +
 					'<td class="' + tclass + ' shirt-name">' + item + '</td></tr>';
 			}
 			output += '</tbody></table>\n';
@@ -3808,13 +3808,13 @@ window.onload = function () {
 			searchTerm = new RegExp(offset, "i");
 			searchStart = Math.max(1, ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0]);
 			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
-			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) + 
+			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) +
 				'">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#geode-search-all').prop('checked')) ? 'first ' : 'next ') + $('#geode-search-range').val() + ' geodes</th></tr>\n';
 			output += '<tr><th class="item">Item</th>' +
 				'<th class="geode-result">Geode <a href="https://stardewvalleywiki.com/Geode">' +
 				'<img src="blank.png" class="icon" id="geode_r"></a></th>' +
-				'<th class="geode-result">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode">' + 
+				'<th class="geode-result">Frozen Geode <a href="https://stardewvalleywiki.com/Frozen_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_f"></a></th>' +
 				'<th class="geode-result">Magma Geode <a href="https://stardewvalleywiki.com/Magma_Geode">' +
 				'<img src="blank.png" class="icon" id="geode_m"></a></th>' +
@@ -3873,10 +3873,10 @@ window.onload = function () {
 						couldBeHat = (c < 0.05);
 						roll = Math.floor(c*save.geodeContents[791].length);
 						qty = (roll === 2 || roll == 3 || roll == 6) ? 5 : 1;
-						
+
 						item.push(save.minerals[save.geodeContents[791][roll]]);
 						itemQty.push(qty);
-					}					
+					}
 				}
 				if (rng.NextDouble() < 0.5) {
 					qty = rng.Next(3)*2 + 1;
@@ -4102,7 +4102,7 @@ window.onload = function () {
 						couldBeHat = (c < 0.05);
 						roll = Math.floor(rngTrove.NextDouble()*save.geodeContents[791].length);
 						qty = (roll === 2 || roll == 3 || roll == 6) ? 5 : 1;
-						
+
 						item.push(save.minerals[save.geodeContents[791][roll]]);
 						itemQty.push(qty);
 					}
@@ -4264,7 +4264,7 @@ window.onload = function () {
 			min,
 			ampm,
 			rng;
-			
+
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#train-prev').prop("disabled", true);
 			$('#train-next').prop("disabled", true);
@@ -4340,9 +4340,9 @@ window.onload = function () {
 
 		return output;
 	};
-	
+
 	function predictNight(isSearch, offset) {
-		// logic from StardewValley.Utility.<>c.<pickFarmEvent>b__146_0()
+		// logic from StardewValley.Utility.pickFarmEvent()
 		var output = '',
 			thisEvent,
 			day,
@@ -4353,7 +4353,7 @@ window.onload = function () {
 			year,
 			tclass,
 			rng;
-			
+
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#night-prev').prop("disabled", true);
 			$('#night-next').prop("disabled", true);
@@ -4386,7 +4386,7 @@ window.onload = function () {
 				output += "<tr>";
 				for (weekDay = 1; weekDay < 8; weekDay++) {
 					day = 7 * week + weekDay + offset;
-					// The event is actually rolled in the morning at 6am, but from a user standpoint it makes more since
+					// The event is actually rolled in the morning at 6am, but from a user standpoint it makes more sense
 					// to think of it occuring during the previous night. We will offset the day by 1 because of this.
 					rng = new CSRandom(save.gameID / 2 + day + 1 + save.dayAdjust);
 					if (day + save.dayAdjust === 30) {
@@ -4399,14 +4399,33 @@ window.onload = function () {
 						thisEvent = '<img src="blank.png" class="event" id="event_w"><br />Witch';
 					} else if (rng.NextDouble() < 0.01) {
 						thisEvent = '<img src="blank.png" class="event" id="event_m"><br />Meteor';
-					} else if (rng.NextDouble() < 0.01 && year > 1) {
-						thisEvent = '<img src="blank.png" class="event" id="event_c"><br />Strange Capsule';
-					} else if (rng.NextDouble() < 0.01) {
-						thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
 					} else {
-						thisEvent = '<span class="none">&nbsp;<br />(No event)<br />&nbsp</span>';
+						if (compareSemVer(save.version, "1.5") < 0) {
+							if (rng.NextDouble() < 0.01 && year > 1) {
+								thisEvent = '<img src="blank.png" class="event" id="event_c"><br />Strange Capsule';
+							} else if (rng.NextDouble() < 0.01) {
+								thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
+							} else {
+								thisEvent = '<span class="none">&nbsp;<br />(No event)<br />&nbsp</span>';
+							}
+						} else if (compareSemVer(save.version, "1.5.3") < 0) {
+							if (rng.NextDouble() < 0.008 && year > 1) {
+								thisEvent = '<img src="blank.png" class="event" id="event_c"><br />Strange Capsule';
+							} else if (rng.NextDouble() < 0.008) {
+								thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
+							} else {
+								thisEvent = '<span class="none">&nbsp;<br />(No event)<br />&nbsp</span>';
+							}
+						} else {
+							if (rng.NextDouble() < 0.005) {
+								thisEvent = '<img src="blank.png" class="event" id="event_o"><br />Stone Owl';
+							} else if (rng.NextDouble() < 0.008 && year > 1) {
+								thisEvent = '<img src="blank.png" class="event" id="event_c"><br />Strange Capsule';
+							} else {
+								thisEvent = '<span class="none">&nbsp;<br />(No event)<br />&nbsp</span>';
+							}
+						}
 					}
-
 					if (day < save.daysPlayed) {
 						tclass = "past";
 					} else if (day === save.daysPlayed) {
@@ -4436,7 +4455,7 @@ window.onload = function () {
 			year,
 			tclass,
 			rng;
-			
+
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#crane-prev').prop("disabled", true);
 			$('#crane-next').prop("disabled", true);
@@ -4554,7 +4573,7 @@ window.onload = function () {
 					case 92: festival = "Ice Festival"; break;
 					case 109: festival = "Winter Star"; break;
 				}
-				
+
 				if (festival !== '') {
 					thisEvent = '<span class="none">Closed for<br />' + festival + '</span>';
 				} else {
@@ -4666,7 +4685,7 @@ window.onload = function () {
 							}
 						}
 					}
-						
+
 					thisEvent = visitors.join(',<br />');
 				}
 
@@ -4733,13 +4752,13 @@ window.onload = function () {
 			searchTerm = new RegExp(offset, "i");
 			searchStart = Math.max(1, ($('#enchant-search-all').prop('checked')) ? 1 : save.timesEnchanted[0]);
 			searchEnd = parseInt($('#enchant-search-range').val()) + searchStart;
-			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) + 
+			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) +
 				'">Search results for &quot;' + offset + '&quot; over the ' +
 				(($('#enchant-search-all').prop('checked')) ? 'first ' : 'next ') + $('#enchant-search-range').val() + ' enchants</th></tr>\n';
 			output += '<tr><th class="item">Enchantment</th>' +
 				'<th class="enchant-result">Weapon <a href="https://stardewvalleywiki.com/Weapons">' +
 				'<img src="blank.png" class="icon" id="enchant_w"></a></th>' +
-				'<th class="enchant-result">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' + 
+				'<th class="enchant-result">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' +
 				'<img src="blank.png" class="icon" id="enchant_p"></a></th>' +
 				'<th class="enchant-result">Axe <a href="https://stardewvalleywiki.com/Axes">' +
 				'<img src="blank.png" class="icon" id="enchant_a"></a></th>' +
@@ -4787,7 +4806,7 @@ window.onload = function () {
 			output += '<table class="output"><thead><tr><th class="index">Num Ench.</th>' +
 				'<th class="enchant-result item">Weapon <a href="https://stardewvalleywiki.com/Weapons">' +
 				'<img src="blank.png" class="icon" id="enchant_w"></a></th>' +
-				'<th class="enchant-result item">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' + 
+				'<th class="enchant-result item">Pickaxe <a href="https://stardewvalleywiki.com/Pickaxes">' +
 				'<img src="blank.png" class="icon" id="enchant_p"></a></th>' +
 				'<th class="enchant-result item">Axe <a href="https://stardewvalleywiki.com/Axes">' +
 				'<img src="blank.png" class="icon" id="enchant_a"></a></th>' +
@@ -4802,7 +4821,7 @@ window.onload = function () {
 				timesEnchanted = offset + g;
 				item = ['', '', '', '', ''];
 				rng = new CSRandom(timesEnchanted + save.gameID -1);
-				
+
 				randRoll = rng.NextDouble();
 				for (c = 0; c < numColumns; c++) {
 					roll = Math.floor(randRoll*validEnchants[c].length);
@@ -4860,7 +4879,7 @@ window.onload = function () {
 			};
 
 		output += '<table class="output"><thead><tr><th>Floor</th><th>Item in Chest</th></tr>';
-		
+
 		for (floor = 10; floor < 121; floor += 10) {
 			// From StardewValley.Locations.MineShaft.GetReplacementChestItem()
 			rng = new CSRandom(handleBigInt(save.gameID * 512 + floor));
@@ -4868,13 +4887,13 @@ window.onload = function () {
 			if (floor !== 30) {
 				item = wikify(item);
 			}
-			
+
 			output += '<tr><td>' + floor + '</td><td>' + item + '</tr></tr>';
 		}
 		output += "</tbody></table>\n";
 		return output;
 	}
-	
+
 	function predictGemBirds(isSearch, offset) {
 		var output = "",
 			// StardewValley.IslandGemBird.GemBirdType
@@ -4891,7 +4910,7 @@ window.onload = function () {
 		} else {
 			$('#gembirds-note').html('');
 		}
-		
+
 		output += '<table class="output"><thead><tr><th colspan>Direction (Location)</th><th>Bird Type</th></tr>';
 		// StardewValley.IslandGemBird.GetBirdTypeForLocation() and StardewValley.Utility.Shuffle()
 		rng = new CSRandom(save.gameID);
@@ -4902,7 +4921,7 @@ window.onload = function () {
 			birds[i] = birds[j];
 			birds[j] = temp;
 		}
-		
+
 		for (i = 0; i < locs.length; i++) {
 			output += '<tr><td>' + locs[i] + "</td><td>" + birds[i] + " (" + wikify(gems[birds[i]])+ ")</td></tr>";
 		}
@@ -4964,7 +4983,7 @@ window.onload = function () {
 			forceOldLogic = true;
 			$('#winterstar-note').html('Note: No players found; predictions will not be reliable for game version > 1.2');
 		}
-		
+
 		output += '<table class="output"><thead><tr><th colspan = "4">Year ' + year + '</th></tr>';
 		output += '<tr><th>Player</th><th>Player gives gift to</th><th>Player receives gift from</th><th class="long_list">Possible gifts received</th></tr></thead>\n<tbody>';
 		for (player = 0; player < numPlayers; player++) {
@@ -5104,7 +5123,7 @@ window.onload = function () {
 			$(t).html("Hide");
 		}
 	}
-	
+
 	document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
 	initializeHandlers();
 	$('.collapsible').each(function() {
