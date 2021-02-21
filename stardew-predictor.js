@@ -2380,9 +2380,10 @@ window.onload = function () {
 	}
 
 	function handleBigInt(big) {
-		// Convert given value into an integer that JS can handle using the BigInteger library.
+		// Convert given value into an integer that JS can handle. The |0 trick forces this to be
+		// a 32bit integer, which replicaes the casting behaviour of the CS code.
 		// This is needed because of the use of UniqueMultiplayerIDs in some rng seeding
-		return parseInt(bigInt(big).and(0xffffffff));
+		return parseInt(big|0);
 	}
 
 	function parseSummary(xmlDoc) {
