@@ -4715,6 +4715,8 @@ window.onload = function () {
 			g,
 			c,
 			e,
+			f,
+			enchants,
 			next,
 			tclass,
 			searchTerm,
@@ -4724,21 +4726,19 @@ window.onload = function () {
 			count,
 			pageSize = 20,
 			bigPageSize = 100,
-			numColumns = 6,
-			labels = ['Weapon', 'Pickaxe', 'Axe', 'Hoe', 'Watering Can', 'Fishing Rod'],
 			validEnchants = [
-				['Artful', 'Bug Killer', 'Vampiric', 'Crusader', 'Haymaker'],
-				['Powerful', 'Efficient', 'Swift'],
-				['Powerful', 'Shaving', 'Efficient', 'Swift'],
-				['Reaching', 'Generous', 'Archaeologist', 'Efficient', 'Swift'],
-				['Reaching', 'Bottomless', 'Efficient'],
-				['Master', 'Auto Hook', 'Preserving', 'Efficient'],
+				{label: 'Weapon', enchants: ['Artful', 'Bug Killer', 'Vampiric', 'Crusader', 'Haymaker']},
+				{label: 'Pickaxe', enchants: ['Powerful', 'Efficient', 'Swift']},
+				{label: 'Axe', enchants: ['Powerful', 'Shaving', 'Efficient', 'Swift']},
+				{label: 'Hoe', enchants: ['Reaching', 'Generous', 'Archaeologist', 'Efficient', 'Swift']},
+				{label: 'Watering Can', enchants: ['Reaching', 'Bottomless', 'Efficient']},
+				{label: 'Fishing Rod', enchants: ['Master', 'Auto Hook', 'Preserving', 'Efficient']},
 			],
+			numColumns = validEnchants.length,
 			roll,
 			randRoll,
 			tooltip,
 			result,
-			result2,
 			rng;
 
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
@@ -4819,26 +4819,51 @@ window.onload = function () {
 			output += '</tr>\n<tbody>';
 			for (g = 1; g <= pageSize; g++) {
 				timesEnchanted = offset + g;
-				item = ['', '', '', '', ''];
+				item = [];
 				rng = new CSRandom(timesEnchanted + save.gameID -1);
 
 				randRoll = rng.NextDouble();
 				for (c = 0; c < numColumns; c++) {
-					roll = Math.floor(randRoll*validEnchants[c].length);
-					result = validEnchants[c][roll];
-					item[c] = wikify(result);
-					tooltip = labels[c] + " enchant (" + g + ")\n\nNone &#x2192; " + result + "\n";
-					roll = Math.floor(randRoll*(validEnchants[c].length-1));
-					var haveBoth = false;
-					for (e = 0; e < validEnchants[c].length; e++) {
-						result2 = (e <= roll ? result2 = validEnchants[c][roll + 1] : result2 = validEnchants[c][roll]);
-						if (!haveBoth && result !== result2) {
-							item[c] += " or " + wikify(result2);
-							haveBoth = true;
-						}
-						tooltip += validEnchants[c][e] + " &#x2192; " + result2 + "\n";
+					enchants = [];
+					
+					//First
+					roll = Math.floor(randRoll*validEnchants[c].enchants.length);
+					if(roll == undefined){
+						console.log(roll);
 					}
-					item[c] += ' <span class="note" data-tooltip="' + tooltip + '">(...)</span>';
+					result = validEnchants[c].enchants[roll];
+					enchants.push(result);
+					tooltip = validEnchants[c].label + " enchant (" + g + ")\n\nNone &#x2192; " + result + "\n\n 2nd Enchant\n";
+					
+					//Second
+					roll = Math.floor(randRoll*(validEnchants[c].enchants.length-1));
+					if(roll == undefined){
+						console.log(roll);
+					}
+					for (e = 0; e < validEnchants[c].enchants.length; e++) {
+						result = validEnchants[c].enchants[(roll < e ? roll : roll + 1)];
+						if (enchants.indexOf(result) === -1) {
+							enchants.push(result);
+						}
+						tooltip += validEnchants[c].enchants[e] + " &#x2192; " + result + "\n";
+					}
+					
+					//Third
+					roll = Math.floor(randRoll*(validEnchants[c].enchants.length-2));
+					if(roll == undefined){
+						console.log(roll);
+					}
+					tooltip += "\n 3rd enchant \n";
+					for (e = 0; e < validEnchants[c].enchants.length; e++) {
+						for (f = e + 1; f < validEnchants[c].enchants.length; f++) {
+							result = validEnchants[c].enchants[(roll < e ? roll : (roll + 1 < f ? roll + 1 : roll + 2))];
+							if (enchants.indexOf(result) === -1) {
+								enchants.push(result);
+							}
+							tooltip += validEnchants[c].enchants[e] + ' & ' + validEnchants[c].enchants[f] + " &#x2192; " + result + "\n";
+						}
+					}
+					item[c] = enchants.map(wikify).join(' or ') + ' <span class="note" data-tooltip="' + tooltip + '">(...)</span>';
 				}
 				if (timesEnchanted === save.timesEnchanted[0] + 1) {
 					tclass = "current";
