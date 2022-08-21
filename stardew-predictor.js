@@ -4863,7 +4863,7 @@ window.onload = function () {
 							tooltip += validEnchants[c].enchants[e] + ' & ' + validEnchants[c].enchants[f] + " &#x2192; " + result + "\n";
 						}
 					}
-					item[c] = enchants.map(wikify).join(' or ') + ' <span class="note" data-tooltip="' + tooltip + '">(...)</span>';
+					item[c] = enchants.map(function(e){return wikify(e);}).join(' or ') + ' <span class="note" data-tooltip="' + tooltip + '">(...)</span>';
 				}
 				if (timesEnchanted === save.timesEnchanted[0] + 1) {
 					tclass = "current";
