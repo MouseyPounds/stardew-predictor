@@ -62,7 +62,7 @@ img.fl {
 	background-image:url("./walls_and_floors.png")
 }
 END_PRINT
-for (my $i = 0; $i < 40; $i++) {
+for (my $i = 0; $i < 56; $i++) {
 	use integer;
 	
 	my $x = 0 - ($tile_width * ($i % ($image_width/$tile_width)));

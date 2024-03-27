@@ -49,10 +49,14 @@ h3 {
 .path {
 	font-family: monospace;
 }
+.code {
+	font-family: monospace;
+	font-weight: bold;
+}
 #footer {
 	text-align: center;
 }
-.ach,.warn,.note {
+.ach,.warn,.note,.book {
 	font-style: italic;
 }
 .pts, .strong {
@@ -170,7 +174,16 @@ h3 {
 .tabset > input:nth-child(21):checked ~ .tab-panels > .tab-panel:nth-child(11),
 .tabset > input:nth-child(23):checked ~ .tab-panels > .tab-panel:nth-child(12),
 .tabset > input:nth-child(25):checked ~ .tab-panels > .tab-panel:nth-child(13),
-.tabset > input:nth-child(27):checked ~ .tab-panels > .tab-panel:nth-child(14) {
+.tabset > input:nth-child(27):checked ~ .tab-panels > .tab-panel:nth-child(14),
+.tabset > input:nth-child(29):checked ~ .tab-panels > .tab-panel:nth-child(15),
+.tabset > input:nth-child(31):checked ~ .tab-panels > .tab-panel:nth-child(16),
+.tabset > input:nth-child(33):checked ~ .tab-panels > .tab-panel:nth-child(17),
+.tabset > input:nth-child(35):checked ~ .tab-panels > .tab-panel:nth-child(18),
+.tabset > input:nth-child(37):checked ~ .tab-panels > .tab-panel:nth-child(19),
+.tabset > input:nth-child(39):checked ~ .tab-panels > .tab-panel:nth-child(20),
+.tabset > input:nth-child(41):checked ~ .tab-panels > .tab-panel:nth-child(21),
+.tabset > input:nth-child(43):checked ~ .tab-panels > .tab-panel:nth-child(22)
+{
     display: block;
 }
 .tabset > label {
@@ -232,6 +245,15 @@ table.output th, table.output td {
 	min-width: 8.5em;
 	white-space: nowrap;
 }
+td.compact {
+	font-size: 90%;
+}
+.summary td {
+	border: none;
+	text-align: left;
+	color: #603000;
+	vertical-align: top;
+}
 tr.past > td, td.past, td.count {
 	background-color: #ccc;
 	color: #333;
@@ -247,6 +269,20 @@ tr.current > td, td.current {
 	text-align: right;
 	padding: 0 3px 0 0;
 	width: 1.25em;
+}
+.wind {
+	display: inline-block;
+	text-align: right;
+	vertical-align: top;
+	padding: 0 3px 3px 0;
+	width: 6.5em;
+}
+.middle > * {
+	vertical-align: middle;
+}
+.swatch {
+	display: inline-block;
+	border: 1px solid black;
 }
 td hr {
 	border-style: dashed;
@@ -291,8 +327,11 @@ th.price {
 th.index {
 	width: 2em;
 }
-th.geode-result, th.wp-result {
+th.geode-result {
 	width: 8em;
+}
+th.wp-result {
+	width: 10.5em;
 }
 th.long_list {
 	width: 36em;
@@ -336,11 +375,29 @@ img.event {
 	height: 32px;
 	background-image:url("./all_icons.png")
 }
+img.mid {
+/*	vertical-align: -1px;*/
+	width: 16px;
+	height: 24px;
+	background-image:url("./all_icons.png")
+}
 img.tall {
 	vertical-align: -1px;
 	width: 16px;
 	height: 32px;
 	background-image:url("./all_icons.png")
+}
+img.season {
+	border: 1px solid black;
+	width: 12px;
+	height: 8px;
+	background-image:url("./all_icons.png")
+}
+img.dark {
+  filter: drop-shadow(1px 0 0 #888) 
+          drop-shadow(-1px 0 0 #888)
+          drop-shadow(0 1px 0 #888)
+          drop-shadow(0 -1px 0 #888);
 }
 img#train {
     background-position: 0px 0px;
@@ -369,6 +426,9 @@ img#event_w {
 img#movie_gs {
 	background-position: 0px -64px;
 	height: 32px;
+}
+img#stump {
+	background-position: -16px -64px;
 }
 img#geode_r {
     background-position: 0px -96px;
@@ -436,6 +496,46 @@ img#enchant_c {
 img#enchant_f {
     background-position: -80px -128px;
 }
+img#enchant_n {
+    background-position: -96px -128px;
+}
+img#mbox_b {
+    background-position: -0px -144px;
+}
+img#mbox_g {
+    background-position: -16px -144px;
+}
+img#w_sun {
+    background-position: -32px -144px;
+}
+img#w_rain {
+    background-position: -48px -144px;
+}
+img#bless_d1 {
+    background-position: -64px -144px;
+}
+img#bless_d2 {
+    background-position: -80px -144px;
+}
+img#bless_r {
+    background-position: -96px -144px;
+}
+img#bless_nr {
+    background-position: -112px -144px;
+}
+img#sea_0 {
+    background-position: -32px -64px;
+}
+img#sea_1 {
+    background-position: -32px -72px;
+}
+img#sea_2 {
+    background-position: -32px -80px;
+}
+img#sea_3 {
+    background-position: -32px -88px;
+}
+
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
    http://jsfiddle.net/AndreaLigios/jtLbpy62/

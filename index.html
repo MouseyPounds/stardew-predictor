@@ -15,13 +15,15 @@
 <link rel="stylesheet" type="text/css" href="./stardew-predictor.css" />
 <link rel="stylesheet" type="text/css" href="./wallpaper.css" />
 <link rel="stylesheet" type="text/css" href="./shirt.css" />
+<link rel="stylesheet" type="text/css" href="./cactis.css" />
 <link rel="icon" type="image/png" href="./favicon_p.png" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=4.0.4"></script>
+<script src="./stardew-predictor.js?v=5.0.0"></script>
 <script src="./BigInteger.min.js"></script>
+<script src="./xxhash.min.js"></script>
 
 </head>
 <body>
@@ -36,10 +38,11 @@
 <h2 id="sec_about">About</h2>
 <p>This app simulates the random number generator used in <a href="http://stardewvalley.net/">Stardew Valley</a> and makes "predictions" about 
 the game after reading the save file. The information predicted includes special mine levels 
-(e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.</p>
-<p>Most changed &amp; added content from version 1.5 is supported. <span class="strong note">While the app tries to detect the version in the save and use
+(e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.
+A useful companion tool is <a href="https://www.nexusmods.com/stardewvalley/mods/6614">BlaDe's Map Predictor</a> which handles things such as artifact digging, giant crops, and mine ladders.</p>
+<p>Most changed &amp; added content from version 1.6 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
-<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
+<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, <a href="https://github.com/pierrec/js-xxhash">JS xxHash</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
 Please report any bugs, suggestions, or other feedback to <a href="https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/">the topic in the Chucklefish forums.</a></p>
 </div>
 
@@ -50,7 +53,49 @@ Please report any bugs, suggestions, or other feedback to <a href="https://commu
 <p>Default save file locations are:
 <ul><li>Windows: <span class="path">%AppData%\StardewValley\Saves\</span></li>
 <li>Mac OSX &amp; Linux: <span class="path">~/.config/StardewValley/Saves/</span></li>
+<li>Proton Steam (Ubuntu): <span class="path">~/.steam/debian-installation/steamapps/compatdata/413150/pfx/drive_c/users/steamuser/AppData/Roaming/StardewValley/Saves/</span></li>
 </ul>
+
+<h3 id="advanced_usage">Advanced Usage</h3>
+<div id="advanced_param" class="collapsible">
+<p>The vast majority of players will just load their save above and not worry about anything else. However occasionally someone may want to check out certain game seeds and/or override some of the values in their save. This is done by adding URL parameters which are explained below.</p>
+<button id="advanced_toggle" type="button">Show</button>
+<div class="initial_hide">
+<p>Valid URL parameters are listed below; each can be set via either a descriptive long name or a short abbreviation (neither of which are case-sensitive.) As an example, if one wanted to run Predictor with a game seed of <span class="code">42069</span>, set the days played to <span class="code">250</span>, and mark the desert as unlocked they could use the following URL:<br/><span class="code" id="advanced_example">?id=42069&amp;dp=250&amp;desertunlocked=1</span>
+<p>The URL for the current prediction with all non-default parameters set (useful for sharing) is:<br/><span class="code" id="share_URL">(N/A)</span>
+<table class="output"><tr><th>Long Name</th><th>Abbreviation</th><th>Type</th><th>Description</th></tr>
+<tr><td class="code">version</td><td class="code">v</td><td>Semver identifier<br/>e.g. <span class="code">1.6.0</span></td><td class="long_list">Sets what Stardew version to use for predictions</td></tr>
+<tr><td class="code">gameID</td><td class="code">id</td><td>Integer</td><td class="long_list">Sets the game seed</td></tr>
+<tr><td class="code">daysPlayed</td><td class="code">dp</td><td>Integer</td><td class="long_list">Sets days played which changes where calendar views start</td></tr>
+<tr><td class="code">dayAdjust</td><td class="code">da</td><td>Integer</td><td class="long_list">Offsets days played by the given amount to deal with old multiplayer bugs</td></tr>
+<tr><td class="code">dailyLuck</td><td class="code">dl</td><td>Float</td><td class="long_list">Sets daily luck for garbage checks; will be forced into range [-0.1, 0.1]</td></tr>
+<tr><td class="code">geodesCracked</td><td class="code">gc</td><td>Integer</td><td class="long_list">Sets number of geodes cracked by the host</td></tr>
+<tr><td class="code">mysteryBoxesOpened</td><td class="code">mb</td><td>Integer</td><td class="long_list">Sets number of mystery boxes opened by the host</td></tr>
+<tr><td class="code">ticketPrizesClaimed</td><td class="code">pt</td><td>Integer</td><td class="long_list">Sets number of prize ticket rewards claimed by the host</td></tr>
+<tr><td class="code">timesEnchanted</td><td class="code">te</td><td>Integer</td><td class="long_list">Sets number of times enchanted by the host</td></tr>
+<tr><td class="code">trashCansChecked</td><td class="code">tc</td><td>Integer</td><td class="long_list">Sets number of trash cans checked by the host</td></tr>
+<tr><td class="code">timesFedRaccoons</td><td class="code">tfr</td><td>Integer</td><td class="long_list">Sets number of times the raccoons have been helped</td></tr>
+<tr><td class="code">deepestMineLevel</td><td class="code">dml</td><td>Integer</td><td class="long_list">Sets deepest mine level (will max at 120)</td></tr>
+<tr><td class="code">visitsUntilY1Guarantee</td><td class="code">vg</td><td>Integer</td><td class="long_list">Sets the countdown for guaranteed red cabbage seed at cart;<br/>use -1 to disable and -99 to reroll</td></tr>
+<tr><td class="code">canHaveChildren</td><td class="code">chc</td><td>1 for true, 0 for false</td><td class="long_list">Can host/spouse have children (legacy for predicting 1.2 night events)</td></tr>
+<tr><td class="code">quarryUnlocked</td><td class="code">qu</td><td>1 for true, 0 for false</td><td class="long_list">Quarry unlocked and quarry mine visited</td></tr>
+<tr><td class="code">desertUnlocked</td><td class="code">du</td><td>1 for true, 0 for false</td><td class="long_list">Desert unlocked</td></tr>
+<tr><td class="code">greenhouseUnlocked</td><td class="code">gu</td><td>1 for true, 0 for false</td><td class="long_list">Greenhouse unlocked (i.e. repaired)</td></tr>
+<tr><td class="code">ccComplete</td><td class="code">cc</td><td>1 for true, 0 for false</td><td class="long_list">Community Center restored</td></tr>
+<tr><td class="code">jojaComplete</td><td class="code">jc</td><td>1 for true, 0 for false</td><td class="long_list">Joja Community Development complete</td></tr>
+<tr><td class="code">theaterUnlocked</td><td class="code">tu</td><td>1 for true, 0 for false</td><td class="long_list">Theater unlocked (non-Joja version)</td></tr>
+<tr><td class="code">hasFurnaceRecipe</td><td class="code">hfr</td><td>1 for true, 0 for false</td><td class="long_list">Players have furnace recipe</td></tr>
+<tr><td class="code">hasSpecialCharm</td><td class="code">hsc</td><td>1 for true, 0 for false</td><td class="long_list">Players have the special luck charm</td></tr>
+<tr><td class="code">hasGarbageBook</td><td class="code">hgb</td><td>1 for true, 0 for false</td><td class="long_list">Players have read <span class="book">The Alleyway Buffet</span></td></tr>
+<tr><td class="code">gotMysteryBook</td><td class="code">gmb</td><td>1 for true, 0 for false</td><td class="long_list">Players have gotten <span class="book">Book of Mysteries</span> from Mystery Boxes</td></tr>
+<tr><td class="code">leoMoved</td><td class="code">leo</td><td>1 for true, 0 for false</td><td class="long_list">Whether Leo has moved to the Valley</td></tr>
+<tr><td class="code">hardmodeMines</td><td class="code">hm</td><td>1 for true, 0 for false</td><td class="long_list">Mines are set for hard difficulty</td></tr>
+<tr><td class="code">qiCropsActive</td><td class="code">qc</td><td>1 for true, 0 for false</td><td class="long_list">Qi Crops special order is active</td></tr>
+<tr><td class="code">useLegacyRandom</td><td class="code">leg</td><td>1 for true, 0 for false</td><td class="long_list">Save uses Legacy RNG seeding</td></tr>
+</table>
+</div>
+</div>
+
 </div>
 
 <div id="progress-container" class="panel">
@@ -62,84 +107,211 @@ Please report any bugs, suggestions, or other feedback to <a href="https://commu
 <h2 id="sec_results">Results</h2>
 <output id="out-summary"> </output>
 <div id="tabset-div" class="tabset">
-<input type="radio" name="tabset" id="tab-mines" checked>
-<label for="tab-mines">Mines<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-cart" >
-<label for="tab-cart">Traveling<br/>Cart</label>
-<input type="radio" name="tabset" id="tab-krobus" >
-<label for="tab-krobus">Krobus<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-sandy" >
-<label for="tab-sandy">Sandy<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-wallpaper" >
-<label for="tab-wallpaper">Wallpaper<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-geode" >
-<label for="tab-geode">Geodes<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-train" >
-<label for="tab-train">Trains<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-night" >
-<label for="tab-night">Night<br/>Events</label>
-<input type="radio" name="tabset" id="tab-crane" >
+<input type="radio" name="tabset" id="tab-book" checked>
+<label for="tab-book">Bookseller<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-cj" checked>
+<label for="tab-cj">Calico<br/>Jack</label>
+<input type="radio" name="tabset" id="tab-crane" checked>
 <label for="tab-crane">Crane<br/>Game</label>
-<input type="radio" name="tabset" id="tab-trash" >
-<label for="tab-trash">Garbage<br/>Cans</label>
-<!--<input type="radio" name="tabset" id="tab-resort" >
-<label for="tab-resort">Resort<br/>Visitors</label> -->
+<input type="radio" name="tabset" id="tab-makeover" >
+<label for="tab-makeover">Desert<br/>Festival</label>
 <input type="radio" name="tabset" id="tab-enchant" >
 <label for="tab-enchant">Enchants<br/>&nbsp;</label>
-<input type="radio" name="tabset" id="tab-minechest" >
-<label for="tab-minechest">Mine<br/>Chests</label>
+<input type="radio" name="tabset" id="tab-trash" >
+<label for="tab-trash">Garbage<br/>Cans</label>
 <input type="radio" name="tabset" id="tab-gembirds" >
 <label for="tab-gembirds">Gem<br/>Birds</label>
+<input type="radio" name="tabset" id="tab-geode" >
+<label for="tab-geode">Geodes<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-krobus" >
+<label for="tab-krobus">Krobus<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-mines">
+<label for="tab-mines">Mines<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-minechest" >
+<label for="tab-minechest">Mine<br/>Chests</label>
+<input type="radio" name="tabset" id="tab-mystery" >
+<label for="tab-mystery">Mystery<br/>Boxes</label>
+<input type="radio" name="tabset" id="tab-night" >
+<label for="tab-night">Night<br/>Events</label>
+<input type="radio" name="tabset" id="tab-prize" >
+<label for="tab-prize">Prize<br/>Tickets</label>
+<input type="radio" name="tabset" id="tab-raccoon" >
+<label for="tab-raccoon">Raccoon<br/>Bundles</label>
+<!--<input type="radio" name="tabset" id="tab-resort" >
+<label for="tab-resort">Resort<br/>Visitors</label> -->
+<input type="radio" name="tabset" id="tab-sandy" >
+<label for="tab-sandy">Sandy<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-statue" >
+<label for="tab-statue">Statue<br/>Blessings</label>
+<input type="radio" name="tabset" id="tab-train" >
+<label for="tab-train">Trains<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-cart" >
+<label for="tab-cart">Traveling<br/>Cart</label>
+<input type="radio" name="tabset" id="tab-wallpaper" >
+<label for="tab-wallpaper">Wallpaper<br/>&nbsp;</label>
+<input type="radio" name="tabset" id="tab-greenrain" >
+<label for="tab-greenrain">Weather<br/>&nbsp;</label>
 <input type="radio" name="tabset" id="tab-winterstar" >
 <label for="tab-winterstar">Winter<br/>Star</label>
 <div class="tab-panels">
-<section id="sec-mines" class="tab-panel">
-<h3>Special Mine Floors</h3>
-<p class="intro" id="mine-intro">This calendar showss the prediction of various special levels in 
-<a href="https://stardewvalleywiki.com/The_Mines">the Mines</a> and <a href="https://stardewvalleywiki.com/Skull_Cavern">Skull Cavern.</a></p>
-<ul><li>Mushroom levels respawn in version 1.3 and earlier, but starting in 1.4, mushrooms will only appear on your first visit.</li>
-<li>Monster and slime infestations are persistent in all versions and can be revisited multiple times per day.</li>
-<li>Quarry levels were added in 1.4; this is when the level uses the gray quarry mine tileset and spawns grey &amp; brown slimes as well as <a href="https://stardewvalleywiki.com/Haunted_Skull">Haunted Skulls</a>. These can only happen if the quarry itself has been unlocked and will override other types of infestations, so the predictor only calculates them if the save has quarry access.</li>
-<li>Dinosaur levels were also added in 1.4; these have a grassy tileset and are primarily inhabited by <a href="https://stardewvalleywiki.com/Pepper_Rex">Pepper Rex</a>. They can only occur in the Skull Cavern, and the predictor will check up to level 500 for them. Note that this prediction is not 100% accurate because the logic the game uses to determine which map to use for a particular level in the skull cavern uses a different (unpredictable) RNG and certain maps are not allowed to be Dinosaur levels.</li>
-</ul>
-<!-- divs inside of fieldsets because of Chrome bugs with flex display -->
-<fieldset id="mines-buttons"><div class="buttons">
-<button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="mines-prev-month" type="button" class="browse">&lt; Previous Month</button>
-<button id="mines-reset" type="button" class="browse">Reset Calendar</button>
-<button id="mines-next-month" type="button" class="browse">Next Month &gt;</button>
-<button id="mines-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</div></fieldset>
-<output id="out-mines"> </output>
-</section>
-<section id="sec-cart" class="tab-panel">
-<h3 id="cart-title">Traveling Merchant Cart and Night Market Boat</h3>
-<p class="intro" id="cart-intro">Inventory list for the <a href="https://stardewvalleywiki.com/Traveling_Cart">traveling
-merchant</a>. The merchant operates a cart in <a href="https://stardewvalleywiki.com/Cindersap_Forest">Cindersap Forest</a>
-every Friday and Sunday (6am - 8pm) and also a boat during the winter <a href="https://stardewvalleywiki.com/Night_Market">Night
-Market.</a> Results can be browsed by week (the Night Market is treated as a separate week) or searched using a case-insensitive
-substring (regular expression wildcards are allowed.)</p>
-<p class="note">Stardew 1.5 added a "year 1 guarantee" option which adds an extra Red Cabbage Seeds item to the cart sometime during year 1. The Predictor does not currently handle this option so search results do not yet include it.</p>
-<fieldset id="cart-search">
-<input type="text" id="cart-search-text" class="search">
-<button id="cart-search-button" type="button" class="search">Search</button><br />
-Search Range: <select id="cart-search-range">
+<section id="sec-book" class="tab-panel">
+<h3>Bookseller</h3>
+<p class="intro" id="book-intro">This tab predicts two things: which two days the Bookseller will appear each month, and some of the items available for purchase on those days. Results will only show those books which are randomly chosen. Other items in the shop are either always present (e.g. <span class="book">Price Catalogue</span>) or have a non-random trigger (e.g. <span class="book">Queen of Sauce Cookbook</span> which appears after 100 walnuts have been found) and are not included.</p>
+<p class="note" id="book-note"></p>
+<fieldset id="book-search">
+<input type="text" id="book-search-text" class="search">
+<button id="book-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="book-search-range">
 <option value="1">1 year</option>
 <option value="2" selected>2 years</option>
 <option value="3">3 years</option>
 <option value="5">5 years</option>
 <option value="10">10 years</option>
 </select><br />
-<input type="checkbox" id="cart-search-all"> Start search from Spring 1, Year 1 instead of current day
+<input type="checkbox" id="book-search-all"> Start search from Spring 1, Year 1 instead of current day
 </fieldset>
-<fieldset id="cart-buttons"><div class="buttons">
-<button id="cart-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="cart-prev-week" type="button" class="browse">&lt; Previous Week</button>
-<button id="cart-reset" type="button" class="browse">Reset Browsing</button>
-<button id="cart-next-week" type="button" class="browse">Next Week &gt;</button>
-<button id="cart-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+<fieldset id="book-buttons"><div class="buttons">
+<button id="book-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="book-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="book-reset" type="button" class="browse">Reset Calendar</button>
+<button id="book-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="book-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
 </div></fieldset>
-<output id="out-cart"> </output>
+<output id="out-book"> </output>
+</section>
+<section id="sec-cj" class="tab-panel">
+<h3>CalicoJack</h3>
+<p class="intro" id="cj-intro">Predicted results from playing the <a href="https://stardewvalleywiki.com/CalicoJack">Blackjack-like card game</a> at the <a href="https://stardewvalleywiki.com/Casino">Oasis Casino</a>. The results tell you what actions to take to win the game if possible. The game does not keep a cumulative counts of plays in the save, but instead uses a fresh counter every play session. As a result, the layout of this tab is a little different with two sets of navigation buttons. The top set lets you change the day of prediction, and the bottom set changes number of games played in the current session.</p>
+<p>Since one can bet "Double or Nothing" following a win, coins can be quickly accumulated during long win streaks although one must be careful to avoid overflowing their coin count into the negatives. If starting from nothing, overflow would happen on the 22nd consecutive win.</p>
+<p class="note" id="cj-note"></p>
+<fieldset id="cj-d-buttons"><div class="buttons">
+<button id="cj-d-prev-week" type="button" class="browse">&lt;&lt; Previous Week</button>
+<button id="cj-d-prev-day" type="button" class="browse">&lt; Previous Day</button>
+<button id="cj-d-reset" type="button" class="browse">Reset Day</button>
+<button id="cj-d-next-day" type="button" class="browse">Next Day &gt;</button>
+<button id="cj-d-next-week" type="button" class="browse">Next Week &gt;&gt;</button>
+</div></fieldset>
+<fieldset id="cj-g-buttons"><div class="buttons">
+<button id="cj-g-prev-100" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="cj-g-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="cj-g-reset" type="button" class="browse">Reset Games</button>
+<button id="cj-g-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="cj-g-next-100" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-cj"> </output>
+</section>
+<section id="sec-crane" class="tab-panel">
+<h3>Crane Game</h3>
+<p class="intro" id="crane-intro">This calendar shows the presence of the worst villain in Stardew Valley, the green shirt man
+who hogs the crane game at the <a href="https://stardewvalleywiki.com/Movie_Theater">Movie Theater.</a> He will always be there
+on your first theater visit and also after every movie. His presence before movies (for later visits) is predictable and shown below.</p>
+<fieldset id="crane-buttons"><div class="buttons">
+<button id="crane-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="crane-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="crane-reset" type="button" class="browse">Reset Calendar</button>
+<button id="crane-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="crane-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-crane"> </output>
+</section>
+<section id="sec-makeover" class="tab-panel">
+<h3>Desert Festival</h3>
+<p class="intro" id="makeover-intro">This is for various predictable details of the Desert Festival.</p>
+<ul>
+<li>For the shop vendors, the app assumes Kent is available only after year 1 and chooses Leo's availability based upon his status at the time of the save. Additionally, the character pool's order is somewhat volatile and will almost always change with marriage status changes because of NPCs moving to or from the farm. Predictor does its best but this is an area where predictions will sometimes be wrong.</li>
+<li>The Free "Cactis" image should show the correctly rolled parts but it won't look exactly like the in-game sprite.</li>
+<li>The makeover outfits received from Emily and Sandy have a 75% chance to roll unique to each player and a 25% chance to roll a generic male/female variant. The app will show the specific result for all players in the game if possible. Note that the game has protections against giving you an outfit which has the same shirt or hat as you are currently wearing; the app does not currently account for this possibility so will sometimes misidentify the outfit if you are wearing makeover items already.</li>
+</ul>
+<p class="note" id="makeover-note"></p>
+<fieldset id="makeover-buttons"><div class="buttons">
+<button id="makeover-prev" type="button" class="browse">&lt; Previous Year</button>
+<button id="makeover-reset" type="button" class="browse">Reset</button>
+<button id="makeover-next" type="button" class="browse">Next Year &gt;</button>
+</div></fieldset>
+<output id="out-makeover"> </output>
+</section>
+<section id="sec-enchant" class="tab-panel">
+<h3>Enchantments</h3>
+<p class="intro" id="enchant-intro">Predicted results from enchanting tools and weapons at the
+Forge in the Volcano. The number of times enchanted is a cumulative count across all items; forging a weapon with a Galaxy Soul will also increment this count.
+Note that in multiplayer, each player's enchant count is tracked separately; for multiplayer saves there is a drop-down menu which will let you choose which player to use for predictions. This will only affect the highlighting for pre-1.6 saves but actually affects the predictions for 1.6 or later. Searching is not currently supported.</p>
+<p>Beginning in version 1.5.2, the two previous enchantments on an item are excluded from the pool of outcomes. The results are a little bit confusing because of this as there can be as many as 3 possible outcomes listed. The first one is guaranteed if the weapon has never been enchanted, and hovering over the "..." will show a tooltip with some greater detail. Additionally, hoes and watering cans are assumed to be Iridium level so that the "Reaching" enchantment is available.</p>
+<p>Pan enchantments were only introduced in Stardew 1.6 but will show for all versions.</p>
+<p class="note" id="enchant-note"></p>
+<fieldset id="enchant-player">
+Select Player: <select id="enchant-player-select">
+</select><br />
+</fieldset>
+<fieldset id="enchant-buttons"><div class="buttons">
+<button id="enchant-prev-big" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="enchant-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="enchant-reset" type="button" class="browse">Reset Browsing</button>
+<button id="enchant-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="enchant-next-big" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-enchant"> </output>
+</section>
+<section id="sec-trash" class="tab-panel">
+<h3>Garbage Cans</h3>
+<p class="intro" id="trash-intro">This calendar shows the prediction of some <a href="https://stardewvalleywiki.com/Garbage_Can">Garbage Can</a> loot.
+While luck plays a big role in what you find in cans, there is still a good amount of predictability. Most notably, the 
+<a href="https://stardewvalleywiki.com/Garbage_Hat">Garbage Hat</a> and <a href="https://stardewvalleywiki.com/Trash_Catalogue">Trash Catalogue</a> are nearly guaranteed; if they show up on this list, it should happen in game.
+Additionally, some results are highly reliable because the roll is good enough to pass the check even with worst possible luck. Some caveats about these
+predictions are listed below: </p>
+<ul>
+<li>Some item spawns (e.g. hat and catalogue) will only trigger if you have checked a minimum number of cans; the app will use the host's
+count of trash cans checked when making predictions, but this value can be overridden with a URL parameter. Other spawns rely on progression
+markers such as desert access or deepest mine level; these also will check the host's save values (and can also be overridden).</li>
+<li>Daily luck can play a factor in garbage loot in terms of both whether something drops and what that something is. By default the
+app assumes worst possible daily luck, but the luck value can also be overridden by a URL parameter.</li>
+<li>The Qi's Crop Special Order will cause an additional RNG check early in the process. The app will try to detect this quest and adjust accordingly, but this roll can also be forced on or off with a URL parameter. If the quest is active, it will show on all predictions including past and future months.</li>
+</ul>
+<fieldset id="trash-buttons"><div class="buttons">
+<button id="trash-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="trash-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="trash-reset" type="button" class="browse">Reset Calendar</button>
+<button id="trash-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="trash-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-trash"> </output>
+</section>
+<section id="sec-gembirds" class="tab-panel">
+<h3>Gem Bird Types</h3>
+<p class="intro" id="gembirds-intro">This shows which types of Gem Birds will appear in each Island location; this could be used to complete the jungle gem shrine puzzle before all birds are encountered in-game.</p>
+<p class="note" id="gembirds-note"></p>
+<output id="out-gembirds"> </output>
+</section>
+<section id="sec-geode" class="tab-panel">
+<h3>Geode Processing</h3>
+<p class="intro" id="geode-intro">Predicted results from cracking open all types of
+<a href="https://stardewvalleywiki.com/Minerals#Geodes">geodes</a> at Clint's
+<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The number of geodes opened is a cumulative count across all types. Results can
+be browsed twenty at a time or searched using a case-insensitive substring (regular expression wildcards are allowed.)
+Note that in multiplayer, each player's geode count is tracked separately; the browse results are initially set and highlighted
+based on the host's count. Note also that while Mystery Boxes have their own counter and item pool (and are thus predicted in a different section of the app) having Clint open a Mystery Box of any type will also increment the geode counter.</p>
+<p>Artifact Troves and Golden Coconuts are technically geode types but have their own special item pools. When opening Golden Coconuts there is a small chance for the chosen item to be replaced by the Golden Helmet; browsing results will show this potential replacement, but the player will only actually receive the hat if they have not previously gotten one. Similarly, during the Qi's Crop Challenge, all geode types have a chance to drop either 1 or 5 Qi Beans instead of their normal items; this is also shown on the browsing results.</p>
+<P>Artifacts and minerals which need to be donated to the museum will be marked in the results, however the Fossilized Skull (which can be found in Golden Coconuts and donated to the Ginger Island Field Office) does not have donation status checked.</p>
+<p>Stardew 1.5 introduced a Geode Crusher machine which opens the basic 4 geode types. This machine uses the same RNG but in version 1.5 its counter is offset by 1. For example if you have already crushed 12 geodes, the next geode cracked by Clint will use the results from line 13, but the next geode cracked by the Crusher will use the results from line 12. This discrepancy was fixed in version 1.6</p>
+<p class="note" id="geode-note"></p>
+<fieldset id="geode-search">
+<input type="text" id="geode-search-text" class="search">
+<button id="geode-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="geode-search-range">
+<option value="100">100 geodes</option>
+<option value="200" selected>200 geodes</option>
+<option value="500">500 geodes</option>
+<option value="1000">1000 geodes</option>
+</select><br />
+<input type="checkbox" id="geode-search-all"> Start search from first geode instead of current geode
+</fieldset>
+<fieldset id="geode-buttons"><div class="buttons">
+<button id="geode-prev-100" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="geode-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="geode-reset" type="button" class="browse">Reset Browsing</button>
+<button id="geode-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="geode-next-100" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-geode"> </output>
 </section>
 <section id="sec-krobus" class="tab-panel">
 <h3>Krobus' Sewer Shop Stock</h3>
@@ -168,12 +340,162 @@ Search Range: <select id="krobus-search-range">
 </div></fieldset>
 <output id="out-krobus"> </output>
 </section>
+<section id="sec-mines" class="tab-panel">
+<h3>Special Mine Floors</h3>
+<p class="intro" id="mines-intro">This calendar shows the prediction of various special levels in 
+<a href="https://stardewvalleywiki.com/The_Mines">the Mines</a> and <a href="https://stardewvalleywiki.com/Skull_Cavern">Skull Cavern.</a></p>
+<ul><li>Mushroom levels respawn in version 1.3 and earlier, but starting in 1.4, mushrooms will only appear on your first visit. Mushroom chances are different in the hardmode mines and the predictor will use the current state of the mines for all predictions.</li>
+<li>Monster and slime infestations are persistent in all versions and can be revisited multiple times per day.</li>
+<li>Quarry levels were added in 1.4; this is when the level uses the gray quarry mine tileset and spawns grey &amp; brown slimes as well as <a href="https://stardewvalleywiki.com/Haunted_Skull">Haunted Skulls</a>. These can only happen if the quarry itself has been unlocked and will override other types of infestations, so the predictor only calculates them if the save has quarry access.</li>
+<li>Dinosaur levels were also added in 1.4; these have a grassy tileset and are primarily inhabited by <a href="https://stardewvalleywiki.com/Pepper_Rex">Pepper Rex</a>. They can only occur in the Skull Cavern, and the predictor will check up to level 500 for them. Note that this prediction is not 100% accurate because the logic the game uses to determine which map to use for a particular level in the skull cavern uses a different (unpredictable) RNG and certain maps are not allowed to be Dinosaur levels.</li>
+</ul>
+<!-- divs inside of fieldsets because of Chrome bugs with flex display -->
+<fieldset id="mines-buttons"><div class="buttons">
+<button id="mines-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="mines-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="mines-reset" type="button" class="browse">Reset Calendar</button>
+<button id="mines-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="mines-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-mines"> </output>
+</section>
+<section id="sec-minechest" class="tab-panel">
+<h3>Mine Chests</h3>
+<p class="intro" id="minechest-intro">Starting in version 1.5, one of the advanced startup options allows for randomized
+loot in the mine reward chests. This loot can be predicted and is listed below. Note that even when this option is used, some of the chests still only have one possible reward.</p>
+<output id="out-minechest"> </output>
+</section>
+<section id="sec-mystery" class="tab-panel">
+<h3>Mystery Boxes</h3>
+<p class="intro" id="mystery-intro">Predicted results from opening all types of
+Mystery Boxes at Clint's
+<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The number of boxes opened is a cumulative count across all types. Results can
+be browsed twenty at a time or searched using a case-insensitive substring (regular expression wildcards are allowed.)
+Note that in multiplayer, each player's box count is tracked separately; the browse results are initially set and highlighted
+based on the host's count.</p>
+<p>The <span class="book">Book of Mysteries</span> becomes more and more likely as more boxes are opened until you get one. The app will base its predictions on whether or not the save indicates that the host has gotten a book, and this can be overridden with a URL parameter. One result of this is that a long-term search if the book hasn't yet been found will eventually be dominated by only the book.</p>
+<p>Golden Mystery Boxes have a slightly different drop pool if the player has unlocked the farming mastery perk. Because of the order of the random rolls, this results in the item chosen usually being different. In this case we handle the difference by having 2 separate Golden Mystery Box result lists.</p>
+<p>If the result is "Seasonal Seeds" the type of seed is an unpredictable roll based on current season (with all possible in winter). Possibilities include Cauliflower, Green Bean, Parsnip, Potato, Pepper, Radish, Wheat, Corn, Eggplant, Artichoke, and Pumpkin.</p>
+<p>If the result is "Raccoon Seeds" the type of seed is the same as you would get from seed dig spots on that day. Possibilities include Carrot, Summer Squash, Broccoli, and Powdermelon.</p>
+<fieldset id="mystery-search">
+<input type="text" id="mystery-search-text" class="search">
+<button id="mystery-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="mystery-search-range">
+<option value="100">100 boxes</option>
+<option value="200" selected>200 boxes</option>
+<option value="500">500 boxes</option>
+<option value="1000">1000 boxes</option>
+</select><br />
+<input type="checkbox" id="mystery-search-all"> Start search from first box instead of current box
+</fieldset>
+<fieldset id="mystery-buttons"><div class="buttons">
+<button id="mystery-prev-100" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="mystery-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="mystery-reset" type="button" class="browse">Reset Browsing</button>
+<button id="mystery-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="mystery-next-100" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-mystery"> </output>
+</section>
+<section id="sec-night" class="tab-panel">
+<h3>Night Events</h3>
+<p class="intro" id="night-intro">This calendar shows potential
+<a href="https://stardewvalleywiki.com/Random_Events">overnight events</a> on the farm. These events will not occur if there
+is a player wedding the next day, and they will also be overridden by a restoration event from the completion of a
+<a href="https://stardewvalleywiki.com/Bundles">full Community Center room</a> or a
+<a href="https://stardewvalleywiki.com/Joja_Community_Development_Form">Joja Community Development</a> purchase.
+Most of these events also have other checks they must pass to actually trigger (such as finding a suitable location), 
+so <span class="strong">they are not 100% guaranteed</span>; in particular the 
+<a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events were 
+<a href="https://www.reddit.com/r/StardewValley/comments/5aj878/the_last_mystery_and_a_technical_explanation/">extremely rare</a>
+in earlier versions of the game, and in Stardw Valley 1.5.3 or later the strange capsule will only trigger once per save.</p>
+<p>In version 1.6, there is a new windstorm event which occurs sometime after the Greenhouse repair; the possibility of this event changes future event predictions because it causes an additional random roll even after it has completed. Any day which could be the windstorm will be marked with a stump icon on the calendar. Additionally, the app will try to detect in the save whether the Greenhouse has been restored (this can also be set with a URL parameter) and use that status when predicting other events. Be careful when looking ahead for future events if repairs have not been completed yet.</p>
+<p class="note">Notes: The app may misidentify the type of event in version 1.2 if the farmer has the possibility of
+having more children.</p>
+<fieldset id="night-buttons"><div class="buttons">
+<button id="night-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="night-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="night-reset" type="button" class="browse">Reset Calendar</button>
+<button id="night-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="night-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-night"> </output>
+</section>
+<section id="sec-prize" class="tab-panel">
+<h3>Prize Ticket Machine</h3>
+<p class="intro" id="prize-intro">This tab shows predicted rewards for the prize ticket machine in the mayor's house.</p>
+<p>If the result is "Raccoon Seeds" the type of seed is the same as you would get from seed dig spots on that day. Possibilities include Carrot, Summer Squash, Broccoli, and Powdermelon.</p>
+<p class="note" id="prize-note"></p>
+<!--
+<fieldset id="prize-search">
+<input type="text" id="prize-search-text" class="search">
+<button id="prize-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="prize-search-range">
+<option value="100">100 boxes</option>
+<option value="200" selected>200 boxes</option>
+<option value="500">500 boxes</option>
+<option value="1000">1000 boxes</option>
+</select><br />
+<input type="checkbox" id="prize-search-all"> Start search from first box instead of current box
+</fieldset>
+-->
+<fieldset id="prize-buttons"><div class="buttons">
+<button id="prize-prev-100" type="button" class="browse">&lt;&lt; Previous 100</button>
+<button id="prize-prev" type="button" class="browse">&lt; Previous 20</button>
+<button id="prize-reset" type="button" class="browse">Reset Browsing</button>
+<button id="prize-next" type="button" class="browse">Next 20 &gt;</button>
+<button id="prize-next-100" type="button" class="browse">Next 100 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-prize"> </output>
+</section>
+<section id="sec-raccoon" class="tab-panel">
+<h3>Raccoon Bundles</h3>
+<p class="intro" id="raccoon-intro">This tab shows predictions for both what the raccoons will ask for and what reward they will give upon completion. Their requests will often vary by season so the app will list all 4 season options when that happens.</p>
+<p>Some rewards have an option of "Next unshipped item". If at least 100 Golden Walnuts have been collected and Full Shipment has not been achieved, this reward will be the first unshipped item encountered on the Shipping Collections tab; otherwise it will be four Mystery Boxes.</p>
+<p class="note" id="raccoon-note"></p>
+<!--
+<fieldset id="raccoon-search">
+<input type="text" id="raccoon-search-text" class="search">
+<button id="raccoon-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="raccoon-search-range">
+<option value="100">100 boxes</option>
+<option value="200" selected>200 boxes</option>
+<option value="500">500 boxes</option>
+<option value="1000">1000 boxes</option>
+</select><br />
+<input type="checkbox" id="raccoon-search-all"> Start search from first box instead of current box
+</fieldset>
+-->
+<fieldset id="raccoon-buttons"><div class="buttons">
+<button id="raccoon-prev-50" type="button" class="browse">&lt;&lt; Previous 50</button>
+<button id="raccoon-prev" type="button" class="browse">&lt; Previous 10</button>
+<button id="raccoon-reset" type="button" class="browse">Reset Browsing</button>
+<button id="raccoon-next" type="button" class="browse">Next 10 &gt;</button>
+<button id="raccoon-next-50" type="button" class="browse">Next 50 &gt;&gt;</button>
+</div></fieldset>
+<output id="out-raccoon"> </output>
+</section>
+<!--
+<section id="sec-resort" class="tab-panel">
+<h3>Resort Visitors</h3>
+<p class="intro" id="resort-intro">This attempts to predict which NPCs will visit the Island Resort on a given day. These are not 100% guaranteed as they won't visit when it is raining on the Island or if some other unpredictable things have happened (such as being "invisible" due to a heart event.) And obviously it is meaningless until the player visits the Island and builds the resort itself.</p>
+<fieldset id="resort-buttons"><div class="buttons">
+<button id="resort-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="resort-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="resort-reset" type="button" class="browse">Reset Calendar</button>
+<button id="resort-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="resort-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-resort"> </output>
+</section>
+-->
 <section id="sec-sandy" class="tab-panel">
 <h3>Sandy's Oasis Shop Stock</h3>
 <p class="intro" id="sandy-intro">Partial inventory list for <a href="https://stardewvalleywiki.com/Sandy">Sandy</a> who sells items
 in the <a href="https://stardewvalleywiki.com/Oasis">Oasis shop</a>. While her stock is mostly static, beginning in version 1.4 there
 is a random shirt sold every day; this shirt choice is predictable and listed below. The shirt is always 1000g.
 Results can be browsed by week or searched using a case-insensitive substring (regular expression wildcards are allowed.)</p>
+<p>Note that the predictor lists the internal ID numbers along with the name; this ID number is 1 less than what you see on the shirt selector during character creation.</p>
 <fieldset id="sandy-search">
 <input type="text" id="sandy-search-text" class="search">
 <button id="sandy-search-button" type="button" class="search">Search</button><br />
@@ -195,54 +517,18 @@ Search Range: <select id="sandy-search-range">
 </div></fieldset>
 <output id="out-sandy"> </output>
 </section>
-<section id="sec-wallpaper" class="tab-panel">
-<h3>Wallpaper from Pierre and Joja</h3>
-<p class="intro" id="wallpaper-intro">This calendar shows the prediction of which 
-<a href="https://stardewvalleywiki.com/Wallpaper">wallpaper</a> and <a href="https://stardewvalleywiki.com/Flooring">flooring</a>
-items are available at Pierre's General Store and the Joja Mart. This is mainly useful for those who use a bug that causes
-wallpaper to be interpreted as another item for various situations such as bundles, crafting, and use in machines; because
-of this, item equivalence is listed when applicable. As of version 1.4 most (if not all) of these
-exploits have been patched, but this page might still be relevant for those who want to get a specific
-wall/floor without buying the <a href="https://stardewvalleywiki.com/Catalogue">Catalogue</a>.</p>
-<fieldset id="wallpaper-buttons"><div class="buttons">
-<button id="wallpaper-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="wallpaper-prev-week" type="button" class="browse">&lt; Previous Week</button>
-<button id="wallpaper-reset" type="button" class="browse">Reset Calendar</button>
-<button id="wallpaper-next-week" type="button" class="browse">Next Week &gt;</button>
-<button id="wallpaper-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+<section id="sec-statue" class="tab-panel">
+<h3>Mastery Statue Blessings</h3>
+<p class="intro" id="statue-intro">This calendar shows the prediction of the two mastery statues. For the Statue of Blessings, there may be two possibilities listed based upon whether it is raining. Traditional Festival days will also use the rain choice. If the Blessing of the Butterfly is chosen (only possible for non-rain), hovering over the "..." will show which map to check for each player. For the Statue of the Dwarf King there are always two choices for each player to pick from and those choices are listed here.</p>
+<p class="note" id="staute-note"></p>
+<fieldset id="statue-buttons"><div class="buttons">
+<button id="statue-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="statue-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="statue-reset" type="button" class="browse">Reset Calendar</button>
+<button id="statue-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="statue-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
 </div></fieldset>
-<output id="out-wallpaper"> </output>
-</section>
-<section id="sec-geode" class="tab-panel">
-<h3>Geode Processing</h3>
-<p class="intro" id="geode-intro">Predicted results from cracking open all types of
-<a href="https://stardewvalleywiki.com/Minerals#Geodes">geodes</a> at Clint's
-<a href="https://stardewvalleywiki.com/Blacksmith">Blacksmith Shop</a>. The number of geodes opened is a cumulative count across all types. Results can
-be browsed twenty at a time or searched using a case-insensitive substring (regular expression wildcards are allowed.)
-Note that in multiplayer, each player's geode count is tracked separately; the browse results are initially set and highlighted
-based on the host's count.</p>
-<p>In 1.5, the Golden Coconut is a new geode-type item with its own item pool. There is a small chance for a rolled item to be replaced with the Golden Helmet; browsing results will show this potential replacement, but the player will only actually receive the hat if they have not previously gotten one. Note that potential donations for the new Field Office are not currently checked, although only one donatable item (the Fossilized Skull) can be found this way.</p>
-<p>Also in 1.5, if the Qi's Crop Challenge is active, all geode types may drop either 1 or 5 Qi Beans instead of their normal items. This situation is also shown on browsing results.</p>
-<p class="note">Finally, the Geode Crusher item from 1.5 uses the same RNG but the count is offset by 1. For example if you have already crushed 12 geodes, the next geode cracked by Clint will use the results from line 13, but the next geode cracked by the Crusher will use the results from line 12.</p>
-<fieldset id="geode-search">
-<input type="text" id="geode-search-text" class="search">
-<button id="geode-search-button" type="button" class="search">Search</button><br />
-Search Range: <select id="geode-search-range">
-<option value="100">100 geodes</option>
-<option value="200" selected>200 geodes</option>
-<option value="500">500 geodes</option>
-<option value="1000">1000 geodes</option>
-</select><br />
-<input type="checkbox" id="geode-search-all"> Start search from first geode instead of current geode
-</fieldset>
-<fieldset id="geode-buttons"><div class="buttons">
-<button id="geode-prev-100" type="button" class="browse">&lt;&lt; Previous 100</button>
-<button id="geode-prev" type="button" class="browse">&lt; Previous 20</button>
-<button id="geode-reset" type="button" class="browse">Reset Browsing</button>
-<button id="geode-next" type="button" class="browse">Next 20 &gt;</button>
-<button id="geode-next-100" type="button" class="browse">Next 100 &gt;&gt;</button>
-</div></fieldset>
-<output id="out-geode"> </output>
+<output id="out-statue"> </output>
 </section>
 <section id="sec-train" class="tab-panel">
 <h3>Train Schedule</h3>
@@ -259,127 +545,74 @@ and amount of dropped items cannot.</p>
 </div></fieldset>
 <output id="out-train"> </output>
 </section>
-<section id="sec-night" class="tab-panel">
-<h3>Night Events</h3>
-<p class="intro" id="night-intro">This calendar shows potential
-<a href="https://stardewvalleywiki.com/Random_Events">overnight events</a> on the farm. These events will not occur if there
-is a player wedding the next day, and they will also be overridden by a restoration event from the completion of a
-<a href="https://stardewvalleywiki.com/Bundles">full Community Center room</a> or a
-<a href="https://stardewvalleywiki.com/Joja_Community_Development_Form">Joja Community Development</a> purchase.
-Most of these events also have other checks they must pass to actually trigger (such as finding a suitable location), 
-so <span class="strong">they are not 100% guaranteed</span>; in particular the 
-<a href="https://stardewvalleywiki.com/Strange_Capsule">strange capsule</a> and stone owl events were 
-<a href="https://www.reddit.com/r/StardewValley/comments/5aj878/the_last_mystery_and_a_technical_explanation/">extremely rare</a>
-in earlier versions of the game, and in Stardw Valley 1.5.3 or later the strange capsule will only trigger once per save.</p>
-<p class="note">Note: The app may misidentify the type of event in version 1.2 if the farmer has the possibility of
-having more children.</p>
-<fieldset id="night-buttons"><div class="buttons">
-<button id="night-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="night-prev-month" type="button" class="browse">&lt; Previous Month</button>
-<button id="night-reset" type="button" class="browse">Reset Calendar</button>
-<button id="night-next-month" type="button" class="browse">Next Month &gt;</button>
-<button id="night-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</div></fieldset>
-<output id="out-night"> </output>
-</section>
-<section id="sec-crane" class="tab-panel">
-<h3>Crane Game</h3>
-<p class="intro" id="crane-intro">This calendar shows the presence of the worst villain in Stardew Valley, the green shirt man
-who hogs the crane game at the <a href="https://stardewvalleywiki.com/Movie_Theater">Movie Theater.</a> He will always be there
-on your first theater visit and also after every movie. His presence before movies (for later visits) is predictable and shown below.</p>
-<fieldset id="crane-buttons"><div class="buttons">
-<button id="crane-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="crane-prev-month" type="button" class="browse">&lt; Previous Month</button>
-<button id="crane-reset" type="button" class="browse">Reset Calendar</button>
-<button id="crane-next-month" type="button" class="browse">Next Month &gt;</button>
-<button id="crane-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</div></fieldset>
-<output id="out-crane"> </output>
-</section>
-<section id="sec-trash" class="tab-panel">
-<h3>Garbage Cans</h3>
-<p class="intro" id="trash-intro">This calendar shows the prediction of some <a href="https://stardewvalleywiki.com/Garbage_Can">Garbage Can</a> loot.
-While luck plays a big role in what you find in cans, there is still a good amount of predictability. Most notably, the 
-<a href="https://stardewvalleywiki.com/Garbage_Hat">Garbage Hat</a> is nearly guaranteed; if it shows up on this list, it should happen in game.
-Additionally, some results are highly reliable because the roll is good enough to pass the check even with worst possible luck. Some caveats about these
-predictions are listed below: </p>
-<ul>
-<li>Some item spawns (most notably the hat) will only trigger if you have checked at least 20 cans total on the save; the app always assumes
-that is true when making predictions; other item spawns require specific progress (such as deepest mine level or if the desert is accessible), and
-will only be listed if that progress is found in the save.</li>
-<li>Some item spawns may be superceded by location-specific loot (for example the can by the Museum might spawn a geode instead of what is listed here) because of a second luck-based roll.</li>
-<li>Finally, sometimes cans not listed in the predictions might still give items on a particular day, especially if luck is high.</li>
-</ul>
-<fieldset id="trash-buttons"><div class="buttons">
-<button id="trash-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="trash-prev-month" type="button" class="browse">&lt; Previous Month</button>
-<button id="trash-reset" type="button" class="browse">Reset Calendar</button>
-<button id="trash-next-month" type="button" class="browse">Next Month &gt;</button>
-<button id="trash-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</div></fieldset>
-<output id="out-trash"> </output>
-</section>
-<!--
-<section id="sec-resort" class="tab-panel">
-<h3>Resort Visitors</h3>
-<p class="intro" id="resort-intro">This attempts to predict which NPCs will visit the Island Resort on a given day. These are not 100% guaranteed as they won't visit when it is raining on the Island or if some other unpredictable things have happened (such as being "invisible" due to a heart event.) And obviously it is meaningless until the player visits the Island and builds the resort itself.</p>
-<fieldset id="resort-buttons"><div class="buttons">
-<button id="resort-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
-<button id="resort-prev-month" type="button" class="browse">&lt; Previous Month</button>
-<button id="resort-reset" type="button" class="browse">Reset Calendar</button>
-<button id="resort-next-month" type="button" class="browse">Next Month &gt;</button>
-<button id="resort-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
-</div></fieldset>
-<output id="out-resort"> </output>
-</section>
--->
-<section id="sec-enchant" class="tab-panel">
-<h3>Enchantments</h3>
-<p class="intro" id="enchant-intro">Predicted results from enchanting tools and weapons at the
-Forge in the Volcano. The number of times enchanted is a cumulative count across all items. 
-Note that in multiplayer, each player's enchant count is tracked separately; the browse results are initially set and highlighted
-based on the host's count. Searching is not currently supported.</p>
-<p>Since the current enchantment is excluded from the pool of possible outcomes, there can be two possible results; the first result listed assumes no current enchantment and the tooltip that displays when you hover over the "..." will give more details. Additionally, hoes and watering cans are assumed to be Iridium level so that the "Expansive" enchantment is available.</p>
-<p class="note">The version 1.5.2 patch changed the mechanics to exclude the last two enchantments on an item from the possible results rather than just the current enchantment. The predictor has not yet been updated for this change and it might be complicated enough that enchantment predictions wind up being removed in a later version.</p>
-<!--
-<fieldset id="enchant-search">
-<input type="text" id="enchant-search-text" class="search">
-<button id="enchant-search-button" type="button" class="search">Search</button><br />
-Search Range: <select id="enchant-search-range">
-<option value="100">100 enchants</option>
-<option value="200" selected>200 enchants</option>
-<option value="500">500 enchants</option>
-<option value="1000">1000 enchants</option>
+<section id="sec-cart" class="tab-panel">
+<h3 id="cart-title">Traveling Merchant Cart/Boat</h3>
+<p class="intro" id="cart-intro">Inventory list for the <a href="https://stardewvalleywiki.com/Traveling_Cart">traveling
+merchant</a>. The merchant operates a cart in <a href="https://stardewvalleywiki.com/Cindersap_Forest">Cindersap Forest</a>
+every Friday and Sunday (6am - 8pm) and also appears at various festivals. Results can be browsed by week (all festivals
+are treated as a separate week) or searched using a case-insensitive substring (regular expression wildcards are allowed.)</p>
+<p>Stardew 1.6 drastically changed how the items are selected. Predictor does a pretty good job for an unmodded save but still
+has some issues such as Furniture prices and often misidentifying the random skill book when it triggers. If you play with mods
+that add items or furniture, expect most cart predictions to become even more unreliable.</p>
+<p class="note" id="cart-note"></p>
+<fieldset id="cart-search">
+<input type="text" id="cart-search-text" class="search">
+<button id="cart-search-button" type="button" class="search">Search</button><br />
+Search Range: <select id="cart-search-range">
+<option value="1">1 year</option>
+<option value="2" selected>2 years</option>
+<option value="3">3 years</option>
+<option value="5">5 years</option>
+<option value="10">10 years</option>
 </select><br />
-<input type="checkbox" id="enchant-search-all"> Start search from first enchant instead of current enchant
+<input type="checkbox" id="cart-search-all"> Start search from Spring 1, Year 1 instead of current day
 </fieldset>
--->
-<fieldset id="enchant-buttons"><div class="buttons">
-<button id="enchant-prev-big" type="button" class="browse">&lt;&lt; Previous 100</button>
-<button id="enchant-prev" type="button" class="browse">&lt; Previous 20</button>
-<button id="enchant-reset" type="button" class="browse">Reset Browsing</button>
-<button id="enchant-next" type="button" class="browse">Next 20 &gt;</button>
-<button id="enchant-next-big" type="button" class="browse">Next 100 &gt;&gt;</button>
+<fieldset id="cart-buttons"><div class="buttons">
+<button id="cart-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="cart-prev-week" type="button" class="browse">&lt; Previous Week</button>
+<button id="cart-reset" type="button" class="browse">Reset Browsing</button>
+<button id="cart-next-week" type="button" class="browse">Next Week &gt;</button>
+<button id="cart-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
 </div></fieldset>
-<output id="out-enchant"> </output>
+<output id="out-cart"> </output>
 </section>
-<section id="sec-minechest" class="tab-panel">
-<h3>Mine Chests</h3>
-<p class="intro" id="minechest-intro">Starting in version 1.5, one of the advanced startup options allows for randomized
-loot in the mine reward chests. This loot can be predicted and is listed below. Note that even when this option is used, some of the chests still only have one possible reward.</p>
-<output id="out-minechest"> </output>
+<section id="sec-wallpaper" class="tab-panel">
+<h3>Wallpaper from Pierre and Joja</h3>
+<p class="intro" id="wallpaper-intro">This calendar shows the prediction of which 
+<a href="https://stardewvalleywiki.com/Wallpaper">wallpaper</a> and <a href="https://stardewvalleywiki.com/Flooring">flooring</a>
+items are available at Pierre's General Store and the Joja Mart. This was mainly useful for those who used a bug that caused
+wallpaper to be interpreted as another item (which is the "equivalence" listed on the results. As of version 1.4 most (if not all) of these
+exploits have been patched and the equivalence is now meaningless, but this tab might still be relevant for those who want to get a specific
+wall/floor without buying the <a href="https://stardewvalleywiki.com/Catalogue">Catalogue</a>.</p>
+<p>The app will use the CC completion status read from the save (or URL parameter) to determine whether a particular store should be shown at all.</p>
+<p>Due to shop changes in 1.6, Pierre and Joja always sell the same wallpaper and often (but not always) sell the same flooring.</p>
+<fieldset id="wallpaper-buttons"><div class="buttons">
+<button id="wallpaper-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="wallpaper-prev-week" type="button" class="browse">&lt; Previous Week</button>
+<button id="wallpaper-reset" type="button" class="browse">Reset Calendar</button>
+<button id="wallpaper-next-week" type="button" class="browse">Next Week &gt;</button>
+<button id="wallpaper-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-wallpaper"> </output>
 </section>
-<section id="sec-gembirds" class="tab-panel">
-<h3>Gem Bird Types</h3>
-<p class="intro" id="gembirds-intro">This shows which types of Gem Birds will appear in each Island location; this could be used to complete the jungle gem shrine puzzle before all birds are encountered in-game.</p>
-<p class="note" id="gembirds-note"></p>
-<output id="out-gembirds"> </output>
+<section id="sec-greenrain" class="tab-panel">
+<h3>Green Rain</h3>
+<p class="intro" id="greenrain-intro">Starting in Stardew 1.6, Pelican Town weather can be partially predicted. If the app shows "Rain" it could also be (unpredictably) upgraded to a Storm, and if the app shows "Sun" it could be (unpredictably) upgraded into Wind/Snow depending on season. Ginger Island weather is not predictable.</p>
+<p class="note" id="greenrain-note"></p>
+<fieldset id="greenrain-buttons"><div class="buttons">
+<button id="greenrain-prev-year" type="button" class="browse">&lt;&lt; Previous Year</button>
+<button id="greenrain-prev-month" type="button" class="browse">&lt; Previous Month</button>
+<button id="greenrain-reset" type="button" class="browse">Reset Calendar</button>
+<button id="greenrain-next-month" type="button" class="browse">Next Month &gt;</button>
+<button id="greenrain-next-year" type="button" class="browse">Next Year &gt;&gt;</button>
+</div></fieldset>
+<output id="out-greenrain"> </output>
 </section>
 <section id="sec-winterstar" class="tab-panel">
 <h3>Feast of the Winter Star Gift Assignments</h3>
 <p class="intro" id="winterstar-intro">This shows the secret gift assignments for the
 <a href="https://stardewvalleywiki.com/Feast_of_the_Winter_Star">Winter Star festival</a>. The actual gift(s) the player(s) will receive
-cannot be reliably predicted, but a list of all the possibilities is provided. In a version 1.5 save, the presence of 
+cannot be reliably predicted, but a list of all the possibilities is provided. Starting with version 1.5, the presence of 
 <a href="https://stardewvalleywiki.com/Leo">Leo</a> may affect the outcome; the app will predict based upon Leo's current
 status.</p>
 <p class="note" id="winterstar-note"></p>
@@ -398,6 +631,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>26 Mar  2024 - v5.0.0 - Support for Stardew Valley 1.6</li> 
 <li>15 Jan  2021 - v4.0.4 - Updating Night event chances for Stardew Valley 1.5.3</li>
 <li> 9 Jan  2021 - v4.0.3 - No code changes, only clarifications on some mechanics.</li>
 <li>30 Dec  2020 - v4.0.2 - Made geode fix only apply to 1.5 saves</li>

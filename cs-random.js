@@ -21,7 +21,7 @@ function CSRandom(Seed) {
 	if (typeof(Seed) === 'undefined') {
 		Seed = Date.getTime();
 	}
-	Seed = parseInt(Seed); // Force an integer since there is no type checking
+	Seed = Math.imul(1,parseInt(Seed)); // Force a 32-bit integer since there is no type checking
 
 	this.inext = 0;
 	this.inextp = 0;
@@ -44,7 +44,7 @@ function CSRandom(Seed) {
 		for (i = 1; i < 56; i++) {
 			this.SeedArray[i] -= this.SeedArray[1 + (i + 30) % 55];
 			if (this.SeedArray[i] > INT_MAX) {
-				this.SeedArray[i] -= (Math.abs(INT_MIN) + INT_MAX);
+				this.SeedArray[i] -= 4294967296;
 			}
 			if (this.SeedArray[i] < 0) {
 				this.SeedArray[i] += MBIG;
@@ -119,9 +119,9 @@ CSRandom.prototype.Next = function(a, b) {
 		}
 		range = max - min;
 		if (range <= INT_MAX) {
-			return parseInt(this.Sample() * range + min);
+			return Math.floor(this.Sample() * range) + min;
 		} else {
-			return parseInt(this.GetSampleForLargeRange() * range + min);
+			return Math.floor(this.GetSampleForLargeRange() * range) + min;
 		}
 	} else if (typeof a !== 'undefined') {
 		// 1 parameter version
@@ -129,7 +129,7 @@ CSRandom.prototype.Next = function(a, b) {
 		if (max < 0) {
 			throw "Argument out of range - max (" + max + ") must be positive";
 		}
-		return parseInt(this.Sample() * max);
+		return Math.floor(this.Sample() * max);
 	} else {
 		return this.InternalSample();
 	}
