@@ -5,12 +5,13 @@
 This app simulates the random number generator used in [Stardew Valley](http://stardewvalley.net/) and makes "predictions" about the game either from the Game ID or by reading the save file. Currently, the information predicted includes special mine levels (e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.
 A useful companion tool is [BlaDe's Map Predictor](https://www.nexusmods.com/stardewvalley/mods/6614) which handles things such as artifact digging, giant crops, and mine ladders.
 
-All changed & added content from version 1.6 should be supported; 1.6-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to the [topic in the Chucklefish  forums](https://community.playstarbound.com/threads/webapp-stardew-predictor-gaze-into-the-future-of-your-farm.141370/).
+All changed & added content from version 1.6 should be supported; 1.6-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter. Please report any bugs, suggestions, or other feedback to [the topic in the Stardew official forums](https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/).
 
 The app is written in Javascript and uses [jQuery](https://jquery.com/), [JS xxHash](https://github.com/pierrec/js-xxhash) and [BigInteger.js](https://github.com/peterolson/BigInteger.js); it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 ## Changelog
 
+* 27 Mar  2024 - v5.0.1 - Update cart item lists for 1.6.3 patch
 * 26 Mar  2024 - v5.0.0 - Support for Stardew Valley 1.6
 * 15 Jan  2021 - v4.0.4 - Updating Night event chances for Stardew Valley 1.5.3
 *  9 Jan  2021 - v4.0.3 - No code changes, only clarifications on some mechanics.
