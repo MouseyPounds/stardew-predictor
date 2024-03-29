@@ -11,6 +11,7 @@ The app is written in Javascript and uses [jQuery](https://jquery.com/), [JS xxH
 
 ## Changelog
 
+* 28 Mar  2024 - v5.0.2 - Fixed precision loss bug in enchantment code
 * 27 Mar  2024 - v5.0.1 - Update cart item lists for 1.6.3 patch
 * 26 Mar  2024 - v5.0.0 - Support for Stardew Valley 1.6
 * 15 Jan  2021 - v4.0.4 - Updating Night event chances for Stardew Valley 1.5.3

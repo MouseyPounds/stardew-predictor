@@ -118,6 +118,7 @@ window.onload = function () {
 
 	// These 2 functions force a big Int into an integer which is usually needed when
 	// mimicing game code that typecasts UniqueMultiplayerIDs into ints.
+	// WARNING: These can lose precision; only use this when game is typecasting.
 	function bigIntToUnsigned32(big) {
 		return big.and(0xffffffff).toJSNumber();
 	}
@@ -7420,7 +7421,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				// I don't recall why this needs to be offset by 1, but it does
 				if (compareSemVer(save.version, "1.6") >= 0) {
 					if (typeof(save.mp_ids) !== 'undefined') {
-						rng = new CSRandom(getRandomSeed(timesEnchanted - 1, save.gameID, bigIntToSigned32(save.mp_ids[whichPlayer])));
+						rng = new CSRandom(getRandomSeedFromBigInts(bigInt(timesEnchanted - 1), bigInt(save.gameID), save.mp_ids[whichPlayer]));
 					} else {
 						rng = new CSRandom(getRandomSeed(timesEnchanted - 1, save.gameID, 0));
 						$('#enchant-note').html('Note: No players found; predictions will not be reliable for game version >= 1.6');
@@ -7811,14 +7812,12 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		
 		// Cactis and Makeover
 		if (typeof(save.mp_ids) !== 'undefined' && save.mp_ids.length > 0) {
-
-			// During 1.6 beta, the save format changed with regard to player gender. This deals with that change 
-			// (not very robustly) and can be removed after launch.
+			// Failsafe that should not happen in released game
 			if (save.gender[0] === '') {
 				for (player = 0; player < save.mp_ids.length; player++) {
 					save.gender[player] = 'Female';
 				}
-				$('#makeover-note').html('Warning: this is an early beta save so predictor does not correctly detect player genders. All players will be assumed to be female. To get better makeover predictions, use a game saved under current version.');
+				$('#makeover-note').html('Warning: Predictor could not determing player gender. All players will be assumed to be female. To get better makeover predictions, use a game saved under current version.');
 			}
 			
 			for (player = 0; player < save.mp_ids.length; player++) {
@@ -7967,11 +7966,9 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 							} else if (dayOfMonth % 13 == 0) {
 								weatherTown = 'Storm';
 							} else {
-console.log("Day " + day + " DoM " + dayOfMonth + " checking summer rain ");
 								var rainChance = 0.12 + 0.003*(dayOfMonth-1);
 								if (rng.NextDouble() < rainChance) {
 									weatherTown = 'Rain';
-console.log("Yes"); } else { console.log("No");
 								}
 							}
 							break;
