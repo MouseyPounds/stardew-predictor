@@ -8987,9 +8987,16 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 	}
 
 	function updateOutput(xmlDoc) {
-		document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
-		$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1], false); });
-		$('#output-container').show();
+		try {
+			document.getElementById('out-summary').innerHTML = parseSummary(xmlDoc);
+			$("input[name='tabset']").each(function() { updateTab(this.id.split('-')[1], false); });
+			document.getElementById('progress').value = 100;
+			$('#progress-container').hide();
+			$('#output-container').show();
+		} catch(error) {
+			var message = "<h3>Save Parse Error</h3><p>The app was unable to process the save file. This is most likely a bug with the app, so please let the dev know about it. Details below.</p>";
+			$('#parse-error').html(message + '<p class="code">' + error + '<br/>' + error.stack + '</p>');
+		}
 		return;
 	}
 
@@ -9016,9 +9023,8 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		};
 		reader.onload = function (e) {
 			var xmlDoc = $.parseXML(e.target.result);
-			prog.value = 100;
+			prog.value = 90;
 			updateOutput(xmlDoc);
-			$('#progress-container').hide();
 		};
 		reader.readAsText(file);
 	}

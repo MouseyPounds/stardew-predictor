@@ -21,7 +21,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=5.0.2"></script>
+<script src="./stardew-predictor.js?v=5.0.3"></script>
 <script src="./BigInteger.min.js"></script>
 <script src="./xxhash.min.js"></script>
 
@@ -43,7 +43,7 @@ A useful companion tool is <a href="https://www.nexusmods.com/stardewvalley/mods
 <p>Most changed &amp; added content from version 1.6 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
 <p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, <a href="https://github.com/pierrec/js-xxhash">JS xxHash</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
-Please report any bugs, suggestions, or other feedback to <a href="https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/">the topic in the Stardew official forums.</a></p>
+Please report any bugs, suggestions, or other feedback to <a href="https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/">the topic in the Stardew official forums</a> or to <span class="code">@mouseypounds</span> on Discord.</p>
 </div>
 
 <div id="input-container" class="panel">
@@ -101,6 +101,7 @@ Please report any bugs, suggestions, or other feedback to <a href="https://forum
 <div id="progress-container" class="panel">
 <h2 id="sec_working">Working...</h2>
 <progress id="progress" value="0" max="100"></progress>
+<div id="parse-error"></div>
 </div>
 
 <div id="output-container" class="panel">
@@ -631,6 +632,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>30 Mar  2024 - v5.0.3 - Finally added slightly more friendly error-handling</li>
 <li>28 Mar  2024 - v5.0.2 - Fixed precision loss bug in enchantment code</li> 
 <li>27 Mar  2024 - v5.0.1 - Update cart item lists for 1.6.3 patch</li> 
 <li>26 Mar  2024 - v5.0.0 - Support for Stardew Valley 1.6</li> 
