@@ -8714,9 +8714,9 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				}
 
 				var tclass = "future";
-				if (numOpened === save.ticketPrizesClaimed[0] + 1) {
+				if (numOpened === save.ticketPrizesClaimed[whichPlayer] + 1) {
 					tclass = "current";
-				} else if (numOpened <= save.ticketPrizesClaimed[0]) {
+				} else if (numOpened <= save.ticketPrizesClaimed[whichPlayer]) {
 					tclass = "past";
 				}
 				output += '<tr class="' + tclass + '"><td>' + addCommas(numOpened) + '</td>';
