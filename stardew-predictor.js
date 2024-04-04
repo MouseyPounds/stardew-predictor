@@ -3966,6 +3966,7 @@ window.onload = function () {
 		var field = element.id.split('-');
 		var tab = field[0];
 		var offset = Number($("#" + tab + "-next").val()) - 20;
+		console.log("select handler for tab " + tab + " offset " + offset);
 		updateTab(tab, false, offset);
 	}
 
@@ -9035,7 +9036,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				e.preventDefault();
 				searchHandler(this);
 		} });
-		$("select").change(function () { selectHandler(this); });
+		$("select[class='player']").change(function () { selectHandler(this); });
 		$("button").prop('disabled',false);
 	}
 
