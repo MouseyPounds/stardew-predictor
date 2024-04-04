@@ -3966,7 +3966,6 @@ window.onload = function () {
 		var field = element.id.split('-');
 		var tab = field[0];
 		var offset = Number($("#" + tab + "-next").val()) - 20;
-		console.log("select handler for tab " + tab + " offset " + offset);
 		updateTab(tab, false, offset);
 	}
 
