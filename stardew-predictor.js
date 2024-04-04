@@ -6362,104 +6362,108 @@ window.onload = function () {
 					for (i = 0; i < prewarm_amount2; i++) {
 						rng.NextDouble();
 					}
-					if (c == 2 && rng.NextDouble() < 0.005) {
-						item[c] = "Golden Animal Cracker";
-					} else if (rng.NextDouble() < (0.002 * rareMod)) {
-						item[c] = save.objects["_279"].name;
-					} else if (rng.NextDouble() < (0.004 * rareMod)) {
-						item[c] = save.objects["_74"].name;
-					} else if (rng.NextDouble() < (0.008 * rareMod)) {
-						item[c] = save.objects["_166"].name;
-					} else if (rng.NextDouble() < (0.01 * rareMod + extraBookChance)) {
-						if (!save.gotMysteryBook) {
-							item[c] = save.objects["_Book_Mystery"].name;
-						} else {
-							var choices = ["_PurpleBook", "_Book_Mystery"];
+					if (numOpened > 10 || c > 0) {
+						if (c == 2 && rng.NextDouble() < 0.005) {
+							item[c] = "Golden Animal Cracker";
+						} else if (rng.NextDouble() < (0.002 * rareMod)) {
+							item[c] = save.objects["_279"].name;
+						} else if (rng.NextDouble() < (0.004 * rareMod)) {
+							item[c] = save.objects["_74"].name;
+						} else if (rng.NextDouble() < (0.008 * rareMod)) {
+							item[c] = save.objects["_166"].name;
+						} else if (rng.NextDouble() < (0.01 * rareMod + extraBookChance)) {
+							if (!save.gotMysteryBook) {
+								item[c] = save.objects["_Book_Mystery"].name;
+							} else {
+								var choices = ["_PurpleBook", "_Book_Mystery"];
+								item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+							}
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							var choices = ["_797", "_373"];
 							item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-						}
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						var choices = ["_797", "_373"];
-						item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Hat";
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Shirt";
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Wallpaper";
-					} else if (rng.NextDouble() < 0.1 || c > 0) {
-						switch(rng.Next(15)) {
-							case 0:
-								item[c] = save.objects["_288"].name;
-								itemQty[c] = 5;
-								break;
-							case 1:
-								item[c] = save.objects["_253"].name;
-								itemQty[c] = 3;
-								break;
-							case 2:
-								// This only rolls at fishing skill >= 6
-								if (rng.NextDouble() < .5) {
-									var choices = ["_687", "_695"];
-									item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-									basedOnSkill[c] = true;
-								} else {
-									item[c] = save.objects["_242"].name;
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Hat";
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Shirt";
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Wallpaper";
+						} else if (rng.NextDouble() < 0.1 || c > 0) {
+							switch(rng.Next(15)) {
+								case 0:
+									item[c] = save.objects["_288"].name;
+									itemQty[c] = 5;
+									break;
+								case 1:
+									item[c] = save.objects["_253"].name;
+									itemQty[c] = 3;
+									break;
+								case 2:
+									// This only rolls at fishing skill >= 6
+									if (rng.NextDouble() < .5) {
+										var choices = ["_687", "_695"];
+										item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+										basedOnSkill[c] = true;
+									} else {
+										item[c] = save.objects["_242"].name;
+										itemQty[c] = 2;
+									}
+									break;
+								case 3:
+									item[c] = save.objects["_204"].name;
 									itemQty[c] = 2;
-								}
-								break;
-							case 3:
-								item[c] = save.objects["_204"].name;
-								itemQty[c] = 2;
-								break;
-							case 4:
-								item[c] = save.objects["_369"].name;
-								itemQty[c] = 20;
-								break;
-							case 5:
-								item[c] = save.objects["_466"].name;
-								itemQty[c] = 20;
-								break;
-							case 6:
-								item[c] = save.objects["_773"].name;
-								itemQty[c] = 2;
-								break;
-							case 7:
-								item[c] = save.objects["_688"].name;
-								itemQty[c] = 3;
-								break;
-							case 8:
-								item[c] = save.objects["_" + rng.Next(628,634)].name;
-								break;
-							case 9:
-								item[c] = "Seasonal Seeds";
-								itemQty[c] = 20;
-								noLink[c] = true;
-								break;
-							case 10:
-								if (rng.NextDouble() < 0.5) {
-									item[c] = "Ossified Blade";
-								} else {
-									var choices = ["_533", "_534"];
-									item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-								}
-								break;
-							case 11:
-								item[c] = save.objects["_621"].name;
-								break;
-							case 12:
-								item[c] = "Mystery Box";
-								itemQty[c] = rng.Next(3,5);
-								break;
-							case 13:
-								item[c] = save.objects["_SkillBook_" + rng.Next(5)].name;
-								break;
-							case 14:
-								item[c] = "Raccoon Seeds";
-								itemQty[c] = 8;
-								noLink[c] = true;
-								break;
+									break;
+								case 4:
+									item[c] = save.objects["_369"].name;
+									itemQty[c] = 20;
+									break;
+								case 5:
+									item[c] = save.objects["_466"].name;
+									itemQty[c] = 20;
+									break;
+								case 6:
+									item[c] = save.objects["_773"].name;
+									itemQty[c] = 2;
+									break;
+								case 7:
+									item[c] = save.objects["_688"].name;
+									itemQty[c] = 3;
+									break;
+								case 8:
+									item[c] = save.objects["_" + rng.Next(628,634)].name;
+									break;
+								case 9:
+									item[c] = "Seasonal Seeds";
+									itemQty[c] = 20;
+									noLink[c] = true;
+									break;
+								case 10:
+									if (rng.NextDouble() < 0.5) {
+										item[c] = "Ossified Blade";
+									} else {
+										var choices = ["_533", "_534"];
+										item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+									}
+									break;
+								case 11:
+									item[c] = save.objects["_621"].name;
+									break;
+								case 12:
+									item[c] = "Mystery Box";
+									itemQty[c] = rng.Next(3,5);
+									break;
+								case 13:
+									item[c] = save.objects["_SkillBook_" + rng.Next(5)].name;
+									break;
+								case 14:
+									item[c] = "Raccoon Seeds";
+									itemQty[c] = 8;
+									noLink[c] = true;
+									break;
+							}
 						}
-					} else {
+					}
+					// Fall-through for first 10 boxes or no RNG success yet
+					if (item[c] == 'None') {
 						switch(rng.Next(14)) {
 							case 0:
 								item[c] = save.objects["_395"].name;
@@ -6619,104 +6623,108 @@ window.onload = function () {
 					for (i = 0; i < prewarm_amount2; i++) {
 						rng.NextDouble();
 					}
-					if (c == 2 && rng.NextDouble() < 0.005) {
-						item[c] = "Golden Animal Cracker";
-					} else if (rng.NextDouble() < (0.002 * rareMod)) {
-						item[c] = save.objects["_279"].name;
-					} else if (rng.NextDouble() < (0.004 * rareMod)) {
-						item[c] = save.objects["_74"].name;
-					} else if (rng.NextDouble() < (0.008 * rareMod)) {
-						item[c] = save.objects["_166"].name;
-					} else if (rng.NextDouble() < (0.01 * rareMod + extraBookChance)) {
-						if (!save.gotMysteryBook) {
-							item[c] = save.objects["_Book_Mystery"].name;
-						} else {
-							var choices = ["_PurpleBook", "_Book_Mystery"];
+					if (numOpened > 10 || c > 0) {
+						if (c == 2 && rng.NextDouble() < 0.005) {
+							item[c] = "Golden Animal Cracker";
+						} else if (rng.NextDouble() < (0.002 * rareMod)) {
+							item[c] = save.objects["_279"].name;
+						} else if (rng.NextDouble() < (0.004 * rareMod)) {
+							item[c] = save.objects["_74"].name;
+						} else if (rng.NextDouble() < (0.008 * rareMod)) {
+							item[c] = save.objects["_166"].name;
+						} else if (rng.NextDouble() < (0.01 * rareMod + extraBookChance)) {
+							if (!save.gotMysteryBook) {
+								item[c] = save.objects["_Book_Mystery"].name;
+							} else {
+								var choices = ["_PurpleBook", "_Book_Mystery"];
+								item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+							}
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							var choices = ["_797", "_373"];
 							item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-						}
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						var choices = ["_797", "_373"];
-						item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Hat";
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Shirt";
-					} else if (rng.NextDouble() < (0.01 * rareMod)) {
-						item[c] = "Mystery Wallpaper";
-					} else if (rng.NextDouble() < 0.1 || c > 0) {
-						switch(rng.Next(15)) {
-							case 0:
-								item[c] = save.objects["_288"].name;
-								itemQty[c] = 5;
-								break;
-							case 1:
-								item[c] = save.objects["_253"].name;
-								itemQty[c] = 3;
-								break;
-							case 2:
-								// This only rolls at fishing skill >= 6
-								if (rng.NextDouble() < .5) {
-									var choices = ["_687", "_695"];
-									item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-									basedOnSkill[c] = true;
-								} else {
-									item[c] = save.objects["_242"].name;
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Hat";
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Shirt";
+						} else if (rng.NextDouble() < (0.01 * rareMod)) {
+							item[c] = "Mystery Wallpaper";
+						} else if (rng.NextDouble() < 0.1 || c > 0) {
+							switch(rng.Next(15)) {
+								case 0:
+									item[c] = save.objects["_288"].name;
+									itemQty[c] = 5;
+									break;
+								case 1:
+									item[c] = save.objects["_253"].name;
+									itemQty[c] = 3;
+									break;
+								case 2:
+									// This only rolls at fishing skill >= 6
+									if (rng.NextDouble() < .5) {
+										var choices = ["_687", "_695"];
+										item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+										basedOnSkill[c] = true;
+									} else {
+										item[c] = save.objects["_242"].name;
+										itemQty[c] = 2;
+									}
+									break;
+								case 3:
+									item[c] = save.objects["_204"].name;
 									itemQty[c] = 2;
-								}
-								break;
-							case 3:
-								item[c] = save.objects["_204"].name;
-								itemQty[c] = 2;
-								break;
-							case 4:
-								item[c] = save.objects["_369"].name;
-								itemQty[c] = 20;
-								break;
-							case 5:
-								item[c] = save.objects["_466"].name;
-								itemQty[c] = 20;
-								break;
-							case 6:
-								item[c] = save.objects["_773"].name;
-								itemQty[c] = 2;
-								break;
-							case 7:
-								item[c] = save.objects["_688"].name;
-								itemQty[c] = 3;
-								break;
-							case 8:
-								item[c] = save.objects["_" + rng.Next(628,634)].name;
-								break;
-							case 9:
-								item[c] = "Seasonal Seeds";
-								itemQty[c] = 20;
-								noLink[c] = true;
-								break;
-							case 10:
-								if (rng.NextDouble() < 0.5) {
-									item[c] = "Ossified Blade";
-								} else {
-									var choices = ["_533", "_534"];
-									item[c] = save.objects[choices[rng.Next(choices.length)]].name;
-								}
-								break;
-							case 11:
-								item[c] = save.objects["_621"].name;
-								break;
-							case 12:
-								item[c] = "Mystery Box";
-								itemQty[c] = rng.Next(3,5);
-								break;
-							case 13:
-								item[c] = save.objects["_SkillBook_" + rng.Next(5)].name;
-								break;
-							case 14:
-								item[c] = "Raccoon Seeds";
-								itemQty[c] = 8;
-								noLink[c] = true;
-								break;
+									break;
+								case 4:
+									item[c] = save.objects["_369"].name;
+									itemQty[c] = 20;
+									break;
+								case 5:
+									item[c] = save.objects["_466"].name;
+									itemQty[c] = 20;
+									break;
+								case 6:
+									item[c] = save.objects["_773"].name;
+									itemQty[c] = 2;
+									break;
+								case 7:
+									item[c] = save.objects["_688"].name;
+									itemQty[c] = 3;
+									break;
+								case 8:
+									item[c] = save.objects["_" + rng.Next(628,634)].name;
+									break;
+								case 9:
+									item[c] = "Seasonal Seeds";
+									itemQty[c] = 20;
+									noLink[c] = true;
+									break;
+								case 10:
+									if (rng.NextDouble() < 0.5) {
+										item[c] = "Ossified Blade";
+									} else {
+										var choices = ["_533", "_534"];
+										item[c] = save.objects[choices[rng.Next(choices.length)]].name;
+									}
+									break;
+								case 11:
+									item[c] = save.objects["_621"].name;
+									break;
+								case 12:
+									item[c] = "Mystery Box";
+									itemQty[c] = rng.Next(3,5);
+									break;
+								case 13:
+									item[c] = save.objects["_SkillBook_" + rng.Next(5)].name;
+									break;
+								case 14:
+									item[c] = "Raccoon Seeds";
+									itemQty[c] = 8;
+									noLink[c] = true;
+									break;
+							}
 						}
-					} else {
+					}
+					// Fall-through for first 10 boxes or no RNG success yet
+					if (item[c] == 'None') {
 						switch(rng.Next(14)) {
 							case 0:
 								item[c] = save.objects["_395"].name;
@@ -8538,8 +8546,27 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				*/
 			output += '</table>';
 		} else {
+			// We need to know what player to use for setting up the initial offset this early.
+			var whichPlayer = 0;
+			// Player selection menu will only show if there are multiple players.
+			if (typeof(save.mp_ids) !== 'undefined' && save.mp_ids.length > 1) {
+				$('#prize-player').show();
+				if ($('#prize-player-select option').length == 0) {
+					// populate menu and default to main farmer.
+					for (var player = 0; player < save.mp_ids.length; player++) {
+						var prefix = (player == 0) ? 'Main Farmer ' : 'Farmhand ';
+						var o = new Option( prefix + save.names[player], player);
+						if (player == 0) { o.selected = true; }
+						$('#prize-player-select').append(o);
+					}
+				} else {
+					whichPlayer = $('#prize-player-select').val();
+				}
+			} else {
+				$('#prize-player').hide();
+			}	
 			if (typeof(offset) === 'undefined') {
-				offset = pageSize * Math.floor(save.ticketPrizesClaimed[0] / pageSize);
+				offset = pageSize * Math.floor(save.ticketPrizesClaimed[whichPlayer] / pageSize);
 			}
 			if (offset < pageSize) {
 				$('#prize-prev').prop("disabled", true);
@@ -8566,8 +8593,15 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			output += '<table class="output"><thead><tr><th rowspan="2" class="index">Num Open</th>' +
 				'<th colspan="2" class="prize-result">Prize Received</th>';
 			output += '</tr><tr><th class="item">Item</th><th class="qty">Qty</th></tr><tbody>';
-			// this is now seeded by gameID, multiplayerID and will need to be shown per-player
-			var rng = new CSRandom(getRandomSeed(save.gameID));
+			var rng;
+			if (typeof(save.mp_ids) !== 'undefined') {
+				rng = new CSRandom(getRandomSeedFromBigInts(bigInt(save.gameID), save.mp_ids[whichPlayer]));
+			} else {
+				rng = new CSRandom(getRandomSeed(save.gameID, 0));
+				$('#prize-note').html('Note: No players found; predictions will not be reliable');
+			}
+			// This RNG call is reseeded every time so there is only 1 roll.
+			var randRoll = rng.NextDouble();
 			for (var g = 1; g <= pageSize; g++) {
 				var numOpened = offset + g;
 				// extra var to more closely match game logic
@@ -8577,9 +8611,9 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				var noLink = false;
 				switch(prizeLevel) {
 					case 0: item = "Raccoon Seeds"; itemQty = 12; noLink = true; break;
-					case 1: item = (rng.NextDouble() < .5) ? "Peach Sapling" : "Orange Sapling"; break;
+					case 1: item = (randRoll < .5) ? "Peach Sapling" : "Orange Sapling"; break;
 					case 2:
-						if (rng.NextDouble() < .5) {
+						if (randRoll < .5) {
 							item = "Mixed Seeds"; itemQty = 10;
 						} else {
 							item = "Mixed Flower Seeds"; itemQty = 15;
@@ -8590,39 +8624,38 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					case 4: item = "Stardrop Tea"; break;
 					case 5: item = wikify("Blue Pinstripe Bed", "Furniture"); noLink = true; break;
 					case 6: 
-						switch(rng.Next(3)) {
+						switch(Math.floor(3*randRoll)) {
 							case 0: item = "Quality Sprinkler"; break;
 							case 1: item = "Preserves Jar"; break;
 							case 2: item = "Mushroom Log"; break;
 						}
 						itemQty = 4;
 						break;
-					case 7: item = (rng.NextDouble() < .5) ? "Apple Sapling" : "Pomegranate Sapling"; break;
+					case 7: item = (randRoll < .5) ? "Apple Sapling" : "Pomegranate Sapling"; break;
 					case 8: item = '<span class="book">' + wikify('Friendship 101') + '</span>'; noLink = true; break;
 					case 9: 
-						switch(rng.Next(3)) {
+						switch(Math.floor(3*randRoll)) {
 							case 0: item = "Cherry Bomb"; itemQty = 20; break;
 							case 1: item = "Bomb"; itemQty = 12; break;
 							case 2: item = "Mega Bomb"; itemQty = 6; break;
 						}
 						break;
 					case 10: item = wikify("Sports Cap", "Hats"); noLink = true; break;
-					case 11: item = (rng.NextDouble() < .5) ? "Fish Smoker" : "Dehydrator"; break;
-					case 12: item = (rng.NextDouble() < .5) ? "Artifact Trove" : "Mystery Box"; itemQty = 4; break;
-					case 13: item = wikify("House Plant (" + rng.Next(3) + ")",  "Furniture"); noLink = true; break;
+					case 11: item = (randRoll < .5) ? "Fish Smoker" : "Dehydrator"; break;
+					case 12: item = (randRoll < .5) ? "Artifact Trove" : "Mystery Box"; itemQty = 4; break;
 					case 13:
 						var choice = ['House Plant (1)', 'House Plant (2)', 'House Plant (3)'];
-						item = wikify(choice[rng.Next(choice.length)], "Furniture");
+						item = wikify(choice[Math.floor(randRoll*choice.length)], "Furniture");
 						noLink = true;
 						break;								
 					case 14:
 						var choice = ["Stardew Valley Almanac", "Bait And Bobber", "Woodcutter's Weekly", "Mining Monthly", "Combat Quarterly"];
-						item = '<span class="book">' + wikify(choice[rng.Next(choice.length)]) + '</span>';
+						item = '<span class="book">' + wikify(choice[Math.floor(randRoll*choice.length)]) + '</span>';
 						noLink = true;
 						break;								
 					case 16: item = wikify("Cow Decal", "Furniture"); noLink = true; break;
 					case 17: item = "Omni Geode"; itemQty = 8; break;
-					case 18: item = (rng.NextDouble() < .5) ? "Bee House" : "Keg"; itemQty = 4; break;
+					case 18: item = (randRoll < .5) ? "Bee House" : "Keg"; itemQty = 4; break;
 					case 19: item = "Diamond"; itemQty = 5; break;
 					case 20: item = "Mystery Box"; itemQty = 5; break;
 					case 21: item = "Magic Rock Candy"; break;
@@ -8650,7 +8683,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 								noLink = true;
 								break;
 							case 8:
-								switch(rng.Next(2)) {
+								switch(rng2.Next(2)) {
 									case 0: item = "Bomb"; itemQty = 15; break;
 									case 1: item = "Mega Bomb"; itemQty = 8; break;
 								}
