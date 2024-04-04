@@ -13,6 +13,7 @@ Please report any bugs, suggestions, or other feedback to [the topic in the Star
 
 ## Changelog
 
+* 4 Apr  2024 - v5.0.4 - Bugfixes for Prize Tickets, first 10 mystery boxes, and Calico Jack dealer draws
 * 30 Mar  2024 - v5.0.3 - Finally added slightly more friendly error-handling
 * 28 Mar  2024 - v5.0.2 - Fixed precision loss bug in enchantment code
 * 27 Mar  2024 - v5.0.1 - Update cart item lists for 1.6.3 patch

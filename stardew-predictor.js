@@ -3377,6 +3377,7 @@ window.onload = function () {
 		save.deepestMineLevel = 0;
 		save.timesFedRaccoons = 0;
 		save.dailyLuck = -.1;
+		save.luckLevel = 0;
 		save.canHaveChildren = false;
 		save.quarryUnlocked = false;
 		save.desertUnlocked = false;
@@ -3758,6 +3759,7 @@ window.onload = function () {
 		wasChanged.timesFedRaccoons = overrideSaveData("timesFedRaccoons", "timesFedRaccoons", "tfr", "int");
 		wasChanged.visitsUntilY1Guarantee = overrideSaveData("visitsUntilY1Guarantee", "visitsUntilY1Guarantee", "vg", "int");
 		wasChanged.dailyLuck = overrideSaveData("dailyLuck", "dailyLuck", "dl", "num");
+		wasChanged.luckLevel = overrideSaveData("luckLevel", "luckLevel", "ll", "int");
 		wasChanged.canHaveChildren = overrideSaveData("canHaveChildren", "canHaveChildren", "chc", "bool");
 		wasChanged.quarryUnlocked = overrideSaveData("quarryUnlocked", "quarryUnlocked", "qu", "bool");
 		wasChanged.desertUnlocked = overrideSaveData("desertUnlocked", "desertUnlocked", "du", "bool");
@@ -3790,7 +3792,7 @@ window.onload = function () {
 		save.dailyLuck = Math.min(0.1, Math.max(-0.1, save.dailyLuck));
 		// Add share URL. dayAdjust and all boolean options only included if non-default
 		var share_URL = window.location.protocol + '//' + window.location.host + window.location.pathname + "?id=" + save.gameID +
-			"&amp;v=" + save.version + "&amp;dp=" + save.daysPlayed + "&amp;dl=" + save.dailyLuck +
+			"&amp;v=" + save.version + "&amp;dp=" + save.daysPlayed + "&amp;dl=" + save.dailyLuck + "&amp;ll=" + save.luckLevel +
 			"&amp;dml=" + save.deepestMineLevel + "&amp;vg=" + save.visitsUntilY1Guarantee + "&amp;gc=" + save.geodesCracked[0] +
 			"&amp;mb=" + save.mysteryBoxesOpened[0] + "&amp;te=" + save.timesEnchanted[0] + "&amp;tc=" + save.trashCansChecked[0] +  
 			"&amp;pt=" + save.ticketPrizesClaimed[0] + "&amp;tfr=" + save.timesFedRaccoons + 
@@ -3889,6 +3891,7 @@ window.onload = function () {
 		}
 		output += '</span><br/>';
 		output += '<span class="result">' + (wasChanged.dailyLuck ? "*":'') + 'Daily Luck is assumed to be ' + save.dailyLuck + '</span><br/>';
+		output += '<span class="result">' + (wasChanged.luckLevel ? "*":'') + 'Luck buffs are assumed to be ' + save.luckLevel + '</span><br/>';
 		output += '</td><td>';
 		
 		output += '<span class="result">' + (wasChanged.useLegacyRandom ? "*":'') + 'Legacy RNG Seeding is ' + (save.useLegacyRandom ? "on" : "off") +
@@ -8131,6 +8134,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 						playerTotal = choice[i].t;
 						r = choice[i].r;
 						var dealerTotal = dealerStart;
+						var superBust = '';
 						// playerTotal is guaranteed to be <= 21 here so the conditional is
 						// simplified from what the game does
 						while (dealerTotal < 18 || dealerTotal < playerTotal) {
@@ -8143,7 +8147,22 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 								case 18: autoBust = roll[r++] < .1; break;
 								default: // always keep original draw
 							}
-							dealerTotal += autoBust ? Math.floor(distance + 3 * roll[r++] + 1) : next;
+							// We need to calculate the autoBust now even though it might get superseded later
+							if (autoBust) {
+								next = Math.floor(distance + 3 * roll[r++] + 1);
+							}
+							// The superBust (my term) is luck-based
+							var minRoll = 0.0005;
+							var chance = Math.max(0.0005, 0.001 + save.dailyLuck/20 + save.luckLevel*.002);
+							var sbRoll = roll[r++];
+							if (sbRoll < minRoll) {
+								next = 999;
+								superBust = "<br/>Guaranteed super bust with 3x winnings";
+							} else if (sbRoll < chance) {
+								next = 999;
+								superBust = "<br/>Probable super bust with 3x winnings";
+							} 
+							dealerTotal += next;
 						}
 						if (dealerTotal > 21) {
 							if (choice[i].h === 0) {
@@ -8157,6 +8176,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 							havePush = true;
 							advice = "TIE: Hit " + choice[i].h + " time" + (choice[i].h == 1 ? '' : 's') + " and stand at " + playerTotal;
 						}
+						advice += superBust;
 					}
 				}
 

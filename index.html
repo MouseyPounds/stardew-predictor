@@ -21,7 +21,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=5.0.3"></script>
+<script src="./stardew-predictor.js?v=5.0.4"></script>
 <script src="./BigInteger.min.js"></script>
 <script src="./xxhash.min.js"></script>
 
@@ -68,7 +68,8 @@ Please report any bugs, suggestions, or other feedback to <a href="https://forum
 <tr><td class="code">gameID</td><td class="code">id</td><td>Integer</td><td class="long_list">Sets the game seed</td></tr>
 <tr><td class="code">daysPlayed</td><td class="code">dp</td><td>Integer</td><td class="long_list">Sets days played which changes where calendar views start</td></tr>
 <tr><td class="code">dayAdjust</td><td class="code">da</td><td>Integer</td><td class="long_list">Offsets days played by the given amount to deal with old multiplayer bugs</td></tr>
-<tr><td class="code">dailyLuck</td><td class="code">dl</td><td>Float</td><td class="long_list">Sets daily luck for garbage checks; will be forced into range [-0.1, 0.1]</td></tr>
+<tr><td class="code">dailyLuck</td><td class="code">dl</td><td>Float</td><td class="long_list">Sets daily luck for garbage checks; will be forced into range [-0.1, 0.1]<br/>Note, this is raw luck before special charm is taken into account</td></tr>
+<tr><td class="code">luckLevel</td><td class="code">ll</td><td>Integer</td><td class="long_list">Sets luck buff level (from food, rings, etc.)</td></tr>
 <tr><td class="code">geodesCracked</td><td class="code">gc</td><td>Integer</td><td class="long_list">Sets number of geodes cracked by the host</td></tr>
 <tr><td class="code">mysteryBoxesOpened</td><td class="code">mb</td><td>Integer</td><td class="long_list">Sets number of mystery boxes opened by the host</td></tr>
 <tr><td class="code">ticketPrizesClaimed</td><td class="code">pt</td><td>Integer</td><td class="long_list">Sets number of prize ticket rewards claimed by the host</td></tr>
@@ -184,6 +185,7 @@ Search Range: <select id="book-search-range">
 <h3>CalicoJack</h3>
 <p class="intro" id="cj-intro">Predicted results from playing the <a href="https://stardewvalleywiki.com/CalicoJack">Blackjack-like card game</a> at the <a href="https://stardewvalleywiki.com/Casino">Oasis Casino</a>. The results tell you what actions to take to win the game if possible. The game does not keep a cumulative counts of plays in the save, but instead uses a fresh counter every play session. As a result, the layout of this tab is a little different with two sets of navigation buttons. The top set lets you change the day of prediction, and the bottom set changes number of games played in the current session.</p>
 <p>Since one can bet "Double or Nothing" following a win, coins can be quickly accumulated during long win streaks although one must be careful to avoid overflowing their coin count into the negatives. If starting from nothing, overflow would happen on the 22nd consecutive win.</p>
+<p>Stardew 1.6 added a very rare chance for the dealer to draw a card worth 999 and results in the player winning 3 times their bet. Predictor should indicate when this is likely to happen (the roll is modified by both daily luck and luck buffs) but it does not currently attempt to search out this result.</p>
 <p class="note" id="cj-note"></p>
 <fieldset id="cj-d-buttons"><div class="buttons">
 <button id="cj-d-prev-week" type="button" class="browse">&lt;&lt; Previous Week</button>
@@ -636,6 +638,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li> 4 Apr  2024 - v5.0.4 - Bugfixes for Prize Tickets, first 10 mystery boxes, and Calico Jack dealer draws</li>
 <li>30 Mar  2024 - v5.0.3 - Finally added slightly more friendly error-handling</li>
 <li>28 Mar  2024 - v5.0.2 - Fixed precision loss bug in enchantment code</li> 
 <li>27 Mar  2024 - v5.0.1 - Update cart item lists for 1.6.3 patch</li> 
