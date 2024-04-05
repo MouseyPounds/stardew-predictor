@@ -5651,8 +5651,13 @@ window.onload = function () {
 			count,
 			rng,
 			thisRoll,
-			shirtID,
+			spriteID,
+			extra,
 			tclass;
+		// Thanks to @sicarious on Discord
+		var ccShirts = [1019,1022,1023,1040,1041,1043,1045,1046,1049,1054,1056,1060,1076,1080,1082,1084,1087,1090,1108,1109,1110];
+		var oasisShirts = [1118,1119,1120,1121];
+
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
 		// to add some sort of error message or other feedback.
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
@@ -5675,15 +5680,19 @@ window.onload = function () {
 			for (offset = searchStart; offset < searchStart + searchEnd; offset += 7) {
 				for (var i = 0; i < 7; i++) {
 					day = offset + i;
+					extra = '';
+					var numID = 0;
 					if (compareSemVer(save.version, "1.6") >= 0) {
 						rng = new CSRandom(getRandomSeed(day + save.dayAdjust, save.gameID / 2));
 						var result = getRandomItems(rng, "shirts", 1000, 1126, true, true);
-						shirtID = save.shirts[result[0]].id - 999;
+						spriteID = save.shirts[result[0]].id - 999;
+						numID = Number(save.shirts[result[0]].id);
 						item = save.shirts[result[0]].name + " (ID '(S)" + save.shirts[result[0]].id + "')" ;
 					} else {
 						rng = new CSRandom((save.gameID / 2) + day + save.dayAdjust);
 						thisRoll = 1000 + rng.Next(127);
-						shirtID = thisRoll - 999;
+						spriteID = thisRoll - 999;
+						numID = thisRoll;
 						item = save.shirts["_" + thisRoll].name + " (ID " + thisRoll +")" ;
 					}
 					if (searchTerm.test(item)) {
@@ -5698,9 +5707,14 @@ window.onload = function () {
 						if (dayOfWeek < 0) { dayOfWeek += 7; }
 						monthName = save.seasonNames[month % 4];
 						dayOfWeek = save.dayNames[dayOfWeek];
+						if (oasisShirts.includes(numID)) {
+							extra = '<br/><span class="note">Oasis exclusive</span>';
+						} else if (ccShirts.includes(numID)) {
+							extra = '<br/><span class="note">Character Creator option ' + spriteID + '</span>';
+						}
 						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
-							'<img src="blank.png" class="shirt" id="shirt_' + shirtID + '"></td>' +
-							'<td clas="shirt-name">' + item + "</td>";
+							'<img src="blank.png" class="shirt" id="shirt_' + spriteID + '"></td>' +
+							'<td clas="shirt-name">' + item + extra + "</td>";
 					}
 				}
 			}
@@ -5741,16 +5755,25 @@ window.onload = function () {
 
 			for (dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
 				day = dayOfWeek + offset;
+				extra = "";
+				var numID = 0;
 				if (compareSemVer(save.version, "1.6") >= 0) {
 					rng = new CSRandom(getRandomSeed(day + save.dayAdjust, save.gameID / 2));
 					var result = getRandomItems(rng, "shirts", 1000, 1126, true, true);
-					shirtID = save.shirts[result[0]].id - 999;
+					spriteID = save.shirts[result[0]].id - 999;
+					numID = Number(save.shirts[result[0]].id);
 					item = save.shirts[result[0]].name + "<br/>ID: (S)" + save.shirts[result[0]].id;
 				} else {
 					rng = new CSRandom((save.gameID / 2) + day + save.dayAdjust);
 					thisRoll = 1000 + rng.Next(127);
-					shirtID = thisRoll - 999;
+					spriteID = thisRoll - 999;
+					numID = thisRoll;
 					item = save.shirts["_" + thisRoll].name + "<br/>ID: " + thisRoll;
+				}
+				if (oasisShirts.includes(numID)) {
+					extra = '<br/><span class="note">Oasis exclusive</span>';
+				} else if (ccShirts.includes(numID)) {
+					extra = '<br/><span class="note">Character Creator option ' + spriteID + '</span>';
 				}
 
 				if (day < save.daysPlayed) {
@@ -5762,8 +5785,8 @@ window.onload = function () {
 				}
 				output += '<tr><td class="' + tclass + '">' + save.dayNames[(day - 1) % 7] + '<br/>' +
 					monthName + ' ' + ((day - 1) % 28 + 1) +', Year ' + year + '</td>' +
-					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (shirtID) + '"></td>' +
-					'<td class="' + tclass + ' shirt-name">' + item + '</td></tr>';
+					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (spriteID) + '"></td>' +
+					'<td class="' + tclass + ' shirt-name">' + item + extra + '</td></tr>';
 			}
 			output += '</tbody></table>\n';
 		}
