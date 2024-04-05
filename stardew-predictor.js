@@ -3890,7 +3890,12 @@ window.onload = function () {
 			output += " not active or already past";
 		}
 		output += '</span><br/>';
-		output += '<span class="result">' + (wasChanged.dailyLuck ? "*":'') + 'Daily Luck is assumed to be ' + save.dailyLuck + '</span><br/>';
+		output += '<span class="result">' + (wasChanged.dailyLuck ? "*":'') + 'Daily Luck is assumed to be ' + save.dailyLuck;
+		if (save.hasSpecialCharm) {
+			save.dailyLuck += 0.025;
+			output += ' (' + save.dailyLuck.toFixed(3) + ' with charm)';
+		}
+		output += '</span><br/>';
 		output += '<span class="result">' + (wasChanged.luckLevel ? "*":'') + 'Luck buffs are assumed to be ' + save.luckLevel + '</span><br/>';
 		output += '</td><td>';
 		
@@ -4302,10 +4307,9 @@ window.onload = function () {
 		year = 1 + Math.floor(offset / 112);
 		output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
 		output += '<tr><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>Sa</th><th>Su</th></tr></thead>\n<tbody>';
-		// Note luckCheck was initialized above to 0.2 + save.dailyLuck
+		// Note luckCheck was initialized above to 0.2 + save.dailyLuck (and also includes charm buff if applicable)
 		// The base 0.2 could technically vary per can but does not in vanilla Stardew. save.dailyLuck is assumed to be worst
 		// possible value (-0.1) but can be overridden by URL parameters to alter the prediction.
-		if (save.hasSpecialCharm) { luckCheck += 0.025; }
 		if (compareSemVer(save.version, "1.6") >= 0 && save.hasGarbageBook) { luckCheck += .2; }
 		for (week = 0; week < 4; week++) {
 			output += "<tr>";
@@ -5708,9 +5712,9 @@ window.onload = function () {
 						monthName = save.seasonNames[month % 4];
 						dayOfWeek = save.dayNames[dayOfWeek];
 						if (oasisShirts.includes(numID)) {
-							extra = '<br/><span class="note">Oasis exclusive</span>';
+							extra = '<br/><img src="blank.png" class="icon" id="no_sew"> <span class="note">Oasis exclusive</span>';
 						} else if (ccShirts.includes(numID)) {
-							extra = '<br/><span class="note">Character Creator option ' + spriteID + '</span>';
+							extra = '<br/><img src="blank.png" class="icon" id="no_sew"> <span class="note">Character Creator option ' + spriteID + '</span>';
 						}
 						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 							'<img src="blank.png" class="shirt" id="shirt_' + spriteID + '"></td>' +
@@ -5718,7 +5722,9 @@ window.onload = function () {
 					}
 				}
 			}
-			output += '<tr><td colspan="3" class="count">Found ' + count + ' matching item(s)</td></tr></tbody></table>\n';
+			output += '<tr><td colspan="3" class="count">Found ' + count + ' matching item(s)</td></tr>';
+			output += '<tr><td colspan="3" class="legend">Note: <img src="blank.png" class="icon" id="no_sew" alt="No Sewing"> denotes items which cannot be made via ' + wikify("Tailoring") + '</td></tr>';
+			output += '</tbody></table>\n';
 		} else {
 			if (typeof(offset) === 'undefined' || offset === '') {
 				offset = 7 * Math.floor((save.daysPlayed - 1) / 7);
@@ -5771,9 +5777,9 @@ window.onload = function () {
 					item = save.shirts["_" + thisRoll].name + "<br/>ID: " + thisRoll;
 				}
 				if (oasisShirts.includes(numID)) {
-					extra = '<br/><span class="note">Oasis exclusive</span>';
+					extra = '<br/><img src="blank.png" class="icon" id="no_sew"> <span class="note">Oasis exclusive</span>';
 				} else if (ccShirts.includes(numID)) {
-					extra = '<br/><span class="note">Character Creator option ' + spriteID + '</span>';
+					extra = '<br/><img src="blank.png" class="icon" id="no_sew"> <span class="note">Character Creator option ' + spriteID + '</span>';
 				}
 
 				if (day < save.daysPlayed) {
@@ -5788,6 +5794,7 @@ window.onload = function () {
 					'<td class="' + tclass + '"><img src="blank.png" class="shirt" id="shirt_' + (spriteID) + '"></td>' +
 					'<td class="' + tclass + ' shirt-name">' + item + extra + '</td></tr>';
 			}
+			output += '<tr><td colspan="3" class="legend">Note: <img src="blank.png" class="icon" id="no_sew" alt="No Sewing"> denotes items which cannot be made via ' + wikify("Tailoring") + '</td></tr>';
 			output += '</tbody></table>\n';
 		}
 		return output;
@@ -8455,6 +8462,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		// StardewValley.Menus.ChooseFromIconsMenu.ChooseFromIconsMenu() for Dwarf Statue
 		// StardewValley.Object.CheckForActionOnBlessedStatue() for Statue of Blessings buff
 		// StardewValley.GameLocation.tryAddPrismaticButterfly() for the butterfly spawn point
+		// StardewValley.BellsAndWhistles.Butterfly.update() for shard drop chance
 		var output = "",
 			blessingNames = [ "Speed", "Luck", "Energy", "Waters", "Friendship", "Fangs", "Butterfly" ],
 			dwarfNames = [ "+1 Ore", "Ladders", "Coal", "Bomb Immunity", "Geodes" ],
@@ -8499,10 +8507,13 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					pbExtra = ' <span data-tooltip="Butterfly Spawns:\n';
 					if (save.hasOwnProperty("mp_ids")) {
 						for (var player = 0; player < save.mp_ids.length; player++) {
+							// same seed is used for 2 different rolls (shard chance and map)
+							rng = new CSRandom(getRandomSeedFromBigInts(bigInt(day), bigInt(save.gameID).divide(2), save.mp_ids[player].mod(10000)));
+							var shard = rng.NextDouble() < (0.05 + save.dailyLuck);
 							rng = new CSRandom(getRandomSeedFromBigInts(bigInt(day), bigInt(save.gameID).divide(2), save.mp_ids[player].mod(10000)));
 							var index = rng.Next(pbMaps.length);
 							// The coordinate generation now runs up to 33 times trying to find an open tile.
-							pbExtra += '&bull; ' + save.names[player] + " - " + pbMaps[index] + '\n';
+							pbExtra += '&bull; ' + save.names[player] + " - " + pbMaps[index] + (shard ? ' (prismatic shard expected)' : '') + '\n';
 							console.log("Butterfly coordinate possibilities for " + save.names[player] + " - " + pbMaps[index] + " on " + monthName + " " + (day - offset) + ", Y" + year);
 							var coords = [];
 							for (var i = 0; i <= 32; i++) {
