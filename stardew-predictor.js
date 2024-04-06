@@ -94,7 +94,14 @@ window.onload = function () {
 			if (type === 'text' || type === 'string' ) {
 				save[prop] = $.QueryString[queryProp];
 			} else if (type === 'bigint' ) {
-				save[prop] = bigInt($.QueryString[queryProp]);
+				var val;
+				try {
+					val = bigInt($.QueryString[queryProp]);
+				} catch(e) {
+					$("#results-note").html("Ignoring invalid URL parameter for gameID: " +  $.QueryString[queryProp] + ". Only numeric values are accepted.");
+					return false;
+				}
+				save[prop] = val;
 			} else if (type === 'num' || type === 'int' ) {
 				save[prop] = Number($.QueryString[queryProp]);
 			} else if (type === 'array') {
