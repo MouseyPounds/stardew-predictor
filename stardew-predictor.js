@@ -7686,10 +7686,9 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				// The logic is a little different and we will start by simply building a new NPC list
 				// which we copy before using since we may remove characters from it.
 				var orig = ['Abigail', 'Caroline', 'Clint', 'Demetrius', 'Willy', 'Elliott', 'Emily',
-						'Evelyn', 'George', 'Gus', 'Haley', 'Harvey', 'Jas', 'Jodi', 'Alex',
+						'Evelyn', 'George', 'Gus', 'Haley', 'Harvey', 'Jas', 'Jodi', 'Alex', 'Kent',
 						'Leah', 'Lewis', 'Linus', 'Marlon', 'Marnie', 'Maru', 'Pam',
 						'Penny', 'Pierre', 'Robin', 'Sam', 'Sebastian', 'Shane', 'Vincent'];
-				if (year > 1) { orig.splice(15, 0, 'Kent'); }
 				if (save.leoMoved) { orig.push('Leo'); }
 				npcs = orig.slice();
 				secretSantaGiveTo = '';
@@ -7699,7 +7698,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					var index = rng.Next(npcs.length);
 					var pick = npcs[index];
 					// Marlon must be removed here if picked because of "CanSocialize": "FALSE"
-					if (pick === 'Marlon') {
+					if (pick === 'Marlon' || (year === 1 && pick === 'Kent')) {
 						npcs.splice(index,1);
 					} else {
 						secretSantaGiveTo = pick;
@@ -7714,7 +7713,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				while (secretSantaGetFrom === '') {
 					index = rng.Next(npcs.length);
 					var pick = npcs[index];
-					if (pick === 'Marlon') {
+					if (pick === 'Marlon' || (year === 1 && pick === 'Kent')) {
 						npcs.splice(index,1);
 					} else {
 						secretSantaGetFrom = pick;
