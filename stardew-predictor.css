@@ -542,7 +542,7 @@ img#sea_3 {
 
 /* tooltip implementation based on code from Andrea Ligios
    https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
-   http://jsfiddle.net/AndreaLigios/jtLbpy62/
+   https://jsfiddle.net/AndreaLigios/jtLbpy62/
  */
 [data-tooltip]:before {
 	position: absolute;

@@ -72,8 +72,8 @@ window.onload = function () {
 		trimmed = trimmed.replace(' (Any)', '');
 		trimmed = trimmed.replace(/ \(\d+\)/, '');
 		trimmed = trimmed.replace(/ /g, '_');
-		return (page) ? ('<a href="http://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>') :
-					('<a href="http://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
+		return (page) ? ('<a href="https://stardewvalleywiki.com/' + page + '#' + trimmed + '">' + item + '</a>') :
+					('<a href="https://stardewvalleywiki.com/' + trimmed + '">' + item + '</a>');
 	}
 
 	// Wrapper function to check URL parameters and change save properties if they are set

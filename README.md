@@ -2,7 +2,7 @@
 
 ## About Stardew Predictor
 
-This app simulates the random number generator used in [Stardew Valley](http://stardewvalley.net/) and makes "predictions" about the game either from the Game ID or by reading the save file. Currently, the information predicted includes special mine levels (e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.
+This app simulates the random number generator used in [Stardew Valley](https://stardewvalley.net/) and makes "predictions" about the game either from the Game ID or by reading the save file. Currently, the information predicted includes special mine levels (e.g. mushroom floor &amp; infestations), random items sold by some vendors, results from cracking geodes, the train schedule, and more.
 A useful companion tool is [BlaDe's Map Predictor](https://www.nexusmods.com/stardewvalley/mods/6614) which handles things such as artifact digging, giant crops, and mine ladders.
 
 All changed & added content from version 1.6 should be supported; 1.6-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter.
@@ -13,6 +13,7 @@ Please report any bugs, suggestions, or other feedback to [the topic in the Star
 
 ## Changelog
 
+*  7 Apr  2024 - v5.0.6 - Variety of PR bugfixes
 *  6 Apr  2024 - v5.0.5 - Bugfix for invalid ID in URL; marked Sandy shirts that are otherwise hard to acquire
 *  4 Apr  2024 - v5.0.4 - Bugfixes for Prize Tickets, first 10 mystery boxes, and Calico Jack dealer draws
 * 30 Mar  2024 - v5.0.3 - Finally added slightly more friendly error-handling
