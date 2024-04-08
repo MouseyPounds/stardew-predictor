@@ -105,7 +105,7 @@ window.onload = function () {
 			} else if (type === 'num' || type === 'int' ) {
 				save[prop] = Number($.QueryString[queryProp]);
 			} else if (type === 'array') {
-				if (typeof(save[prop]) === 'undefined') { 
+				if (typeof(save[prop]) === 'undefined') {
 					save[prop] = [Number($.QueryString[queryProp])];
 				} else {
 					save[prop][0] = Number($.QueryString[queryProp]);
@@ -183,7 +183,7 @@ window.onload = function () {
 				6: 'Beach',
 				"MeadowlandsFarm": 'Meadowlands',
 			};
-		// Although this stuff isn't really part of the save file, the save object is global and using it for 
+		// Although this stuff isn't really part of the save file, the save object is global and using it for
 		// this meta-information lets all the tab functions have access.
 		// cartItems and cartItems_1_4 are giant hardcoded lists that allowed us to simplify the item selection logic
 		// for the traveling merchant but these are obsolete as of Stardew 1.6 and only still exist here for backwards
@@ -3403,7 +3403,7 @@ window.onload = function () {
 		save.visitsUntilY1Guarantee = -1;
 		save.names = [];
 		save.gender = [];
-		// save.characters should actually be built by iterating over game locations so the order will change depending on 
+		// save.characters should actually be built by iterating over game locations so the order will change depending on
 		// big changes such as marriages and Pam moving from trailer to house.
 		// Here we provide a reasonable default setup in case the app is run from gameID parameter
 		save.characters = ["George", "Evelyn", "Alex", "Haley", "Emily", "Vincent", "Sam", "Jodi", "Kent", "Clint", "Lewis", "Pierre", "Abigail", "Caroline", "Gus", "Penny", "Pam", "Harvey", "Elliott", "Demetrius", "Robin", "Maru", "Sebastian", "Linus", "Wizard", "Jas", "Marnie", "Shane", "Leah", "Dwarf", "Krobus", "Sandy", "Willy", "Leo"];
@@ -3782,7 +3782,7 @@ window.onload = function () {
 		wasChanged.ccComplete = overrideSaveData("ccComplete", "ccComplete", "cc", "bool");
 		wasChanged.jojaComplete = overrideSaveData("jojaComplete", "jojaComplete", "jc", "bool");
 		wasChanged.qiCropsActive = overrideSaveData("qiCropsActive", "qiCropsActive", "qc", "bool");
-		
+
 		// It is easier to deal with the guaranteed red cabbage if we knew the value on day 1 of the save.
 		// We reverse-engineer the original value unless URL parameter forces us to reroll.
 		save.originalGuarantee = -1;
@@ -3801,8 +3801,8 @@ window.onload = function () {
 		var share_URL = window.location.protocol + '//' + window.location.host + window.location.pathname + "?id=" + save.gameID +
 			"&amp;v=" + save.version + "&amp;dp=" + save.daysPlayed + "&amp;dl=" + save.dailyLuck + "&amp;ll=" + save.luckLevel +
 			"&amp;dml=" + save.deepestMineLevel + "&amp;vg=" + save.visitsUntilY1Guarantee + "&amp;gc=" + save.geodesCracked[0] +
-			"&amp;mb=" + save.mysteryBoxesOpened[0] + "&amp;te=" + save.timesEnchanted[0] + "&amp;tc=" + save.trashCansChecked[0] +  
-			"&amp;pt=" + save.ticketPrizesClaimed[0] + "&amp;tfr=" + save.timesFedRaccoons + 
+			"&amp;mb=" + save.mysteryBoxesOpened[0] + "&amp;te=" + save.timesEnchanted[0] + "&amp;tc=" + save.trashCansChecked[0] +
+			"&amp;pt=" + save.ticketPrizesClaimed[0] + "&amp;tfr=" + save.timesFedRaccoons +
 			(save.dayAdjust !== 0 ? ("&amp;da=" + save.dayAdjust) : "") +
 			(save.canHaveChildren ? "&amp;chc=" : "") +
 			(save.quarryUnlocked ? "&amp;qu=1" : "") +
@@ -3905,7 +3905,7 @@ window.onload = function () {
 		output += '</span><br/>';
 		output += '<span class="result">' + (wasChanged.luckLevel ? "*":'') + 'Luck buffs are assumed to be ' + save.luckLevel + '</span><br/>';
 		output += '</td><td>';
-		
+
 		output += '<span class="result">' + (wasChanged.useLegacyRandom ? "*":'') + 'Legacy RNG Seeding is ' + (save.useLegacyRandom ? "on" : "off") +
 			'</span><br/>';
 		output += '<span class="result">' + (wasChanged.quarryUnlocked ? "*":'') + 'Quarry is ' + (save.quarryUnlocked ? "" : "not") +
@@ -3962,7 +3962,7 @@ window.onload = function () {
 					updateTab(tab, false, offset);
 				} else {
 					updateTab(tab, false, offset, Number(button.value));
-				}				
+				}
 			}
 		} else {
 			if (typeof(button.value) === 'undefined' || button.value === 'reset') {
@@ -4434,7 +4434,7 @@ window.onload = function () {
 								case 3: trashItem = wikify("Broken CD"); break;
 								case 4: trashItem = wikify("Soggy Newspaper"); break;
 								case 5: trashItem = wikify("Bread"); break;
-								case 6: 
+								case 6:
 									//trashItem = wikify(getSeasonalItem(whichCan, month % 4, day)); break;
 									var rngSeason = new CSRandom(save.gameID + day + save.dayAdjust + tileX[whichCan]*653 + tileY[whichCan]*777);
 									trashItem = wikify(getRandomItemFromSeason(rngSeason, month % 4)); break;
@@ -5096,7 +5096,7 @@ window.onload = function () {
 							output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
 								wikify(save.objects[pick[slot]].name) + "</td><td>" + qty + "</td><td>" + addCommas(price) + "g</td></tr>";
 						}
-					}										
+					}
 					if (save.originalGuarantee >= 0) {
 						var dayOfPrediction = offset + days[i] + save.dayAdjust;
 						var visitsNow = save.originalGuarantee - Math.floor(dayOfPrediction/7) - Math.floor((dayOfPrediction + 2)/7);
@@ -5286,7 +5286,7 @@ window.onload = function () {
 					}
 					cart[d].selectedItems[slot].price = Math.max(cart[d].rng.Next(1,11) * 100, cart[d].rng.Next(3,6) * save.objects[pick[slot-1]].price);
 					cart[d].selectedItems[slot].qty = (cart[d].rng.NextDouble() < 0.1) ? 5 : 1;
-				}										
+				}
 			}
 			for (var slot = 1; slot <= 10; slot++) {
 				output += "<tr><td>Basic Item " + slot + "</td>";
@@ -5390,8 +5390,8 @@ window.onload = function () {
 				output += '<td class="item">' + name + "</td><td>" + qty + "</td><td>" + addCommas(price) + (price == '--' ? '' : 'g') +  "</td>";
 			}
 			output += "</tr>";
-			
-			
+
+
 			output += "<tr><td>Catalogue 1</td>";
 			if (save.ccComplete) {
 				for (var d = 0; d < days.length; d++) {
@@ -5627,7 +5627,7 @@ window.onload = function () {
 					result = getRandomItems(rng, "objects", 194, 244, true, true);
 					item[1] = save.objects[result[0]].name;
 					price[1] = 10 * rng.Next(5,51);
-				}				
+				}
 			} else {
 				// Note that we adjust the ID ranges down by 1 to fit our cartItems list
 				rng = new CSRandom((save.gameID / 2) + offset + 3 + save.dayAdjust);
@@ -7093,7 +7093,7 @@ var test = {};
 			}
 			output += '<tr><td colspan="7" class="middle legend"><img src="blank.png" class="mid" alt="Tree Stump" id="stump"> <span>Indicates a day which could be the windstorm that knocks down the big tree in Cindersap Forest (only shows on 1.6 saves)</span></td></tr>';
 			output += "</tbody></table>\n";
-Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key].q > 0) { console.log("** Save id " + key + " has a giant seasonal on " + test[key].s + " and a giant qi on " + monthName + " " + test[key].q + ", Y" + year); } }); 
+Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key].q > 0) { console.log("** Save id " + key + " has a giant seasonal on " + test[key].s + " and a giant qi on " + monthName + " " + test[key].q + ", Y" + year); } });
 		}
 		return output;
 	};
@@ -7424,7 +7424,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				}
 			} else {
 				$('#enchant-player').hide();
-			}	
+			}
 			if (typeof(offset) === 'undefined') {
 				offset = pageSize * Math.floor(save.timesEnchanted[whichPlayer] / pageSize);
 			}
@@ -7760,7 +7760,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		//const regexColor = /\[(\#[^\]]+)\]/g;
 		//var newstr = newstr.replace(regexColor, (match, p1) => ntc.name(p1)[1]);
 		var pieces = newstr.trim().split('_');
-		if (pieces[0] === "None") { pieces[0] = "(No Hat)"; } 
+		if (pieces[0] === "None") { pieces[0] = "(No Hat)"; }
 		return pieces.join('<br/>');
 	}
 
@@ -7807,7 +7807,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		}
 		output += '<table class="output"><thead><tr><th colspan = "4">Year ' + year + '</th></tr>';
 		output += '<tr><th> </th><th>Monday Spring 15</th><th>Tuesday Spring 16</th><th>Wednesday Spring 17</th></tr></thead>\n<tbody>';
-		
+
 		// Vendors and racers
 		var vendor = { 1: [], 2: [] };
 		var racers = { 0: [], 1: [], 2: [] };
@@ -7856,7 +7856,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			output += "<td>" + racers[d].join('<br/>') + "</td>";
 		}
 		output += '</tr>';
-		
+
 		// Cactis and Makeover
 		if (typeof(save.mp_ids) !== 'undefined' && save.mp_ids.length > 0) {
 			// Failsafe that should not happen in released game
@@ -7866,7 +7866,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				}
 				$('#makeover-note').html('Warning: Predictor could not determing player gender. All players will be assumed to be female. To get better makeover predictions, use a game saved under current version.');
 			}
-			
+
 			for (player = 0; player < save.mp_ids.length; player++) {
 				var seed = bigIntToSigned32(save.mp_ids[player].add(year));
 				rng =  new CSRandom(getRandomSeed(seed));
@@ -7925,7 +7925,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			output += '</tr>';
 			output += '<tr class="' + tclass + '"><td>Makeover Outfit for<br/>Generic Male Player</td>';
 			for (var d = 0; d < 3; d++) { output += "<td>" + outfit[1][d] + "</td>";	}
-			output += '</tr>';			
+			output += '</tr>';
 		}
 		output += "</tbody></table>\n";
 		return output;
@@ -8005,7 +8005,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 							}
 							break;
 						case 1:
-							// The -28 is because we are only using this for summer 
+							// The -28 is because we are only using this for summer
 							var dayOfMonth = (day % 112) - 28;
 							rng = new CSRandom(getRandomSeed(day-1, save.gameID/2, getHashFromString("summer_rain_chance")));
 							if (dayOfMonth == greenRainDay) {
@@ -8031,7 +8031,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				var icon = (weatherTown == 'Rain' || weatherTown == 'Green Rain' || weatherTown == 'Storm') ?
 					'<img src="blank.png" class="icon" alt="Clear" id="w_rain">' :
 					'<img src="blank.png" class="icon" alt="Umbrella in rain" id="w_sun">';
-				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br/>' + 
+				output += '<td class="' + tclass + '"><span class="date"> ' + (day - offset) + '</span><br/>' +
 					'<span class="cell">' + icon + weatherTown + '</span></td>';
 			}
 			output += "</tr>\n";
@@ -8087,7 +8087,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			//$('#cj-d-reset').html("Reset Browsing");
 			$('#cj-d-next-week').prop("disabled", false);
 			$('#cj-d-next-day').prop("disabled", false);
-			
+
 			// Game buttons which are a bit of a hack
 			if (gameOffset < pageSize) {
 				$('#cj-g-prev').prop("disabled", true);
@@ -8120,7 +8120,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				year = 1 + Math.floor((offset-1) / 112);
 			}
 			monthName = save.seasonNames[month % 4];
-			
+
 			output += '<table class="output"><thead><tr><th class="index" rowspan="2">Game<br/>Count</th>' +
 				'<th class="cj-result" colspan="2">' +  save.dayNames[dayOfWeek] + ' ' +
 					monthName + ' ' + dayOfMonth + ', Year ' + year + '</th></tr>';
@@ -8128,7 +8128,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			for (g = 1; g <= pageSize; g++) {
 				numPlayed = gameOffset + g;
 				advice = "LOSS (Unavoidable)";
-				
+
 				if (compareSemVer(save.version, "1.6") >= 0) {
 					rng = new CSRandom(getRandomSeed(numPlayed, offset, save.gameID));
 				} else {
@@ -8197,7 +8197,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 							} else if (sbRoll < chance) {
 								next = 999;
 								superBust = "<br/>Probable super bust with 3x winnings";
-							} 
+							}
 							dealerTotal += next;
 						}
 						if (dealerTotal > 21) {
@@ -8382,7 +8382,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				var picked;
 				stock[d] = { };
 				rng = new CSRandom(getRandomSeed(daysPlayed, save.gameID/2));
-				
+
 				var rngSynced = new CSRandom(getRandomSeed(getHashFromString("purplebookSale"), save.gameID, daysPlayed));
 				if (rngSynced.NextDouble() < 0.25) {
 					stock[d].purplebook = '<td class="book">' + wikify("Book of the Stars") + '</td><td>15,000g</td>';
@@ -8453,7 +8453,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					cart[d].selectedItems[slot].name = save.objects[pick[slot-1]].name;
 					cart[d].selectedItems[slot].price = Math.max(cart[d].rng.Next(1,11) * 100, cart[d].rng.Next(3,6) * save.objects[pick[slot-1]].price);
 					cart[d].selectedItems[slot].qty = (cart[d].rng.NextDouble() < 0.1) ? 5 : 1;
-				}										
+				}
 			}
 
 			output += '<table class="calendar"><thead><tr><th colspan="7">' + monthName + ' Year ' + year + '</th></tr>\n';
@@ -8600,7 +8600,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				}
 				output += '</tr>';
 			});
-			
+
 			output += '<tr><td colspan="2" class="count">Found ' + count + ' matching instance(s) of ' +
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 				*/
@@ -8624,7 +8624,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 				}
 			} else {
 				$('#prize-player').hide();
-			}	
+			}
 			if (typeof(offset) === 'undefined') {
 				offset = pageSize * Math.floor(save.ticketPrizesClaimed[whichPlayer] / pageSize);
 			}
@@ -8683,7 +8683,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					case 15: // also stardrop tea so moved up here
 					case 4: item = "Stardrop Tea"; break;
 					case 5: item = wikify("Blue Pinstripe Bed", "Furniture"); noLink = true; break;
-					case 6: 
+					case 6:
 						switch(Math.floor(3*randRoll)) {
 							case 0: item = "Quality Sprinkler"; break;
 							case 1: item = "Preserves Jar"; break;
@@ -8693,7 +8693,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 						break;
 					case 7: item = (randRoll < .5) ? "Apple Sapling" : "Pomegranate Sapling"; break;
 					case 8: item = '<span class="book">' + wikify('Friendship 101') + '</span>'; noLink = true; break;
-					case 9: 
+					case 9:
 						switch(Math.floor(3*randRoll)) {
 							case 0: item = "Cherry Bomb"; itemQty = 20; break;
 							case 1: item = "Bomb"; itemQty = 12; break;
@@ -8707,12 +8707,12 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 						var choice = ['House Plant (1)', 'House Plant (2)', 'House Plant (3)'];
 						item = wikify(choice[Math.floor(randRoll*choice.length)], "Furniture");
 						noLink = true;
-						break;								
+						break;
 					case 14:
 						var choice = ["Stardew Valley Almanac", "Bait And Bobber", "Woodcutter's Weekly", "Mining Monthly", "Combat Quarterly"];
 						item = '<span class="book">' + wikify(choice[Math.floor(randRoll*choice.length)]) + '</span>';
 						noLink = true;
-						break;								
+						break;
 					case 16: item = wikify("Cow Decal", "Furniture"); noLink = true; break;
 					case 17: item = "Omni Geode"; itemQty = 8; break;
 					case 18: item = (randRoll < .5) ? "Bee House" : "Keg"; itemQty = 4; break;
@@ -8733,7 +8733,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 								var choice = ['House Plant (1)', 'House Plant (2)', 'House Plant (3)'];
 								item = wikify(choice[rng2.Next(choice.length)], "Furniture");
 								noLink = true;
-								break;								
+								break;
 							case 4: item = "Stardrop Tea"; break;
 							case 5: item = "Treasure Chest"; break;
 							case 6: item = "Iridium Sprinkler"; break;
