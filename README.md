@@ -7,7 +7,7 @@ A useful companion tool is [BlaDe's Map Predictor](https://www.nexusmods.com/sta
 
 All changed & added content from version 1.6 should be supported; 1.6-specific features will only appear in the results if either the save is detected to be from that version or the app is launched with a URL id parameter.
 
-The app is written in Javascript and uses [jQuery](https://jquery.com/), [JS xxHash](https://github.com/pierrec/js-xxhash) and [BigInteger.js](https://github.com/peterolson/BigInteger.js); it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
+The app is written in Javascript and uses [jQuery](https://jquery.com/), [BigInteger.js](https://github.com/peterolson/BigInteger.js), [JS xxHash](https://github.com/pierrec/js-xxhash), and [pako](https://github.com/nodeca/pako); it is hosted on GitHub Pages at https://mouseypounds.github.io/stardew-predictor/ and the source code repository is https://github.com/MouseyPounds/stardew-predictor. It is released under the MIT license.
 
 Please report any bugs, suggestions, or other feedback to [the topic in the Stardew official forums](https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/) or to @mouseypounds on Discord.
 
