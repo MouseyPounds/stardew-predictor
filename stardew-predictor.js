@@ -5906,8 +5906,14 @@ window.onload = function () {
 				// their content roll happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also
 				// means we have to do all the warmups on both RNGs.
 				if (compareSemVer(save.version, "1.6") >= 0) {
-					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
-					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					if (typeof(save.mp_ids) !== 'undefined') {
+						rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+						rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					} else {
+						rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, 0));
+						rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, 0));
+						$('#geode-note').html('Note: No players found; predictions will not be reliable for game version >= 1.6');
+					}
 				} else {
 					rng = new CSRandom(numCracked + save.gameID / 2);
 					rngTrove = new CSRandom(numCracked + save.gameID / 2);
@@ -6156,8 +6162,14 @@ window.onload = function () {
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				if (compareSemVer(save.version, "1.6") >= 0) {
-					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
-					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					if (typeof(save.mp_ids) !== 'undefined') {
+						rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+						rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					} else {
+						rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, 0));
+						rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, 0));
+						$('#geode-note').html('Note: No players found; predictions will not be reliable for game version >= 1.6');
+					}
 				} else {
 					rng = new CSRandom(numCracked + save.gameID / 2);
 					rngTrove = new CSRandom(numCracked + save.gameID / 2);
@@ -6434,7 +6446,12 @@ window.onload = function () {
 				for (c = 0; c < numColumns; c++) {
 					var rareMod = (c === 0 ? 1 : 2);
 					var extraBookChance = save.gotMysteryBook ? 0 : 0.0004 * numOpened;
-					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					if (typeof(save.mp_ids) !== 'undefined') {
+						rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					} else {
+						rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, 0));
+						$('#mystery-note').html('Note: No players found; predictions will not be reliable for game version >= 1.6');
+					}
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					for (j = 0; j < prewarm_amount2; j++) {
 						rng.NextDouble();
@@ -6697,7 +6714,13 @@ window.onload = function () {
 				for (c = 0; c < numColumns; c++) {
 					var rareMod = (c === 0 ? 1 : 2);
 					var extraBookChance = save.gotMysteryBook ? 0 : 0.0004 * numOpened;
-					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					if (typeof(save.mp_ids) !== 'undefined') {
+						rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					} else {
+						rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, 0));
+						$('#mystery-note').html('Note: No players found; predictions will not be reliable for game version >= 1.6');
+					}
+					
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					for (j = 0; j < prewarm_amount2; j++) {
 						rng.NextDouble();
@@ -9217,4 +9240,5 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 	} else if ($.QueryString.hasOwnProperty("id")) {
 		updateOutput();
 	}
+
 };
