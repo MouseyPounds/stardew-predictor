@@ -45,6 +45,8 @@ function CSRandom(Seed) {
 			this.SeedArray[i] -= this.SeedArray[1 + (i + 30) % 55];
 			if (this.SeedArray[i] > INT_MAX) {
 				this.SeedArray[i] -= 4294967296;
+			} else if (this.SeedArray[i] < INT_MIN) {
+				this.SeedArray[i] += 4294967296;
 			}
 			if (this.SeedArray[i] < 0) {
 				this.SeedArray[i] += MBIG;
