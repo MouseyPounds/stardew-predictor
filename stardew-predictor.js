@@ -3679,6 +3679,7 @@ window.onload = function () {
 			//  not have access to those fields. Reusing some code from Stardew Checkup to do this.
 			var includeKrobus = false;
 			var ignore = {
+				'Child': 1,
 				'Horse': 1,
 				'Cat': 1,
 				'Dog': 1,
@@ -3691,10 +3692,11 @@ window.onload = function () {
 				'Mister Qi': 1,
 				'Henchman': 1,
 				'Birdie': 1,
-				'Child': 1,
-				'Pet': 1,
 				'Fizz': 1,
-				'Raccoon': 1
+				'Pet': 1,
+				'Raccoon': 1,
+				'Bat': 1,
+				'Truffle Crab': 1,
 			};
 			$(xmlDoc).find('player > friendshipData > item').each(function () {
 				var who = $(this).find('key > string').html();
@@ -5117,6 +5119,7 @@ window.onload = function () {
 					pick = getRandomItems(rng, "furniture", 0, 1612, true, true);
 					name = save.furniture[pick[0]].name;
 					price = rng.Next(1,11) * 250;
+					qty = 1;
 					if (searchTerm.test(name)) {
 						count++;
 						output += '<tr><td>' + dayOfWeek + ' ' + monthName + ' ' + dayOfMonth + ', Year ' + year + '</td><td>' +
@@ -5840,6 +5843,25 @@ window.onload = function () {
 		if (compareSemVer(save.version, "1.5") >= 0) {
 			numColumns++;
 		}
+		// We need to know what player to use for setting up the initial offset this early.
+		var whichPlayer = 0;
+		// Player selection menu will only show if there are multiple players.
+		if (typeof(save.mp_ids) !== 'undefined' && save.mp_ids.length > 1) {
+			$('#geode-player').show();
+			if ($('#geode-player-select option').length == 0) {
+				// populate menu and default to main farmer.
+				for (var player = 0; player < save.mp_ids.length; player++) {
+					var prefix = (player == 0) ? 'Main Farmer ' : 'Farmhand ';
+					var o = new Option( prefix + save.names[player], player);
+					if (player == 0) { o.selected = true; }
+					$('#geode-player-select').append(o);
+				}
+			} else {
+				whichPlayer = $('#geode-player-select').val();
+			}
+		} else {
+			$('#geode-player').hide();
+		}
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#geode-prev-100').prop("disabled", true);
 			$('#geode-prev').prop("disabled", true);
@@ -5849,7 +5871,7 @@ window.onload = function () {
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
 			searchTerm = new RegExp(offset, "i");
-			searchStart = Math.max(1, ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[0]);
+			searchStart = Math.max(1, ($('#geode-search-all').prop('checked')) ? 1 : save.geodesCracked[whichPlayer]);
 			searchEnd = parseInt($('#geode-search-range').val()) + searchStart;
 			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) +
 				'">Search results for &quot;' + offset + '&quot; over the ' +
@@ -5884,8 +5906,8 @@ window.onload = function () {
 				// their content roll happens at the same time as the rng.NextDouble() < 0.5 check. Unfortunately, that also
 				// means we have to do all the warmups on both RNGs.
 				if (compareSemVer(save.version, "1.6") >= 0) {
-					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2));
-					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2));
+					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
 				} else {
 					rng = new CSRandom(numCracked + save.gameID / 2);
 					rngTrove = new CSRandom(numCracked + save.gameID / 2);
@@ -6079,7 +6101,7 @@ window.onload = function () {
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 		} else {
 			if (typeof(offset) === 'undefined') {
-				offset = pageSize * Math.floor(save.geodesCracked[0] / pageSize);
+				offset = pageSize * Math.floor(save.geodesCracked[whichPlayer] / pageSize);
 			}
 			if (offset < pageSize) {
 				$('#geode-prev').prop("disabled", true);
@@ -6134,8 +6156,8 @@ window.onload = function () {
 				item = ['Stone', 'Stone', 'Stone', 'Stone'];
 				itemQty = [1, 1, 1, 1];
 				if (compareSemVer(save.version, "1.6") >= 0) {
-					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2));
-					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2));
+					rng = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
+					rngTrove = new CSRandom(getRandomSeed(numCracked, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
 				} else {
 					rng = new CSRandom(numCracked + save.gameID / 2);
 					rngTrove = new CSRandom(numCracked + save.gameID / 2);
@@ -6287,9 +6309,9 @@ window.onload = function () {
 						}
 					}
 				}
-				if (numCracked === save.geodesCracked[0] + 1) {
+				if (numCracked === save.geodesCracked[whichPlayer] + 1) {
 					tclass = "current";
-				} else if (numCracked <= save.geodesCracked[0]) {
+				} else if (numCracked <= save.geodesCracked[whichPlayer]) {
 					tclass = "past";
 				} else {
 					tclass = "future";
@@ -6355,6 +6377,25 @@ window.onload = function () {
 			basedOnSkill,
 			rng;
 
+		// We need to know what player to use for setting up the initial offset this early.
+		var whichPlayer = 0;
+		// Player selection menu will only show if there are multiple players.
+		if (typeof(save.mp_ids) !== 'undefined' && save.mp_ids.length > 1) {
+			$('#mystery-player').show();
+			if ($('#mystery-player-select option').length == 0) {
+				// populate menu and default to main farmer.
+				for (var player = 0; player < save.mp_ids.length; player++) {
+					var prefix = (player == 0) ? 'Main Farmer ' : 'Farmhand ';
+					var o = new Option( prefix + save.names[player], player);
+					if (player == 0) { o.selected = true; }
+					$('#mystery-player-select').append(o);
+				}
+			} else {
+				whichPlayer = $('#mystery-player-select').val();
+			}
+		} else {
+			$('#mystery-player').hide();
+		}
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#mystery-prev-100').prop("disabled", true);
 			$('#mystery-prev').prop("disabled", true);
@@ -6364,7 +6405,7 @@ window.onload = function () {
 			// Note we are using the regexp matcher due to wanting to ignore case. The table header references offset still
 			// so that it appears exactly as was typed in by the user.
 			searchTerm = new RegExp(offset, "i");
-			searchStart = Math.max(1, ($('#mystery-search-all').prop('checked')) ? 1 : save.mysteryBoxesOpened[0]);
+			searchStart = Math.max(1, ($('#mystery-search-all').prop('checked')) ? 1 : save.mysteryBoxesOpened[whichPlayer]);
 			searchEnd = parseInt($('#mystery-search-range').val()) + searchStart;
 			output += '<table class="output"><thead><tr><th colspan="' + (numColumns + 2) +
 				'">Search results for &quot;' + offset + '&quot; over the ' +
@@ -6393,7 +6434,7 @@ window.onload = function () {
 				for (c = 0; c < numColumns; c++) {
 					var rareMod = (c === 0 ? 1 : 2);
 					var extraBookChance = save.gotMysteryBook ? 0 : 0.0004 * numOpened;
-					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2));
+					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					for (j = 0; j < prewarm_amount2; j++) {
 						rng.NextDouble();
@@ -6405,6 +6446,8 @@ window.onload = function () {
 					if (numOpened > 10 || c > 0) {
 						if (c == 2 && rng.NextDouble() < 0.005) {
 							item[c] = "Golden Animal Cracker";
+						} else if (c > 0 && rng.NextDouble() < 0.005) {
+							item[c] = "Auto-Petter";
 						} else if (rng.NextDouble() < (0.002 * rareMod)) {
 							item[c] = save.objects["_279"].name;
 						} else if (rng.NextDouble() < (0.004 * rareMod)) {
@@ -6606,7 +6649,7 @@ window.onload = function () {
 				Object.keys(searchResults).length + ' matching item(s)</td></tr>\n';
 		} else {
 			if (typeof(offset) === 'undefined') {
-				offset = pageSize * Math.floor(save.mysteryBoxesOpened[0] / pageSize);
+				offset = pageSize * Math.floor(save.mysteryBoxesOpened[whichPlayer] / pageSize);
 			}
 			if (offset < pageSize) {
 				$('#mystery-prev').prop("disabled", true);
@@ -6654,7 +6697,7 @@ window.onload = function () {
 				for (c = 0; c < numColumns; c++) {
 					var rareMod = (c === 0 ? 1 : 2);
 					var extraBookChance = save.gotMysteryBook ? 0 : 0.0004 * numOpened;
-					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2));
+					rng = new CSRandom(getRandomSeed(numOpened, save.gameID/2, bigIntToSigned32(save.mp_ids[whichPlayer])/2));
 					var i, j, prewarm_amount2 = rng.Next(1,10);
 					for (j = 0; j < prewarm_amount2; j++) {
 						rng.NextDouble();
@@ -6666,6 +6709,8 @@ window.onload = function () {
 					if (numOpened > 10 || c > 0) {
 						if (c == 2 && rng.NextDouble() < 0.005) {
 							item[c] = "Golden Animal Cracker";
+						} else if (c > 0 && rng.NextDouble() < 0.005) {
+							item[c] = "Auto-Petter";
 						} else if (rng.NextDouble() < (0.002 * rareMod)) {
 							item[c] = save.objects["_279"].name;
 						} else if (rng.NextDouble() < (0.004 * rareMod)) {
@@ -6839,9 +6884,9 @@ window.onload = function () {
 					}
 				}
 
-				if (numOpened === save.mysteryBoxesOpened[0] + 1) {
+				if (numOpened === save.mysteryBoxesOpened[whichPlayer] + 1) {
 					tclass = "current";
-				} else if (numOpened <= save.mysteryBoxesOpened[0]) {
+				} else if (numOpened <= save.mysteryBoxesOpened[whichPlayer]) {
 					tclass = "past";
 				} else {
 					tclass = "future";
@@ -8972,7 +9017,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 						switch(rng.Next(5)) {
 							case 0: bundleItem[2] = wikify("Fairy Dust"); bundleQty[2] = 7; break;
 							case 1: bundleItem[2] = '<span class="book">' + wikify('Book of the Stars') + '</span>'; break;
-							case 2: bundleItem[2] = 'Next unshipped item<br/>OR<br/>' + wikify('Mystery Box'); bundleQty[2] = '1<br/>OR<br/>4'; break;
+							case 2: bundleItem[2] = 'Next unshipped item<br/>OR<br/>' + wikify('Mystery Box'); bundleQty[2] = '1<br/>OR<br/>5'; break;
 							case 3: bundleItem[2] = wikify("Stardrop Tea"); break;
 							case 4: bundleItem[2] = "Raccoon Seeds"; bundleQty[2] = 25; break;
 							default: bundleItem[2] = wikify('Mystery Box'); bundleQty[2] = 3; break;
@@ -9098,6 +9143,11 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			reader = new FileReader(),
 			prog = document.getElementById('progress');
 
+		// Switch version saves are compressed and wind up quite small so we do the probably dumb thing of assuming
+		// compression if the read file is under 500k. We need to make this determination now because a compressed
+		// file should be read as an ArrayBuffer but an uncompressed one as Text
+		var saveCompressed = (file.size < 512000);
+
 		prog.value = 0;
 		$('#output-container').hide();
 		$('#progress-container').show();
@@ -9115,11 +9165,31 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			}
 		};
 		reader.onload = function (e) {
-			var xmlDoc = $.parseXML(e.target.result);
+			var xmlDoc;
+			if (saveCompressed) {
+				try {
+					xmlDoc = $.parseXML(pako.inflate(e.target.result, { to: 'string' }));
+				} catch(error) {
+					var message = "<h3>Save Parse Error</h3><p>The app was unable to process the save file. This is most likely a bug with the app, so please let the dev know about it. Details below.</p>";
+					$('#parse-error').html(message + '<p class="code">' + error + '<br/>' + error.stack + '</p>');
+				}
+			} else {
+				try {
+					xmlDoc = $.parseXML(e.target.result);
+				} catch(error) {
+					var message = "<h3>Save Parse Error</h3><p>The app was unable to process the save file. This is most likely a bug with the app, so please let the dev know about it. Details below.</p>";
+					$('#parse-error').html(message + '<p class="code">' + error + '<br/>' + error.stack + '</p>');
+				}
+			}
 			prog.value = 90;
 			updateOutput(xmlDoc);
+
 		};
-		reader.readAsText(file);
+		if (saveCompressed) {
+			reader.readAsArrayBuffer(file);
+		} else {
+			reader.readAsText(file);
+		}
 	}
 
 	function toggleVisible(evt) {

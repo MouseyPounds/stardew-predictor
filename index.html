@@ -21,9 +21,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="./jquery-3.2.1.min.js"><\/script>')</script>
 <script src="./cs-random.js"></script>
-<script src="./stardew-predictor.js?v=5.0.6"></script>
+<script src="./stardew-predictor.js?v=5.0.7"></script>
 <script src="./BigInteger.min.js"></script>
 <script src="./xxhash.min.js"></script>
+<script src="./pako.min.js"></script>
 
 </head>
 <body>
@@ -42,7 +43,7 @@ the game after reading the save file. The information predicted includes special
 A useful companion tool is <a href="https://www.nexusmods.com/stardewvalley/mods/6614">BlaDe's Map Predictor</a> which handles things such as artifact digging, giant crops, and mine ladders.</p>
 <p>Most changed &amp; added content from version 1.6 is supported. <span class="strong note">While the app tries to detect the version in the save and use
 prediction logic specific to that version, it will spoil some new features regardless. You have been warned.</span> </p>
-<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, <a href="https://github.com/pierrec/js-xxhash">JS xxHash</a>, and <a href="https://github.com/substack/semver-compare">semver-compare</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
+<p>The app is written in Javascript and uses <a href="https://jquery.com/">jQuery</a>, <a href="https://github.com/peterolson/BigInteger.js">BigInteger.js</a>, <a href="https://github.com/pierrec/js-xxhash">JS xxHash</a>, <a href="https://github.com/substack/semver-compare">semver-compare</a>, and <a href="https://github.com/nodeca/pako">pako</a>; it is hosted on GitHub Pages at <a href="https://mouseypounds.github.io/stardew-predictor/">https://mouseypounds.github.io/stardew-predictor/</a> and the source code repository is <a href="https://github.com/MouseyPounds/stardew-predictor">https://github.com/MouseyPounds/stardew-predictor</a>. 
 Please report any bugs, suggestions, or other feedback to <a href="https://forums.stardewvalley.net/threads/web-apps-stardew-checkup-predictor-and-fair-helper.28393/">the topic in the Stardew official forums</a> or to <span class="code">@mouseypounds</span> on Discord.</p>
 </div>
 
@@ -297,6 +298,10 @@ based on the host's count. Note also that while Mystery Boxes have their own cou
 <P>Artifacts and minerals which need to be donated to the museum will be marked in the results, however the Fossilized Skull (which can be found in Golden Coconuts and donated to the Ginger Island Field Office) does not have donation status checked.</p>
 <p>Stardew 1.5 introduced a Geode Crusher machine which opens the basic 4 geode types. This machine uses the same RNG but in version 1.5 its counter is offset by 1. For example if you have already crushed 12 geodes, the next geode cracked by Clint will use the results from line 13, but the next geode cracked by the Crusher will use the results from line 12. This discrepancy was fixed in version 1.6</p>
 <p class="note" id="geode-note"></p>
+<fieldset id="geode-player">
+Select Player: <select id="geode-player-select" class="player">
+</select><br />
+</fieldset>
 <fieldset id="geode-search">
 <input type="text" id="geode-search-text" class="search">
 <button id="geode-search-button" type="button" class="search">Search</button><br />
@@ -381,6 +386,10 @@ based on the host's count.</p>
 <p>Golden Mystery Boxes have a slightly different drop pool if the player has unlocked the farming mastery perk. Because of the order of the random rolls, this results in the item chosen usually being different. In this case we handle the difference by having 2 separate Golden Mystery Box result lists.</p>
 <p>If the result is "Seasonal Seeds" the type of seed is an unpredictable roll based on current season (with all possible in winter). Possibilities include Cauliflower, Green Bean, Parsnip, Potato, Pepper, Radish, Wheat, Corn, Eggplant, Artichoke, and Pumpkin.</p>
 <p>If the result is "Raccoon Seeds" the type of seed is the same as you would get from seed dig spots on that day. Possibilities include Carrot, Summer Squash, Broccoli, and Powdermelon.</p>
+<fieldset id="mystery-player">
+Select Player: <select id="mystery-player-select" class="player">
+</select><br />
+</fieldset>
 <fieldset id="mystery-search">
 <input type="text" id="mystery-search-text" class="search">
 <button id="mystery-search-button" type="button" class="search">Search</button><br />
@@ -639,6 +648,7 @@ status.</p>
 <noscript><span class="error">Javascript appears to be unsupported by or disabled in your browser. Stardew Predictor will not work without it.</span></noscript>
 <h2 id="sec_changelog">Changelog</h2>
 <ul>
+<li>18 Apr  2024 - v5.0.7 - One more seed overflow fix, changes for patch 1.6.4, support for compressed Switch saves</li>
 <li> 7 Apr  2024 - v5.0.6 - Variety of PR bugfixes</li>
 <li> 6 Apr  2024 - v5.0.5 - Bugfix for invalid ID in URL; marked Sandy shirts that are otherwise hard to acquire</li>
 <li> 4 Apr  2024 - v5.0.4 - Bugfixes for Prize Tickets, first 10 mystery boxes, and Calico Jack dealer draws</li>
