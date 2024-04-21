@@ -13,6 +13,7 @@ Please report any bugs, suggestions, or other feedback to [the topic in the Star
 
 ## Changelog
 
+* 20 Apr  2024 - v5.0.8 - Fixed advanced usage breaking after last update; better mp sanity-checking
 * 18 Apr  2024 - v5.0.7 - One more seed overflow fix, changes for patch 1.6.4, support for compressed Switch saves
 *  7 Apr  2024 - v5.0.6 - Variety of PR bugfixes
 *  6 Apr  2024 - v5.0.5 - Bugfix for invalid ID in URL; marked Sandy shirts that are otherwise hard to acquire

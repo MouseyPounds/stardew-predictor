@@ -3509,7 +3509,7 @@ window.onload = function () {
 					geodesCracked = 0;
 					mysteryBoxesOpened = 0;
 					timesEnchanted = 0;
-					if (name !== '' && user !== '') {
+					if (name !== '' || user !== '') {
 						save.names.push(name);
 						save.gender.push($(this).children('gender').first().text());
 						save.mp_ids.push(bigInt($(this).find('UniqueMultiplayerID').text()));
