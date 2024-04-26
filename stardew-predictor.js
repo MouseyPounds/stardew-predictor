@@ -8005,21 +8005,18 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		// Overrides in StardewValley.GameData.getWeatherModificationsForDate()
 		var output = "",
 			grDays = [ 5, 6, 7, 14, 15, 16, 18, 23 ],
+			// Note that the Trout Derby, Squid Fest, and Night Market are "Passive Festivals".
+			// The game checks for these to override weather by checking if they replace
+			// a map whose name matches the location context of interest.  None of these
+			// match the `Default` location context used for weather prediction.
 			festivalDays = {
 				13: "Egg Festival",
 				24: "Flower Dance",
 				39: "Luau",
-				48: "Trout Derby",
-				49: "Trout Derby",
 				56: "Moonlight Jellies",
 				72: "Stardew Valley Fair",
 				83: "Sprit's Eve",
 				92: "Festival of Ice",
-				96: "Squid Fest",
-				97: "Squid Fest",
-				99: "Night Market",
-				100: "Night Market",
-				101: "Night Market",
 				109: "Winter Star"
 			},
 			year,
