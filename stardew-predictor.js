@@ -2406,7 +2406,7 @@ window.onload = function () {
 			"_VolcanoCoalNode0": { 'id': "VolcanoCoalNode0", 'name': "Stone", 'type': "Litter", 'category': -999, 'price': 0, 'offlimits': false },
 			"_VolcanoCoalNode1": { 'id': "VolcanoCoalNode1", 'name': "Stone", 'type': "Litter", 'category': -999, 'price': 0, 'offlimits': false },
 			"_PotOfGold": { 'id': "PotOfGold", 'name': "PotOfGold", 'type': "interactive", 'category': -999, 'price': 0, 'offlimits': false },
-			"_Book_Artifact": { 'id': "Book_Artifact", 'name': "Ancient Treasures: Appraisal Guide", 'type': "asdf", 'category': -102, 'price': 500, 'offlimits': false },
+			"_Book_Artifact": { 'id': "Book_Artifact", 'name': "Treasure Appraisal Guide", 'type': "asdf", 'category': -102, 'price': 500, 'offlimits': false },
 			"_Book_Horse": { 'id': "Book_Horse", 'name': "Horse: The Book", 'type': "asdf", 'category': -102, 'price': 1000, 'offlimits': false },
 			"_ButterflyPowder": { 'id': "ButterflyPowder", 'name': "Butterfly Powder", 'type': "Basic", 'category': 0, 'price': 0, 'offlimits': false },
 			"_PetLicense": { 'id': "PetLicense", 'name': "Pet License", 'type': "Basic", 'category': 0, 'price': 0, 'offlimits': false },
@@ -3426,7 +3426,7 @@ window.onload = function () {
 			'Taro Tuber': 1,
 			'Mahogany Seed': 1,
 			'Fossilized Skull': 1,
-			"Ancient Treasures: Appraisal Guide": 1
+			"Treasure Appraisal Guide": 1
 		};
 		// Large multiplayer games will sometimes get out of synch between the actual number of days played and the current date
 		// This variable stores that value (and it can be set with a URL parameter processed later).
@@ -8304,7 +8304,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 		// days chosen by StardewValley.Utility.getDaysOfBooksellerThisSeason() vendor info from Data/Shops
 		var output = '',
 			skillBookList = ["Stardew Valley Almanac", "Bait And Bobber", "Woodcutter's Weekly", "Mining Monthly", "Combat Quarterly"],
-			randBookList = ["The Alleyway Buffet", "The Art O' Crabbing", "Dwarvish Safety Manual", "Jewels Of The Sea", "Raccoon Journal", "Woody's Secret", "Jack Be Nimble, Jack Be Thick", "Friendship 101", "Monster Compendium", "Mapping Cave Systems", "Ancient Treasures: Appraisal Guide"];
+			randBookList = ["The Alleyway Buffet", "The Art O' Crabbing", "Dwarvish Safety Manual", "Jewels Of The Sea", "Raccoon Journal", "Woody's Secret", "Jack Be Nimble, Jack Be Thick", "Friendship 101", "Monster Compendium", "Mapping Cave Systems", "Treasure Appraisal Guide"];
 
 		if (isSearch && typeof(offset) !== 'undefined' && offset !== '') {
 			$('#book-prev-year').prop("disabled", true);
