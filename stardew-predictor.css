@@ -236,6 +236,10 @@ th {
 td {
 	color: black;
 }
+table.output thead {
+	position: sticky;
+	top: 0;
+}
 table.output th, table.output td {
 	padding: 3px 8px;
 }
