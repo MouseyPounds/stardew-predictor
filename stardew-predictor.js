@@ -8414,7 +8414,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			var possibleDays = [];
 			switch (seasonIndex) {
 				case 0: possibleDays = [11, 12, 21, 22, 25]; break;
-				case 1: possibleDays = [9, 12, 18, 26, 27]; break;
+				case 1: possibleDays = [9, 12, 18, 25, 27]; break;
 				case 2: possibleDays = [4, 7, 8, 9, 12, 19, 22, 25]; break;
 				case 3: possibleDays = [5, 11, 12, 19, 22, 24]; break;
 			}
