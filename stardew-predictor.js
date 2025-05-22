@@ -8342,9 +8342,9 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 					rng = new CSRandom(getRandomSeed(daysPlayed, save.gameID/2));
 					var picked;
 					var rngSynced = new CSRandom(getRandomSeed(getHashFromString("purplebookSale"), save.gameID, daysPlayed));
-					if (searchTerm.test("Book of the Stars") && rngSynced.NextDouble() < 0.25) {
+					if (searchTerm.test("Book Of Stars") && rngSynced.NextDouble() < 0.25) {
 						count++;
-						output += '<tr><td>' + dateString + '</td><td class="book">' + wikify("Book of the Stars") + '</td><td>15,000g</td></tr>';
+						output += '<tr><td>' + dateString + '</td><td class="book">' + wikify("Book Of Stars") + '</td><td>15,000g</td></tr>';
 					}
 					var booksLeft = skillBookList.slice();
 					rngSynced = new CSRandom(getRandomSeed(getHashFromString("thirdBookSale"), save.gameID, daysPlayed));
@@ -8414,7 +8414,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 			var possibleDays = [];
 			switch (seasonIndex) {
 				case 0: possibleDays = [11, 12, 21, 22, 25]; break;
-				case 1: possibleDays = [9, 12, 18, 26, 27]; break;
+				case 1: possibleDays = [9, 12, 18, 25, 27]; break;
 				case 2: possibleDays = [4, 7, 8, 9, 12, 19, 22, 25]; break;
 				case 3: possibleDays = [5, 11, 12, 19, 22, 24]; break;
 			}
@@ -8453,7 +8453,7 @@ Object.keys(test).forEach(function(key, index) { if (test[key].s > 0 && test[key
 
 				var rngSynced = new CSRandom(getRandomSeed(getHashFromString("purplebookSale"), save.gameID, daysPlayed));
 				if (rngSynced.NextDouble() < 0.25) {
-					stock[d].purplebook = '<td class="book">' + wikify("Book of the Stars") + '</td><td>15,000g</td>';
+					stock[d].purplebook = '<td class="book">' + wikify("Book Of Stars") + '</td><td>15,000g</td>';
 				} else {
 					stock[d].purplebook = '<td>--</td><td>--</td>';
 				}
