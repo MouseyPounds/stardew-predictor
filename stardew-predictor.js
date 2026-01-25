@@ -5669,7 +5669,7 @@ window.onload = function () {
 			extra,
 			tclass;
 		// Thanks to @sicarious on Discord
-		var ccShirts = [1019,1022,1023,1040,1041,1043,1045,1046,1049,1054,1056,1060,1076,1080,1082,1084,1087,1090,1108,1109,1110];
+		var ccShirts = [1019,1022,1023,1028,1040,1041,1043,1045,1046,1049,1054,1056,1060,1076,1080,1082,1084,1087,1090,1108,1109,1110];
 		var oasisShirts = [1118,1119,1120,1121];
 
 		// Hitting search without an actual search term will fall through to the default browse function; we might want
